@@ -1,0 +1,193 @@
+Sure! Below is a README file template that you can use for your project. It covers both the front-end and back-end parts of your website.
+
+```markdown
+# Rev & Roar Website
+
+## Overview
+
+This repository contains the code for the **Rev & Roar** platform, which is a real estate and adventure travel platform. It has two main parts:
+
+1. **Frontend**: Built with React.js and TailwindCSS for UI.
+2. **Backend**: Built with Express.js, Node.js, and Google Sheets API for managing data.
+
+This platform allows users to explore various destinations and itineraries for Himalayan adventures, sign up for tours, and submit contact information via forms. The backend stores submitted forms into a Google Spreadsheet.
+
+---
+
+## Table of Contents
+
+1. [Frontend Setup](#frontend-setup)
+2. [Backend Setup](#backend-setup)
+3. [Deployment](#deployment)
+4. [Technologies Used](#technologies-used)
+5. [License](#license)
+
+---
+
+## Frontend Setup
+
+### Prerequisites
+
+Before running the frontend application, ensure that you have the following installed on your machine:
+
+- Node.js (v16 or higher)
+- npm (Node Package Manager)
+
+### Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/jangirsamarth/rev-roar.git
+cd rev-roar
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+### Running the Development Server
+
+To start the development server, run:
+
+```bash
+npm run dev
+```
+
+This will start the Vite development server, and you can view the website at `http://localhost:3000` in your browser.
+
+### Building for Production
+
+To build the app for production, run:
+
+```bash
+npm run build
+```
+
+This will create a production-ready build in the `dist` folder.
+
+---
+
+## Backend Setup
+
+### Prerequisites
+
+Ensure you have the following installed on your machine:
+
+- Node.js (v16 or higher)
+- npm (Node Package Manager)
+- Google Cloud API credentials (for Google Sheets integration)
+
+### Installation
+
+1. Clone the repository for the backend:
+
+```bash
+git clone https://github.com/jangirsamarth/rev-roar-backend.git
+cd rev-roar-backend
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Set up environment variables for Google Sheets API. Create a `.env` file in the root of the backend folder and add the following:
+
+```bash
+GOOGLE_PRIVATE_KEY=your_google_private_key
+GOOGLE_CLIENT_EMAIL=your_google_client_email
+GOOGLE_SPREADSHEET_ID=your_google_spreadsheet_id
+```
+
+- **GOOGLE_PRIVATE_KEY**: This is the private key from your Google Cloud project (replace `\n` with actual new lines).
+- **GOOGLE_CLIENT_EMAIL**: This is the client email from your Google Cloud project.
+- **GOOGLE_SPREADSHEET_ID**: This is the ID of the Google Spreadsheet where form submissions are stored.
+
+### Running the Backend Server
+
+To start the backend server, run:
+
+```bash
+npm start
+```
+
+This will start the server on port `5000` (or another port defined in `.env`).
+
+### Deploying the Backend
+
+You can deploy the backend on Vercel or another hosting platform. Follow the instructions on the platform's website for setting up a Node.js app.
+
+---
+
+## Deployment
+
+### Frontend Deployment
+
+The frontend can be deployed on Vercel. Follow these steps:
+
+1. Go to the [Vercel Dashboard](https://vercel.com/).
+2. Create a new project and link your GitHub repository.
+3. Vercel will automatically detect your frontend app and build it.
+4. After the deployment is complete, you will get a public URL to access your app.
+
+### Backend Deployment
+
+You can deploy the backend on platforms such as Heroku, Vercel, or DigitalOcean. Here’s an example for deploying on Vercel:
+
+1. Go to the [Vercel Dashboard](https://vercel.com/).
+2. Create a new project and link your backend GitHub repository.
+3. Set the environment variables as per your `.env` file on Vercel.
+4. Deploy the app and access the public URL.
+
+---
+
+## Technologies Used
+
+- **Frontend**:
+  - React.js
+  - TailwindCSS
+  - Framer Motion (for animations)
+  - Axios (for API calls)
+  - Vite (build tool)
+  - Google APIs (for Sheets integration)
+  - Lucide Icons (for UI icons)
+
+- **Backend**:
+  - Node.js
+  - Express.js
+  - Google Sheets API
+  - dotenv (for environment variables)
+  - CORS (for cross-origin requests)
+  - Body-Parser (to parse incoming request bodies)
+
+---
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+## Acknowledgements
+
+- Thanks to Google for providing the Sheets API and the ability to integrate it with web applications.
+- Vercel for easy deployment.
+- TailwindCSS and Framer Motion for providing easy-to-use tools for modern UI design and animations.
+
+---
+
+Feel free to reach out if you have any questions or issues. Happy coding! 😊
+```
+
+### Key Sections:
+1. **Frontend Setup**: Describes the steps to install and run the frontend React app.
+2. **Backend Setup**: Explains the backend setup, including environment variables for Google Sheets.
+3. **Deployment**: Provides instructions on how to deploy both the frontend and backend to platforms like Vercel.
+4. **Technologies Used**: Lists the technologies used in the project for both frontend and backend.
+5. **License**: Mentions the MIT license, which is a common open-source license (you can adjust if needed).
+
+Make sure to adjust the specific details (like Google API keys, project links) as necessary. This should cover the basics and give you a good starting point for your README file!

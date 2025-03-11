@@ -3,13 +3,13 @@
 import React,{ useState } from "react"
 import { motion } from "framer-motion"
 import { MapPin, Calendar, Download, ChevronRight, Mountain, Globe } from "lucide-react"
-import { kartikay} from "../constants"
+import { constant} from "../constants"
 // import Image from "next/image"
 
 
-const Temp = () => {
+const ItineraryPage = () => {
       const [expandedItinerary, setExpandedItinerary] = useState(null)
-  console.log('dbfdhbfvd',kartikay)
+  // console.log('dbfdhbfvd',constant)
 
   const toggleExpand = (title) => {
     if (expandedItinerary === title) {
@@ -56,7 +56,7 @@ console.log("ItineraryPage")
           </p>
         </div>
 
-        {kartikay.length>0 ?  kartikay.map((group, idx) => (
+        {constant.length>0 ?  constant.map((group, idx) => (
           <motion.div
             key={idx}
             initial={{ opacity: 0 }}
@@ -207,4 +207,4 @@ console.log("ItineraryPage")
 
   )
 }
-export default Temp;
+export default ItineraryPage;

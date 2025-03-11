@@ -1,4 +1,4 @@
-export const kartikay = [
+export const constant = [
     {
       category: "Ladakh Adventure",
       image: "/ladakh-hero-location.webp?height=400&width=800",

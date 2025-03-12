@@ -105,7 +105,7 @@ export default function AboutUs() {
               className="h-24 md:h-32"
             >
               <img
-                src="/logo-white.png?height=200&width=400"
+                src="/Logo-White.png?height=200&width=400"
                 alt="Rev & Roar Logo"
                 width="200"
                 height="100"

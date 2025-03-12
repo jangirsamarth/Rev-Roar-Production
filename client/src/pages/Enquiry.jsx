@@ -298,7 +298,7 @@ export default function EnquiryPage() {
               className="h-16 md:h-24"
             >
               <img
-                src="/logo-white.png?height=200&width=400"
+                src="/Logo-White.png?height=200&width=400"
                 alt="Rev & Roar Logo"
                 width="120"
                 height="60"

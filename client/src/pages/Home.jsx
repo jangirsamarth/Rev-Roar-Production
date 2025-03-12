@@ -127,7 +127,7 @@ export function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.5 }}>
               <img
-                src="/logo-white.png?height=400&width=800"
+                src="/Logo-White.png?height=400&width=800"
                 alt="Rev & Roar Logo"
                 width="360"
                 height="180"

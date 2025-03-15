@@ -483,7 +483,7 @@ export function Home() {
               <div className="aspect-video relative">
                 <img
                   src="/bike-expedition.webp?height=400&width=600"
-                  alt="Ladakh Bike Expedition"
+                  alt="Ladakh Expedition"
                   className="object-cover"
                   style={{
                     position: "absolute",
@@ -493,7 +493,7 @@ export function Home() {
                   }}
                 />
                 <div className="absolute top-4 left-4 bg-orange-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-                  Bike Tour
+                  Group Tour
                 </div>
               </div>
               <div className="p-6 flex flex-col justify-between h-full">
@@ -502,7 +502,7 @@ export function Home() {
                   <span>June 15 - June 25, 2023</span>
                 </div>
                 <h3 className="text-xl font-bold mb-2">
-                  Ladakh Bike Expedition
+                  Ladakh Expedition
                 </h3>
                 <p className="text-gray-400 mb-4">
                   10-day adventure through the breathtaking landscapes of Ladakh
@@ -538,7 +538,7 @@ export function Home() {
                   }}
                 />
                 <div className="absolute top-4 left-4 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-                  Group Tour
+                  Starting from - 18,000
                 </div>
               </div>
               <div className="p-6 flex flex-col justify-between h-full">
@@ -547,7 +547,7 @@ export function Home() {
                   <span>July 5 - July 12, 2023</span>
                 </div>
                 <h3 className="text-xl font-bold mb-2">
-                  Spiti Valley Explorer
+                  Spiti Valley Adventure
                 </h3>
                 <p className="text-gray-400 mb-4">
                   7-day journey through the magical Spiti Valley with

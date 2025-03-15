@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
+
 // Removed Next.js Image and Link imports; using <img> and <a> instead.
 import {
   ChevronLeft,
@@ -65,7 +67,7 @@ export function Home() {
   const openModal = () => {
     setIsModalOpen(true);
   };
-  
+
   const closeModal = () => {
     setIsModalOpen(false);
   };
@@ -235,75 +237,119 @@ export function Home() {
         </div>
       </div>
 
-      {/* Featured Destinations Section */}
-      <section className="py-20 px-4 md:px-8 lg:px-16 bg-gray-50">
+      {/* Upcoming Tours Section */}
+      <section className="py-20 px-4 md:px-8 lg:px-16 bg-gray-100 text-orange-600">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12">
             <div>
-              <h2 className="text-3xl md:text-5xl font-bold mb-4 text-gray-900">
-                Featured Destination
+              <h2 className="text-3xl md:text-5xl font-bold mb-4">
+                Upcoming Tours
               </h2>
-              <p className="text-lg text-gray-600 max-w-2xl">
-                Discover our handpicked destinations that offer unforgettable
-                experiences and breathtaking landscapes.
+              <p className="text-lg text-black max-w-2xl">
+                Secure your spot on our next adventure. Limited seats available!
               </p>
             </div>
-            <a
-              href="/location"
-              className="mt-4 md:mt-0 inline-flex items-center text-orange-600 font-medium hover:text-orange-800 transition-colors">
-              View all destinations
+            {/* <a
+              href="/itinerarypage"
+              className="mt-4 md:mt-0 inline-flex items-center text-orange-400 font-medium hover:text-orange-300 transition-colors">
+              View all tours
               <ArrowRight className="ml-2 w-4 h-4" />
-            </a>
+            </a> */}
           </div>
 
-          <div className="flex gap-8 justify-center items-center">
-            {featuredDestinations.map((destination, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="group relative overflow-hidden rounded-2xl shadow-lg max-w-sm w-full h-full">
-                <div className="aspect-[4/3] relative h-full">
-                  <img
-                    src={destination.image || "/placeholder.svg"}
-                    alt={destination.name}
-                    className="object-cover transition-transform duration-700 group-hover:scale-110"
-                    style={{
-                      position: "absolute",
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-
-                  <div className="absolute top-4 left-4">
-                    <span className="inline-block px-3 py-1 bg-white/90 backdrop-blur-sm text-gray-900 rounded-full text-sm font-medium">
-                      {destination.tag}
-                    </span>
-                  </div>
-
-                  <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <h3 className="text-2xl font-bold text-white mb-2">
-                      {destination.name}
-                    </h3>
-                    <p className="text-white/90 mb-4">
-                      {destination.description}
-                    </p>
-                    <a
-                      href={`/location`}
-                      className="inline-flex items-center text-white font-medium hover:text-orange-200 transition-colors">
-                      Explore
-                      <ArrowRight className="ml-2 w-4 h-4" />
-                    </a>
-                  </div>
+          <div className="flex gap-5 justify-center items-stretch">
+            {/* Tour Card 1 */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.5 }}
+              className="bg-gray-800 rounded-xl overflow-hidden group hover:bg-gray-700 transition-colors flex flex-col max-w-[400px] w-full">
+              <div className="aspect-video relative">
+                <img
+                  src="/bike-expedition.webp?height=400&width=600"
+                  alt="Ladakh Expedition"
+                  className="object-cover"
+                  style={{
+                    position: "absolute",
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                  }}
+                />
+                <div className="absolute top-4 left-4 bg-orange-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+                  Group Tour
                 </div>
-              </motion.div>
-            ))}
+              </div>
+              <div className="p-6 flex flex-col justify-between h-full">
+                <div className="flex items-center text-gray-300 mb-3">
+                  <Calendar className="w-4 h-4 mr-2" />
+                  <span>June 15 - June 25, 2023</span>
+                </div>
+                <h3 className="text-xl font-bold mb-2">Ladakh Expedition</h3>
+                <p className="text-gray-400 mb-4">
+                  10-day adventure through the breathtaking landscapes of Ladakh
+                  on Royal Enfield bikes.
+                </p>
+                <div className="flex justify-between items-center">
+                  <button
+                    onClick={openModal}
+                    className="inline-flex items-center bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg transition-colors">
+                    Explore Now
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Tour Card 2 */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="bg-gray-800 rounded-xl overflow-hidden group hover:bg-gray-700 transition-colors flex flex-col max-w-[400px] w-full">
+              <div className="aspect-video relative">
+                <img
+                  src="/spiti-explore.webp?height=400&width=600"
+                  alt="Spiti Valley Explorer"
+                  className="object-cover"
+                  style={{
+                    position: "absolute",
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                  }}
+                />
+                <div className="absolute top-4 left-4 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+                  Starting from - 18,000
+                </div>
+              </div>
+              <div className="p-6 flex flex-col justify-between h-full">
+                <div className="flex items-center text-gray-300 mb-3">
+                  <Calendar className="w-4 h-4 mr-2" />
+                  <span>July 5 - July 12, 2023</span>
+                </div>
+                <h3 className="text-xl font-bold mb-2">
+                  Spiti Valley Adventure
+                </h3>
+                <p className="text-gray-400 mb-4">
+                  7-day journey through the magical Spiti Valley with
+                  comfortable stays and guided exploration.
+                </p>
+                <div className="flex justify-between items-center">
+                  <button
+                    onClick={openModal}
+                    className="inline-flex items-center bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg transition-colors">
+                    Explore Now
+                  </button>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </div>
+
+        {/* Modal */}
+        <GoogleFormModal isOpen={isModalOpen} onClose={closeModal} />
       </section>
 
       {/* Adventure Types Section */}
@@ -391,7 +437,7 @@ export function Home() {
               </div>
               <div className="p-6">
                 <h3 className="text-2xl font-bold mb-3 text-gray-900">
-                  Group Tours
+                  Backpack Tours
                 </h3>
                 <p className="text-gray-600 mb-4">
                   Perfect for families and friends who want to explore the
@@ -432,141 +478,95 @@ export function Home() {
                   </div>
                 </div>
               </div>
-              <div className="p-6">
-                <h3 className="text-2xl font-bold mb-3 text-gray-900">
-                  Custom Tours
-                </h3>
-                <p className="text-gray-600 mb-4">
-                  Create your own adventure with our customized tour packages
-                  tailored to your preferences.
-                </p>
-                <a
-                  href="/gallery"
-                  className="inline-flex items-center text-orange-600 font-medium hover:text-orange-800 transition-colors">
-                  Build your tour
-                  <ArrowRight className="ml-2 w-4 h-4" />
-                </a>
-              </div>
+              <div className="p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+  <h3 className="text-2xl md:text-3xl font-bold mb-3 text-gray-900">
+    Photography &amp; Travel Reel Add-On
+  </h3>
+  <p className="text-gray-600 text-base md:text-lg mb-4">
+    Elevate your adventure with our professional photography package. Capture every breathtaking moment and create lasting memories with high-quality photos and dynamic travel reels.
+  </p>
+  <Link
+    to="/custom-tours-details"
+    className="inline-flex items-center text-orange-600 font-medium hover:text-orange-800 transition-colors text-lg"
+  >
+    Discover More
+    <ArrowRight className="ml-2 w-5 h-5" />
+  </Link>
+</div>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Upcoming Tours Section */}
-      <section className="py-20 px-4 md:px-8 lg:px-16 bg-gray-100 text-orange-600">
+      {/* Featured Destinations Section */}
+      <section className="py-20 px-4 md:px-8 lg:px-16 bg-gray-50">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12">
             <div>
-              <h2 className="text-3xl md:text-5xl font-bold mb-4">
-                Upcoming Tours
+              <h2 className="text-3xl md:text-5xl font-bold mb-4 text-gray-900">
+                Featured Destination
               </h2>
-              <p className="text-lg text-black max-w-2xl">
-                Secure your spot on our next adventure. Limited seats available!
+              <p className="text-lg text-gray-600 max-w-2xl">
+                Discover our handpicked destinations that offer unforgettable
+                experiences and breathtaking landscapes.
               </p>
             </div>
-            {/* <a
-              href="/itinerarypage"
-              className="mt-4 md:mt-0 inline-flex items-center text-orange-400 font-medium hover:text-orange-300 transition-colors">
-              View all tours
+            <a
+              href="/location"
+              className="mt-4 md:mt-0 inline-flex items-center text-orange-600 font-medium hover:text-orange-800 transition-colors">
+              View all destinations
               <ArrowRight className="ml-2 w-4 h-4" />
-            </a> */}
+            </a>
           </div>
 
-          <div className="flex gap-5 justify-center items-stretch">
-            {/* Tour Card 1 */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.5 }}
-              className="bg-gray-800 rounded-xl overflow-hidden group hover:bg-gray-700 transition-colors flex flex-col max-w-[400px] w-full">
-              <div className="aspect-video relative">
-                <img
-                  src="/bike-expedition.webp?height=400&width=600"
-                  alt="Ladakh Expedition"
-                  className="object-cover"
-                  style={{
-                    position: "absolute",
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                  }}
-                />
-                <div className="absolute top-4 left-4 bg-orange-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-                  Group Tour
-                </div>
-              </div>
-              <div className="p-6 flex flex-col justify-between h-full">
-                <div className="flex items-center text-gray-300 mb-3">
-                  <Calendar className="w-4 h-4 mr-2" />
-                  <span>June 15 - June 25, 2023</span>
-                </div>
-                <h3 className="text-xl font-bold mb-2">
-                  Ladakh Expedition
-                </h3>
-                <p className="text-gray-400 mb-4">
-                  10-day adventure through the breathtaking landscapes of Ladakh
-                  on Royal Enfield bikes.
-                </p>
-                <div className="flex justify-between items-center">
-                  <button
-                    onClick={openModal}
-                    className="inline-flex items-center bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg transition-colors">
-                    Explore Now
-                  </button>
-                </div>
-              </div>
-            </motion.div>
+          <div className="flex gap-8 justify-center items-center">
+            {featuredDestinations.map((destination, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="group relative overflow-hidden rounded-2xl shadow-lg max-w-sm w-full h-full">
+                <div className="aspect-[4/3] relative h-full">
+                  <img
+                    src={destination.image || "/placeholder.svg"}
+                    alt={destination.name}
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    style={{
+                      position: "absolute",
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
 
-            {/* Tour Card 2 */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="bg-gray-800 rounded-xl overflow-hidden group hover:bg-gray-700 transition-colors flex flex-col max-w-[400px] w-full">
-              <div className="aspect-video relative">
-                <img
-                  src="/spiti-explore.webp?height=400&width=600"
-                  alt="Spiti Valley Explorer"
-                  className="object-cover"
-                  style={{
-                    position: "absolute",
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                  }}
-                />
-                <div className="absolute top-4 left-4 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-                  Starting from - 18,000
+                  <div className="absolute top-4 left-4">
+                    <span className="inline-block px-3 py-1 bg-white/90 backdrop-blur-sm text-gray-900 rounded-full text-sm font-medium">
+                      {destination.tag}
+                    </span>
+                  </div>
+
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <h3 className="text-2xl font-bold text-white mb-2">
+                      {destination.name}
+                    </h3>
+                    <p className="text-white/90 mb-4">
+                      {destination.description}
+                    </p>
+                    <a
+                      href={`/location`}
+                      className="inline-flex items-center text-white font-medium hover:text-orange-200 transition-colors">
+                      Explore
+                      <ArrowRight className="ml-2 w-4 h-4" />
+                    </a>
+                  </div>
                 </div>
-              </div>
-              <div className="p-6 flex flex-col justify-between h-full">
-                <div className="flex items-center text-gray-300 mb-3">
-                  <Calendar className="w-4 h-4 mr-2" />
-                  <span>July 5 - July 12, 2023</span>
-                </div>
-                <h3 className="text-xl font-bold mb-2">
-                  Spiti Valley Adventure
-                </h3>
-                <p className="text-gray-400 mb-4">
-                  7-day journey through the magical Spiti Valley with
-                  comfortable stays and guided exploration.
-                </p>
-                <div className="flex justify-between items-center">
-                  <button
-                    onClick={openModal}
-                    className="inline-flex items-center bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg transition-colors">
-                    Explore Now
-                  </button>
-                </div>
-              </div>
-            </motion.div>
+              </motion.div>
+            ))}
           </div>
         </div>
-
-        {/* Modal */}
-        <GoogleFormModal isOpen={isModalOpen} onClose={closeModal} />
       </section>
 
       {/* Testimonial Section */}
@@ -746,7 +746,7 @@ export function Home() {
       {/* WhatsApp Button */}
       <div className="fixed bottom-6 right-6 z-50">
         <motion.a
-          href="https://wa.me/8118823650"
+          href="https://wa.me/7017775164"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center justify-center w-16 h-16 bg-green-500 rounded-full shadow-lg hover:bg-green-600 transition-colors"

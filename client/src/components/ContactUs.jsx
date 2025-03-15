@@ -15,8 +15,8 @@ const ContactUs = () => {
           Ready to Rev & Roar? Let's make it happen!
         </p>
         <div className="text-lg md:text-3xl py-3 md:py-6 ml-0">
-          <p>● Call Us: +91 8118823650</p>
-          <p>● Email: samarth8947@gmail.com</p>
+          <p>● Call Us: +91 7017775164</p>
+          <p>● Email: info@revnroar.com</p>
           <p>● WhatsApp: Tap the button for instant queries</p>
         </div>
         <div className="flex flex-col md:flex-row items-start gap-4 md:gap-8">
@@ -40,7 +40,7 @@ const ContactUs = () => {
           <FaFacebook />
         </a>
         <a
-          href="https://wa.me/8118823650"
+          href="https://wa.me/7017775164"
           target="_blank"
           rel="noopener noreferrer">
           <FaWhatsapp />

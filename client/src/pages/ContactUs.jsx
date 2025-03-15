@@ -49,10 +49,10 @@ const ContactUs = () => {
             <h2 className="text-4xl font-bold mb-6 text-center">Contact Information</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
-                <p className="text-xl mb-2"><strong>Phone:</strong> +91 8118823650</p>
+                <p className="text-xl mb-2"><strong>Phone:</strong> +91 7017775164</p>
                 <p className="text-xl mb-2"><strong>Email:</strong> info@revnroar.com</p>
                 <p className="text-xl mb-2">
-                  <strong>WhatsApp:</strong> <a href="https://wa.me/8118823650" className="text-orange-400 hover:underline" target="_blank" rel="noopener noreferrer">Click here</a>
+                  <strong>WhatsApp:</strong> <a href="https://wa.me/7017775164" className="text-orange-400 hover:underline" target="_blank" rel="noopener noreferrer">Click here</a>
                 </p>
               </div>
               <div>
@@ -95,7 +95,7 @@ const ContactUs = () => {
               <FaFacebook />
             </motion.a>
             <motion.a 
-              href="https://wa.me/8118823650"
+              href="https://wa.me/7017775164"
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.1 }}

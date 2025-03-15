@@ -9,6 +9,7 @@ import Location from "./pages/Location";
 // import Temp from "./pages/ItineraryPage";
 import ContactUs from "./pages/ContactUs";
 import ItineraryPage from "./pages/ItineraryPage";
+import CustomToursDetails from "./pages/CustomToursDetails";
 
 function App() {
   return (
@@ -22,6 +23,8 @@ function App() {
         <Route path="/location" element={<Location />} />
         <Route path="/itinerarypage" element={<ItineraryPage />} />
         <Route path="/contact" element={<ContactUs />} />
+        <Route path="/custom-tours-details" element={<CustomToursDetails />} />
+
 
       </Routes>
       </>

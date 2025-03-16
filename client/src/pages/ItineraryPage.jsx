@@ -4,6 +4,8 @@ import React,{ useState } from "react"
 import { motion } from "framer-motion"
 import { MapPin, Calendar, Download, ChevronRight, Mountain, Globe } from "lucide-react"
 import { constant} from "../constants"
+import { FaInstagram, FaWhatsapp } from 'react-icons/fa';
+// import { motion } from 'framer-motion';
 // import Image from "next/image"
 
 
@@ -201,6 +203,35 @@ console.log("ItineraryPage")
             </a>
           </div>
         </motion.div>
+      </div>
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end space-y-4">
+        {/* Instagram Button */}
+        <motion.a
+          href="https://www.instagram.com/yourusername" // Replace with your Instagram URL
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center w-16 h-16 bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600 rounded-full shadow-lg hover:opacity-90 transition-colors"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.5, duration: 0.3 }}>
+          <FaInstagram className="h-8 w-8 text-white" />
+        </motion.a>
+
+        {/* WhatsApp Button */}
+        <motion.a
+          href="https://wa.me/7017775164"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center w-16 h-16 bg-green-500 rounded-full shadow-lg hover:bg-green-600 transition-colors"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 1, duration: 0.3 }}>
+          <FaWhatsapp className="h-8 w-8 text-white" />
+        </motion.a>
       </div>
     </div>
 

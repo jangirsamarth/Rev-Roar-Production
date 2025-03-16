@@ -27,9 +27,12 @@ const auth = new google.auth.GoogleAuth({
 // Cache the auth client promise on server start
 const authClientPromise = auth.getClient();
 
-// Set the Google Sheets spreadsheet ID and range
+// Set the Google Sheets spreadsheet ID and updated range (including timestamp column)
 const spreadsheetId = process.env.GOOGLE_SPREADSHEET_ID;
-const range = 'Sheet1!A:C'; // Adjust range as needed
+const range = 'Sheet1!A:D'; // Updated range to include timestamp
+
+// Assume sheetId is known. Typically, the first sheet has sheetId 0. Change if necessary.
+const sheetId = 0;
 
 // GET endpoint for the root URL to avoid "Cannot get /"
 app.get('/', (req, res) => {
@@ -45,24 +48,48 @@ app.post('/api/submitForm', async (req, res) => {
     return res.status(400).json({ error: 'All fields are required' });
   }
 
+  // Automatically generate the timestamp on the server
+  const timestamp = new Date().toISOString();
+
   try {
     // Use the cached auth client
     const authClient = await authClientPromise;
     
-    console.log('Received data:', { name, email, number });
+    console.log('Received data:', { name, email, number, timestamp });
 
-    // Append the form data to the Google Sheet
-    const response = await sheets.spreadsheets.values.append({
+    // Insert a new row at the top (after header row)
+    await sheets.spreadsheets.batchUpdate({
       auth: authClient,
       spreadsheetId,
-      range,
-      valueInputOption: 'RAW',
-      requestBody: {
-        values: [[name, email, number]],
+      resource: {
+        requests: [
+          {
+            insertDimension: {
+              range: {
+                sheetId: sheetId,
+                dimension: "ROWS",
+                startIndex: 1, // Insert after the header row (header assumed at index 0)
+                endIndex: 2,
+              },
+              inheritFromBefore: false,
+            },
+          },
+        ],
       },
     });
 
-    console.log('Sheet update response:', response);
+    // Update the newly inserted row with the form data and the auto-generated timestamp
+    await sheets.spreadsheets.values.update({
+      auth: authClient,
+      spreadsheetId,
+      range: 'Sheet1!A2:D2', // Update the new row
+      valueInputOption: 'RAW',
+      requestBody: {
+        values: [[timestamp, name, email, number]],
+      },
+    });
+
+    console.log('Sheet updated with new data.');
     return res.status(200).json({ message: 'Form submitted successfully' });
   } catch (error) {
     console.error('Error submitting form:', error.response ? error.response.data : error.message);

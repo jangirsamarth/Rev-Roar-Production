@@ -750,7 +750,7 @@ export function Home() {
       <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end space-y-4">
         {/* Instagram Button */}
         <motion.a
-          href="https://www.instagram.com/yourusername" // Replace with your Instagram URL
+          href="https://www.instagram.com/revnroar.ig/" // Replace with your Instagram URL
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center justify-center w-16 h-16 bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600 rounded-full shadow-lg hover:opacity-90 transition-colors"

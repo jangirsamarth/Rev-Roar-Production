@@ -1,37 +1,51 @@
 // "use client"
 
-import React,{ useState } from "react"
-import { motion } from "framer-motion"
-import { MapPin, Calendar, Download, ChevronRight, Mountain, Globe } from "lucide-react"
-import { constant} from "../constants"
-import { FaInstagram, FaWhatsapp } from 'react-icons/fa';
-// import { motion } from 'framer-motion';
-// import Image from "next/image"
-
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { MapPin, Calendar, Download, ChevronRight, Mountain, Globe } from "lucide-react";
+import { constant } from "../constants";
+import { FaInstagram, FaWhatsapp } from "react-icons/fa";
 
 const ItineraryPage = () => {
-      const [expandedItinerary, setExpandedItinerary] = useState(null)
-  // console.log('dbfdhbfvd',constant)
+  const [expandedItinerary, setExpandedItinerary] = useState(null);
 
   const toggleExpand = (title) => {
-    if (expandedItinerary === title) {
-      setExpandedItinerary(null)
-    } else {
-      setExpandedItinerary(title)
-    }
-  }
-console.log("ItineraryPage")
+    setExpandedItinerary(expandedItinerary === title ? null : title);
+  };
+
+  // Updated renderTimeSlots function for the new structured timeSlots data.
+  const renderTimeSlots = (timeSlots) => {
+    return timeSlots.map((slot, index) => {
+      if (slot.header) {
+        return (
+          <div key={index} className="text-md font-bold text-gray-800 mb-2">
+            {slot.header}
+          </div>
+        );
+      }
+      return (
+        <div
+          key={index}
+          className="px-4 py-2 bg-blue-50 rounded-md text-sm text-gray-700 shadow-sm"
+        >
+          <span className="font-medium">{slot.code}</span>: {slot.dates}
+        </div>
+      );
+    });
+  };
+
+  console.log("ItineraryPage");
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
       {/* Hero Section */}
       <div className="relative bg-orange-700 text-white py-20 px-4 overflow-hidden">
         <div className="absolute inset-0 opacity-20">
-          {/* <img
+          <img
             src="/temppo.jpg?height=600&width=1200"
             alt="Mountains background"
-            // fill
             className="object-cover"
-          /> */}
+          />
         </div>
         <div className="max-w-5xl mx-auto relative z-10">
           <motion.div
@@ -58,107 +72,111 @@ console.log("ItineraryPage")
           </p>
         </div>
 
-        {constant.length>0 ?  constant.map((group, idx) => (
-          <motion.div
-            key={idx}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: idx * 0.2 }}
-            className="mb-20"
-          >
-            <div className="flex flex-col md:flex-row gap-6 mb-8 items-center">
-              <div className="md:w-1/3 rounded-xl overflow-hidden shadow-lg">
-                {/* <Image
-                  src={group.image || "/placeholder.svg"}
-                  alt={group.category}
-                  width={400}
-                  height={300}
-                  className="w-full h-64 object-cover"
-                /> */}
-              </div>
-              <div className="md:w-2/3">
-                <h2 className="text-3xl font-bold mb-4 flex items-center">
-                  <Mountain className="mr-2 text-orange-600" />
-                  {group.category}
-                </h2>
-                <p className="text-lg text-gray-700 mb-4">{group.description}</p>
-                <div className="flex items-center text-orange-600">
-                  <MapPin className="mr-2" size={18} />
-                  <span className="font-medium">Himalayas, India</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 gap-8">
-              {group.options.map((option, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: (idx + index) * 0.1 + 0.3, duration: 0.5 }}
-                  className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100"
-                >
-                  <div
-                    className="p-6 cursor-pointer hover:bg-gray-50 transition-colors"
-                    onClick={() => toggleExpand(option.title)}
-                  >
-                    <div className="flex flex-col md:flex-row md:items-center justify-between">
-                      <div>
-                        <h3 className="text-2xl font-bold mb-2 text-gray-800">{option.title}</h3>
-                        <div className="flex items-center mb-3 text-gray-600">
-                          <Calendar className="mr-2" size={18} />
-                          <span>{option.duration}</span>
-                        </div>
-                      </div>
-                      <div className="flex flex-wrap gap-2 my-3 md:my-0">
-                        {option.highlights.map((highlight, i) => (
-                          <span
-                            key={i}
-                            className="px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm font-medium"
-                          >
-                            {highlight}
-                          </span>
-                        ))}
-                      </div>
-                      <ChevronRight
-                        className={`transition-transform duration-300 flex-shrink-0 text-orange-600 ${
-                          expandedItinerary === option.title ? "rotate-90" : ""
-                        }`}
-                        size={24}
-                      />
+        {constant.length > 0
+          ? constant.map((group, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: idx * 0.2 }}
+                className="mb-20"
+              >
+                <div className="flex flex-col md:flex-row gap-6 mb-8 items-center">
+                  <div className="md:w-1/3 rounded-xl overflow-hidden shadow-lg">
+                    {/* Image placeholder */}
+                  </div>
+                  <div className="md:w-2/3">
+                    <h2 className="text-3xl font-bold mb-4 flex items-center">
+                      <Mountain className="mr-2 text-orange-600" />
+                      {group.category}
+                    </h2>
+                    <p className="text-lg text-gray-700 mb-4">{group.description}</p>
+                    <div className="flex items-center text-orange-600">
+                      <MapPin className="mr-2" size={18} />
+                      <span className="font-medium">Himalayas, India</span>
                     </div>
                   </div>
+                </div>
 
-                  {expandedItinerary === option.title && (
+                <div className="grid grid-cols-1 gap-8">
+                  {group.options.map((option, index) => (
                     <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="border-t border-gray-200"
+                      key={index}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: (idx + index) * 0.1 + 0.3, duration: 0.5 }}
+                      className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100"
                     >
-                      <div className="p-6 bg-gray-50">
-                        <h4 className="font-semibold text-lg mb-3 text-gray-700">Detailed Itinerary</h4>
-                        <pre className="text-gray-700 whitespace-pre-wrap mb-6 font-sans text-base">
-                          {option.snippet}
-                        </pre>
-                        <a
-                          href={option.pdf}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center px-6 py-3 bg-orange-600 text-white font-semibold rounded-lg hover:bg-orange-700 transition-colors duration-200"
-                        >
-                          <Download className="mr-2" size={18} />
-                          Download Full Itinerary
-                        </a>
+                      <div
+                        className="p-6 cursor-pointer hover:bg-gray-50 transition-colors"
+                        onClick={() => toggleExpand(option.title)}
+                      >
+                        <div className="flex flex-col md:flex-row md:items-center justify-between">
+                          <div>
+                            <h3 className="text-2xl font-bold mb-2 text-gray-800">{option.title}</h3>
+                            <div className="flex items-center mb-3 text-gray-600">
+                              <Calendar className="mr-2" size={18} />
+                              <span>{option.duration}</span>
+                            </div>
+                          </div>
+                          <div className="flex flex-wrap gap-2 my-3 md:my-0">
+                            {option.highlights.map((highlight, i) => (
+                              <span
+                                key={i}
+                                className="px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm font-medium"
+                              >
+                                {highlight}
+                              </span>
+                            ))}
+                          </div>
+                          <ChevronRight
+                            className={`transition-transform duration-300 flex-shrink-0 text-orange-600 ${
+                              expandedItinerary === option.title ? "rotate-90" : ""
+                            }`}
+                            size={24}
+                          />
+                        </div>
                       </div>
+
+                      {expandedItinerary === option.title && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3 }}
+                          className="border-t border-gray-200"
+                        >
+                          <div className="p-6 bg-gray-50">
+                            <h4 className="font-semibold text-lg mb-3 text-gray-700">Detailed Itinerary</h4>
+                            <pre className="text-gray-700 whitespace-pre-wrap mb-6 font-sans text-base">
+                              {option.snippet}
+                            </pre>
+                            {option.timeSlots && (
+                              <div className="mb-6">
+                                <h4 className="font-semibold text-lg mb-3 text-gray-700">Available Time Slots</h4>
+                                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3">
+                                  {renderTimeSlots(option.timeSlots)}
+                                </div>
+                              </div>
+                            )}
+                            <a
+                              href={option.pdf}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center px-6 py-3 bg-orange-600 text-white font-semibold rounded-lg hover:bg-orange-700 transition-colors duration-200"
+                            >
+                              <Download className="mr-2" size={18} />
+                              Download Full Itinerary
+                            </a>
+                          </div>
+                        </motion.div>
+                      )}
                     </motion.div>
-                  )}
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        )): <>hello</>}
+                  ))}
+                </div>
+              </motion.div>
+            ))
+          : <>hello</>}
 
         {/* Contact Section */}
         <motion.div
@@ -207,7 +225,7 @@ console.log("ItineraryPage")
       <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end space-y-4">
         {/* Instagram Button */}
         <motion.a
-          href="https://www.instagram.com/yourusername" // Replace with your Instagram URL
+          href="https://www.instagram.com/yourusername"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center justify-center w-16 h-16 bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600 rounded-full shadow-lg hover:opacity-90 transition-colors"
@@ -215,7 +233,8 @@ console.log("ItineraryPage")
           whileTap={{ scale: 0.95 }}
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.5, duration: 0.3 }}>
+          transition={{ delay: 0.5, duration: 0.3 }}
+        >
           <FaInstagram className="h-8 w-8 text-white" />
         </motion.a>
 
@@ -229,13 +248,13 @@ console.log("ItineraryPage")
           whileTap={{ scale: 0.95 }}
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 1, duration: 0.3 }}>
+          transition={{ delay: 1, duration: 0.3 }}
+        >
           <FaWhatsapp className="h-8 w-8 text-white" />
         </motion.a>
       </div>
     </div>
+  );
+};
 
-
-  )
-}
 export default ItineraryPage;

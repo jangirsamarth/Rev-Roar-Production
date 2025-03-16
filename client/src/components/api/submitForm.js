@@ -21,6 +21,7 @@ const SubmitForm = () => {
       return;
     }
 
+    // Send form data without a timestamp
     const formData = { name, email, number };
 
     try {

@@ -280,8 +280,9 @@ export function Home() {
                   }}
                 />
                 <div className="absolute top-4 left-4 bg-orange-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-                  Group Tour
+                  Starting form - 25,000
                 </div>
+                
               </div>
               <div className="p-6 flex flex-col justify-between h-full">
                 <div className="flex items-center text-gray-300 mb-3">

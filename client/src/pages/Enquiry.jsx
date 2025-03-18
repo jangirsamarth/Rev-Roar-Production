@@ -516,66 +516,72 @@ export default function EnquiryPage() {
 
       {/* Call to Action */}
       <section className="py-16 px-4 bg-orange-600 text-white">
-        <div className="max-w-7xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Start Your Adventure?</h2>
-            <p className="text-xl text-orange-100 max-w-3xl mx-auto mb-8">
-              Contact us today to plan your perfect Himalayan journey. Our team is ready to answer any additional questions you may have.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="/contact"
-                className="px-8 py-4 bg-white text-orange-600 font-bold rounded-lg hover:bg-orange-50 transition-colors flex items-center justify-center gap-2"
-              >
-                Contact Us
-                <ArrowRight className="w-5 h-5" />
-              </a>
-              <a
-                href="/location"
-                className="px-8 py-4 bg-orange-700 text-white font-bold rounded-lg hover:bg-orange-800 transition-colors flex items-center justify-center gap-2"
-              >
-                Browse Tours
-                <ArrowRight className="w-5 h-5" />
-              </a>
-            </div>
-          </motion.div>
-
-          <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end space-y-4">
-        {/* Instagram Button */}
-        <motion.a
-          href="https://www.instagram.com/revnroar.ig/" // Replace with your Instagram URL
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center justify-center w-16 h-16 bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600 rounded-full shadow-lg hover:opacity-90 transition-colors"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.5, duration: 0.3 }}>
-          <FaInstagram className="h-8 w-8 text-white" />
-        </motion.a>
-
-        {/* WhatsApp Button */}
-        <motion.a
-          href="https://wa.me/7017775164"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center justify-center w-16 h-16 bg-green-500 rounded-full shadow-lg hover:bg-green-600 transition-colors"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 1, duration: 0.3 }}>
-          <FaWhatsapp className="h-8 w-8 text-white" />
-        </motion.a>
+  <div className="max-w-7xl mx-auto text-center">
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5 }}
+    >
+      <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Start Your Adventure?</h2>
+      <p className="text-xl text-orange-100 max-w-3xl mx-auto mb-8">
+        Contact us today to plan your perfect Himalayan journey. Our team is ready to answer any additional questions you may have.
+      </p>
+      <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <a
+          href="/contact"
+          className="px-8 py-4 bg-white text-orange-600 font-bold rounded-lg hover:bg-orange-50 transition-colors flex items-center justify-center gap-2"
+        >
+          Contact Us
+          <ArrowRight className="w-5 h-5" />
+        </a>
+        <a
+          href="/location"
+          className="px-8 py-4 bg-orange-700 text-white font-bold rounded-lg hover:bg-orange-800 transition-colors flex items-center justify-center gap-2"
+          onClick={(e) => {
+            e.preventDefault(); // Prevent default link behavior
+            window.location.href = "/location"; // Directly navigate to the location page
+          }}
+        >
+          Browse Tours
+          <ArrowRight className="w-5 h-5" />
+        </a>
       </div>
-        </div>
-      </section>
+    </motion.div>
+
+    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end space-y-4">
+      {/* Instagram Button */}
+      <motion.a
+        href="https://www.instagram.com/revnroar.ig/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center justify-center w-16 h-16 bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600 rounded-full shadow-lg hover:opacity-90 transition-colors"
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
+        initial={{ opacity: 0, scale: 0.5 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 0.5, duration: 0.3 }}
+      >
+        <FaInstagram className="h-8 w-8 text-white" />
+      </motion.a>
+
+      {/* WhatsApp Button */}
+      <motion.a
+        href="https://wa.me/7017775164"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center justify-center w-16 h-16 bg-green-500 rounded-full shadow-lg hover:bg-green-600 transition-colors"
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
+        initial={{ opacity: 0, scale: 0.5 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 1, duration: 0.3 }}
+      >
+        <FaWhatsapp className="h-8 w-8 text-white" />
+      </motion.a>
+    </div>
+  </div>
+</section>
 
       {/* Here you would include your ContactUs component */}
       {/* <ContactUs /> */}

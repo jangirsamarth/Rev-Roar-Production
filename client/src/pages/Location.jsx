@@ -13,7 +13,6 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { FaInstagram, FaWhatsapp } from 'react-icons/fa';
-// import { motion } from 'framer-motion';
 
 // Sample data for destinations
 const destinations = [
@@ -69,7 +68,7 @@ const destinations = [
         name: "Key Monastery",
         description:
           "A thousand-year-old Buddhist monastery perched on a hilltop",
-        image: "/placeholder.svg?height=400&width=600",
+        image: "/monastery.jpg?height=400&width=600",
       },
       {
         name: "Chandratal Lake",
@@ -95,11 +94,6 @@ const destinations = [
 
 export default function LocationsPage() {
   const [activeDestination, setActiveDestination] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [number, setNumber] = useState("");
-  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
   const fadeInUp = {
     hidden: { opacity: 0, y: 60 },
@@ -116,38 +110,9 @@ export default function LocationsPage() {
     },
   };
 
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-    const formData = { name, email, number };
-
-    try {
-      const response = await fetch("http://localhost:5000/api/submitForm", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        alert("Form submitted successfully!");
-        setTimeout(() => {
-          window.location.href = "/itinerarypage";
-        }, 2000);
-      } else {
-        alert("Error submitting the form.");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
-
-  const openModal = () => {
-    setIsModalOpen(true); // Open the modal on button click
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false); // Close the modal
+  // This function now directly navigates to the itinerary page.
+  const navigateToItinerary = () => {
+    window.location.href = "/itinerarypage";  // Directly navigate to the itinerary page
   };
 
   return (
@@ -174,12 +139,14 @@ export default function LocationsPage() {
             initial={{ opacity: 0, y: -30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="flex flex-col md:flex-row items-center gap-6 mb-8">
+            className="flex flex-col md:flex-row items-center gap-6 mb-8"
+          >
             <motion.h1
               initial={{ x: -100, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.8 }}
-              className="text-4xl md:text-6xl font-bold text-center md:text-right">
+              className="text-4xl md:text-6xl font-bold text-center md:text-right"
+            >
               DESTINATIONS <br className="hidden md:block" /> WE CALL HOME
             </motion.h1>
 
@@ -187,7 +154,8 @@ export default function LocationsPage() {
               initial={{ x: 100, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.8 }}
-              className="h-20 md:h-32">
+              className="h-20 md:h-32"
+            >
               <img
                 src="/Logo-White.png?height=200&width=400"
                 alt="Rev & Roar Logo"
@@ -202,7 +170,8 @@ export default function LocationsPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 0.5 }}
-            className="text-xl max-w-3xl text-center font-light">
+            className="text-xl max-w-3xl text-center font-light"
+          >
             Discover the breathtaking landscapes and unique cultures of our
             favorite Himalayan destinations
           </motion.p>
@@ -211,11 +180,12 @@ export default function LocationsPage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
-            className="mt-8">
+            className="mt-8"
+          >
             <a
               href="#destinations"
               className="flex flex-col items-center text-white/80 hover:text-white transition-colors"
-              onClick={openModal} // Open the modal on "Explore Tours" button click
+              onClick={navigateToItinerary} // Directly navigate on click
             >
               <span className="mb-2">Explore Destinations</span>
               <ChevronRight className="w-6 h-6 rotate-90 animate-bounce" />
@@ -223,74 +193,6 @@ export default function LocationsPage() {
           </motion.div>
         </div>
       </div>
-
-      {/* Modal for Form */}
-      {isModalOpen && (
-        <div
-          className="fixed inset-0 backdrop-blur-md bg-opacity-50 flex justify-center items-center z-50"
-          onClick={closeModal}>
-          <div
-            className="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg relative"
-            onClick={(e) => e.stopPropagation()}>
-            <button
-              className="absolute top-4 right-4 text-black"
-              onClick={closeModal}>
-              &times;
-            </button>
-            <h2 className="text-2xl font-bold mb-4">Sign Up for the Tour</h2>
-
-            {/* Form */}
-            <form onSubmit={handleFormSubmit} className="space-y-4">
-              <div>
-                <label htmlFor="name" className="block text-gray-700">
-                  Name:
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="w-full p-2 border border-gray-300 rounded-md"
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="email" className="block text-gray-700">
-                  Email:
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full p-2 border border-gray-300 rounded-md"
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="number" className="block text-gray-700">
-                  Phone Number:
-                </label>
-                <input
-                  type="text"
-                  id="number"
-                  value={number}
-                  onChange={(e) => setNumber(e.target.value)}
-                  className="w-full p-2 border border-gray-300 rounded-md"
-                  required
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="w-full bg-blue-600 text-white p-2 rounded-md"
-                disabled={isFormSubmitted}>
-                {isFormSubmitted ? "Submitting..." : "Submit"}
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
 
       {/* Destinations Overview */}
       <section id="destinations" className="py-20 px-4 md:px-8 lg:px-16">
@@ -300,16 +202,14 @@ export default function LocationsPage() {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={fadeInUp}
-            className="text-3xl md:text-5xl font-bold mb-16 text-center">
+            className="text-3xl md:text-5xl font-bold mb-16 text-center"
+          >
             Our Himalayan Havens
           </motion.h2>
 
           <div className="space-y-32">
             {destinations.map((destination, index) => (
-              <div
-                key={destination.id}
-                className="scroll-mt-20"
-                id={destination.id}>
+              <div key={destination.id} className="scroll-mt-20" id={destination.id}>
                 <motion.div
                   initial="hidden"
                   whileInView="visible"
@@ -317,11 +217,13 @@ export default function LocationsPage() {
                   variants={staggerContainer}
                   className={`flex flex-col ${
                     index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-                  } gap-8 items-center`}>
+                  } gap-8 items-center`}
+                >
                   {/* Destination Image */}
                   <motion.div
                     variants={fadeInUp}
-                    className="w-full md:w-1/2 relative h-[50vh] md:h-[70vh] overflow-hidden rounded-2xl">
+                    className="w-full md:w-1/2 relative h-[50vh] md:h-[70vh] overflow-hidden rounded-2xl"
+                  >
                     <img
                       src={destination.image || "/ladakh-hero-location.webp"}
                       alt={destination.name}
@@ -342,7 +244,8 @@ export default function LocationsPage() {
                     <div
                       className={`absolute bottom-0 ${
                         index % 2 === 0 ? "left-0" : "right-0"
-                      } p-8 md:p-12 max-w-md`}>
+                      } p-8 md:p-12 max-w-md`}
+                    >
                       <h2 className="text-5xl md:text-7xl font-bold text-white mb-2">
                         {destination.name}
                       </h2>
@@ -353,9 +256,7 @@ export default function LocationsPage() {
                   </motion.div>
 
                   {/* Destination Info */}
-                  <motion.div
-                    variants={fadeInUp}
-                    className="w-full md:w-1/2 p-4">
+                  <motion.div variants={fadeInUp} className="w-full md:w-1/2 p-4">
                     <h3 className="text-3xl font-bold mb-4 text-gray-900">
                       Discover {destination.name}
                     </h3>
@@ -367,45 +268,31 @@ export default function LocationsPage() {
                       <div className="flex items-start gap-3">
                         <MapPin className="w-5 h-5 text-orange-600 mt-1 flex-shrink-0" />
                         <div>
-                          <h4 className="font-semibold text-gray-900">
-                            Location
-                          </h4>
-                          <p className="text-gray-600">
-                            {destination.mapLocation}
-                          </p>
+                          <h4 className="font-semibold text-gray-900">Location</h4>
+                          <p className="text-gray-600">{destination.mapLocation}</p>
                         </div>
                       </div>
 
                       <div className="flex items-start gap-3">
                         <Calendar className="w-5 h-5 text-orange-600 mt-1 flex-shrink-0" />
                         <div>
-                          <h4 className="font-semibold text-gray-900">
-                            Best Time to Visit
-                          </h4>
-                          <p className="text-gray-600">
-                            {destination.bestTimeToVisit}
-                          </p>
+                          <h4 className="font-semibold text-gray-900">Best Time to Visit</h4>
+                          <p className="text-gray-600">{destination.bestTimeToVisit}</p>
                         </div>
                       </div>
 
                       <div className="flex items-start gap-3">
                         <Mountain className="w-5 h-5 text-orange-600 mt-1 flex-shrink-0" />
                         <div>
-                          <h4 className="font-semibold text-gray-900">
-                            Altitude
-                          </h4>
-                          <p className="text-gray-600">
-                            {destination.altitude}
-                          </p>
+                          <h4 className="font-semibold text-gray-900">Altitude</h4>
+                          <p className="text-gray-600">{destination.altitude}</p>
                         </div>
                       </div>
 
                       <div className="flex items-start gap-3">
                         <Cloud className="w-5 h-5 text-orange-600 mt-1 flex-shrink-0" />
                         <div>
-                          <h4 className="font-semibold text-gray-900">
-                            Climate
-                          </h4>
+                          <h4 className="font-semibold text-gray-900">Climate</h4>
                           <p className="text-gray-600">{destination.climate}</p>
                         </div>
                       </div>
@@ -421,7 +308,8 @@ export default function LocationsPage() {
                               : destination.id
                           )
                         }
-                        className="px-6 py-3 bg-orange-600 text-white font-medium rounded-lg hover:bg-orange-700 transition-colors flex items-center">
+                        className="px-6 py-3 bg-orange-600 text-white font-medium rounded-lg hover:bg-orange-700 transition-colors flex items-center"
+                      >
                         {activeDestination === destination.id
                           ? "Hide Highlights"
                           : "View Highlights"}
@@ -436,8 +324,9 @@ export default function LocationsPage() {
 
                       {/* Explore Tours Button */}
                       <button
-                        onClick={() => openModal(destination)} // Open modal on button click
-                        className="px-6 py-3 bg-white border border-blue-600 text-orange-600 font-medium rounded-lg hover:bg-orange-50 transition-colors flex items-center">
+                        onClick={navigateToItinerary} // Directly navigate when clicked
+                        className="px-6 py-3 bg-white border border-blue-600 text-orange-600 font-medium rounded-lg hover:bg-orange-50 transition-colors flex items-center"
+                      >
                         Explore Tours
                         <ArrowRight className="ml-2 w-5 h-5" />
                       </button>
@@ -452,7 +341,8 @@ export default function LocationsPage() {
                     animate={{ opacity: 1, height: "auto" }}
                     exit={{ opacity: 0, height: 0 }}
                     transition={{ duration: 0.5 }}
-                    className="mt-12 overflow-hidden">
+                    className="mt-12 overflow-hidden"
+                  >
                     <h3 className="text-2xl font-bold mb-6 text-gray-900">
                       Highlights of {destination.name}
                     </h3>
@@ -463,7 +353,8 @@ export default function LocationsPage() {
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: idx * 0.1 }}
-                          className="bg-white rounded-xl overflow-hidden shadow-lg group hover:shadow-xl transition-all">
+                          className="bg-white rounded-xl overflow-hidden shadow-lg group hover:shadow-xl transition-all"
+                        >
                           <div className="relative h-48 overflow-hidden">
                             <img
                               src={highlight.image || "/placeholder.svg"}
@@ -504,13 +395,13 @@ export default function LocationsPage() {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={fadeInUp}
-            className="text-center mb-12">
+            className="text-center mb-12"
+          >
             <h2 className="text-3xl md:text-5xl font-bold mb-4">
               Travel Tips for Himalayan Adventures
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Make the most of your journey with these essential tips for
-              high-altitude travel
+              Make the most of your journey with these essential tips for high-altitude travel
             </p>
           </motion.div>
 
@@ -519,48 +410,35 @@ export default function LocationsPage() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <motion.div
-              variants={fadeInUp}
-              className="bg-white p-8 rounded-2xl shadow-lg">
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+          >
+            <motion.div variants={fadeInUp} className="bg-white p-8 rounded-2xl shadow-lg">
               <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-6">
                 <Mountain className="w-8 h-8 text-orange-600" />
               </div>
-              <h3 className="text-xl font-bold mb-4">
-                Altitude Acclimatization
-              </h3>
+              <h3 className="text-xl font-bold mb-4">Altitude Acclimatization</h3>
               <p className="text-gray-600">
-                Take it slow for the first 24-48 hours. Stay hydrated, avoid
-                alcohol, and consider medications like Diamox after consulting
-                your doctor.
+                Take it slow for the first 24-48 hours. Stay hydrated, avoid alcohol, and consider medications like Diamox after consulting your doctor.
               </p>
             </motion.div>
 
-            <motion.div
-              variants={fadeInUp}
-              className="bg-white p-8 rounded-2xl shadow-lg">
+            <motion.div variants={fadeInUp} className="bg-white p-8 rounded-2xl shadow-lg">
               <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-6">
                 <Sun className="w-8 h-8 text-orange-600" />
               </div>
               <h3 className="text-xl font-bold mb-4">Weather Preparation</h3>
               <p className="text-gray-600">
-                Pack layers! Temperatures can vary drastically between day and
-                night. Always carry a good quality sunscreen, sunglasses, and a
-                hat.
+                Pack layers! Temperatures can vary drastically between day and night. Always carry a good quality sunscreen, sunglasses, and a hat.
               </p>
             </motion.div>
 
-            <motion.div
-              variants={fadeInUp}
-              className="bg-white p-8 rounded-2xl shadow-lg">
+            <motion.div variants={fadeInUp} className="bg-white p-8 rounded-2xl shadow-lg">
               <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-6">
                 <Camera className="w-8 h-8 text-orange-600" />
               </div>
               <h3 className="text-xl font-bold mb-4">Photography Tips</h3>
               <p className="text-gray-600">
-                Carry extra batteries as they drain faster in cold. The light is
-                magical during golden hours, and night skies offer incredible
-                stargazing opportunities.
+                Carry extra batteries as they drain faster in cold. The light is magical during golden hours, and night skies offer incredible stargazing opportunities.
               </p>
             </motion.div>
           </motion.div>
@@ -569,43 +447,47 @@ export default function LocationsPage() {
 
       {/* Call to Action */}
       <section className="py-20 px-4 md:px-8 lg:px-16 bg-orange-600 text-white">
-        <div className="max-w-7xl mx-auto text-center">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={fadeInUp}>
-            <h2 className="text-3xl md:text-5xl font-bold mb-6">
-              Ready to Explore These Breathtaking Destinations?
-            </h2>
-            <p className="text-xl text-orange-100 max-w-3xl mx-auto mb-8">
-              Let us guide you through the majestic landscapes of Ladakh and
-              Spiti Valley. Book your adventure today!
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="/contact"
-                className="px-8 py-4 bg-white text-orange-600 font-bold rounded-lg hover:bg-orange-50 transition-colors flex items-center">
-                Contact Us
-              </a>
-              <a
-                href="/itinerarypage"
-                className="px-8 py-4 bg-orange-700 text-white font-bold rounded-lg hover:bg-orange-800 transition-colors flex items-center"
-                onClick={(e) => {
-                  e.preventDefault(); // Prevent default link behavior
-                  openModal(); // Open the modal when clicked
-                }}>
-                Browse Tours
-                <ArrowRight className="ml-2 w-5 h-5" />
-              </a>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+  <div className="max-w-7xl mx-auto text-center">
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+      variants={fadeInUp}
+    >
+      <h2 className="text-3xl md:text-5xl font-bold mb-6">
+        Ready to Explore These Breathtaking Destinations?
+      </h2>
+      <p className="text-xl text-orange-100 max-w-3xl mx-auto mb-8">
+        Let us guide you through the majestic landscapes of Ladakh and Spiti Valley. Book your adventure today!
+      </p>
+      <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <a
+          href="/contact"
+          className="px-8 py-4 bg-white text-orange-600 font-bold rounded-lg hover:bg-orange-50 transition-colors flex items-center"
+        >
+          Contact Us
+        </a>
+        <a
+          href="/itinerarypage"
+          className="px-8 py-4 bg-orange-700 text-white font-bold rounded-lg hover:bg-orange-800 transition-colors flex items-center"
+          onClick={(e) => {
+            e.preventDefault(); // Prevent default link behavior
+            window.location.href = "/itinerarypage"; // Directly navigate to the itinerary page
+          }}
+        >
+          Browse Tours
+          <ArrowRight className="ml-2 w-5 h-5" />
+        </a>
+      </div>
+    </motion.div>
+  </div>
+</section>
+
+
       <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end space-y-4">
         {/* Instagram Button */}
         <motion.a
-          href="https://www.instagram.com/revnroar.ig/" // Replace with your Instagram URL
+          href="https://www.instagram.com/revnroar.ig/"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center justify-center w-16 h-16 bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600 rounded-full shadow-lg hover:opacity-90 transition-colors"
@@ -613,7 +495,8 @@ export default function LocationsPage() {
           whileTap={{ scale: 0.95 }}
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.5, duration: 0.3 }}>
+          transition={{ delay: 0.5, duration: 0.3 }}
+        >
           <FaInstagram className="h-8 w-8 text-white" />
         </motion.a>
 
@@ -627,7 +510,8 @@ export default function LocationsPage() {
           whileTap={{ scale: 0.95 }}
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 1, duration: 0.3 }}>
+          transition={{ delay: 1, duration: 0.3 }}
+        >
           <FaWhatsapp className="h-8 w-8 text-white" />
         </motion.a>
       </div>

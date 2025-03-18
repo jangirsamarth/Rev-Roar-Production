@@ -5,12 +5,31 @@ import { motion } from "framer-motion";
 import { MapPin, Calendar, Download, ChevronRight, Mountain, Globe } from "lucide-react";
 import { constant } from "../constants";
 import { FaInstagram, FaWhatsapp } from "react-icons/fa";
+// Import your modal component – adjust the path if needed
+import GoogleFormModal from "../components/GoogleFormModal";
 
 const ItineraryPage = () => {
   const [expandedItinerary, setExpandedItinerary] = useState(null);
+  const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
+  const [selectedPdf, setSelectedPdf] = useState(null);
 
   const toggleExpand = (title) => {
     setExpandedItinerary(expandedItinerary === title ? null : title);
+  };
+
+  // Function to open modal and set the PDF URL
+  const openDownloadModal = (pdf) => {
+    setSelectedPdf(pdf);
+    setIsDownloadModalOpen(true);
+  };
+
+  // When the modal is closed, redirect to the PDF
+  const handleModalClose = () => {
+    setIsDownloadModalOpen(false);
+    if (selectedPdf) {
+      window.open(selectedPdf, "_blank");
+      setSelectedPdf(null);
+    }
   };
 
   // Updated renderTimeSlots function for the new structured timeSlots data.
@@ -159,15 +178,13 @@ const ItineraryPage = () => {
                                 </div>
                               </div>
                             )}
-                            <a
-                              href={option.pdf}
-                              target="_blank"
-                              rel="noopener noreferrer"
+                            <button
+                              onClick={() => openDownloadModal(option.pdf)}
                               className="inline-flex items-center px-6 py-3 bg-orange-600 text-white font-semibold rounded-lg hover:bg-orange-700 transition-colors duration-200"
                             >
                               <Download className="mr-2" size={18} />
                               Download Full Itinerary
-                            </a>
+                            </button>
                           </div>
                         </motion.div>
                       )}
@@ -253,6 +270,8 @@ const ItineraryPage = () => {
           <FaWhatsapp className="h-8 w-8 text-white" />
         </motion.a>
       </div>
+      {/* Render the GoogleFormModal and pass the onClose callback */}
+      <GoogleFormModal isOpen={isDownloadModalOpen} onClose={handleModalClose} />
     </div>
   );
 };

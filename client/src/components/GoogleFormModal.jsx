@@ -14,16 +14,21 @@ const GoogleFormModal = ({ isOpen, onClose }) => {
     const formData = { name, email, number };
 
     try {
-      const response = await fetch("https://rev-roar-server.onrender.com/api/submitForm", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        "https://rev-roar-server.onrender.com/api/submitForm",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        }
+      );
 
       if (response.ok) {
-        // Give user time to see success message before redirecting
+        // Give user time to see success message before proceeding
         setTimeout(() => {
-          window.location.href = "/itinerarypage";
+          // Instead of redirecting to itinerary page,
+          // call onClose to let the parent handle PDF redirection
+          onClose();
         }, 1000);
       } else {
         alert("Error submitting the form.");
@@ -33,7 +38,7 @@ const GoogleFormModal = ({ isOpen, onClose }) => {
       console.error("Error:", error);
       setIsFormSubmitted(false);
     }
-  }, [name, email, number]);
+  }, [name, email, number, onClose]);
 
   // Memoized input change handlers
   const handleNameChange = useCallback((e) => setName(e.target.value), []);
@@ -57,7 +62,9 @@ const GoogleFormModal = ({ isOpen, onClose }) => {
         <h2 className="text-2xl font-bold mb-4">Sign Up for the Tour</h2>
         <form onSubmit={handleFormSubmit} className="space-y-4">
           <div>
-            <label htmlFor="name" className="block text-gray-700">Name:</label>
+            <label htmlFor="name" className="block text-gray-700">
+              Name:
+            </label>
             <input
               type="text"
               id="name"
@@ -69,7 +76,9 @@ const GoogleFormModal = ({ isOpen, onClose }) => {
             />
           </div>
           <div>
-            <label htmlFor="email" className="block text-gray-700">Email:</label>
+            <label htmlFor="email" className="block text-gray-700">
+              Email:
+            </label>
             <input
               type="email"
               id="email"
@@ -81,7 +90,9 @@ const GoogleFormModal = ({ isOpen, onClose }) => {
             />
           </div>
           <div>
-            <label htmlFor="number" className="block text-gray-700">Phone Number:</label>
+            <label htmlFor="number" className="block text-gray-700">
+              Phone Number:
+            </label>
             <input
               type="text"
               id="number"

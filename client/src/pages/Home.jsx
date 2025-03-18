@@ -241,119 +241,114 @@ export function Home() {
 
       {/* Upcoming Tours Section */}
       <section className="py-20 px-4 md:px-8 lg:px-16 bg-gray-100 text-orange-600">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12">
-            <div>
-              <h2 className="text-3xl md:text-5xl font-bold mb-4">
-                Upcoming Tours
-              </h2>
-              <p className="text-lg text-black max-w-2xl">
-                Secure your spot on our next adventure. Limited seats available!
-              </p>
-            </div>
-            {/* <a
-              href="/itinerarypage"
-              className="mt-4 md:mt-0 inline-flex items-center text-orange-400 font-medium hover:text-orange-300 transition-colors">
-              View all tours
-              <ArrowRight className="ml-2 w-4 h-4" />
-            </a> */}
-          </div>
+  <div className="max-w-7xl mx-auto">
+    <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12">
+      <div>
+        <h2 className="text-3xl md:text-5xl font-bold mb-4">
+          Upcoming Tours
+        </h2>
+        <p className="text-lg text-black max-w-2xl">
+          Secure your spot on our next adventure. Limited seats available!
+        </p>
+      </div>
+      {/* <a
+        href="/itinerarypage"
+        className="mt-4 md:mt-0 inline-flex items-center text-orange-400 font-medium hover:text-orange-300 transition-colors">
+        View all tours
+        <ArrowRight className="ml-2 w-4 h-4" />
+      </a> */}
+    </div>
 
-          <div className="flex gap-5 justify-center items-stretch">
-            {/* Tour Card 1 */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.5 }}
-              className="bg-gray-800 rounded-xl overflow-hidden group hover:bg-gray-700 transition-colors flex flex-col max-w-[400px] w-full">
-              <div className="aspect-video relative">
-                <img
-                  src="/bike-expedition.webp?height=400&width=600"
-                  alt="Ladakh Expedition"
-                  className="object-cover"
-                  style={{
-                    position: "absolute",
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                  }}
-                />
-                <div className="absolute top-4 left-4 bg-orange-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-                  Starting form - 25,000
-                </div>
-                
-              </div>
-              <div className="p-6 flex flex-col justify-between h-full">
-                <div className="flex items-center text-gray-300 mb-3">
-                  <Calendar className="w-4 h-4 mr-2" />
-                  <span>June 15 - June 25, 2023</span>
-                </div>
-                <h3 className="text-xl font-bold mb-2">Ladakh Expedition</h3>
-                <p className="text-gray-400 mb-4">
-                  10-day adventure through the breathtaking landscapes of Ladakh
-                  on Royal Enfield bikes.
-                </p>
-                <div className="flex justify-between items-center">
-                  <button
-                    onClick={openModal}
-                    className="inline-flex items-center bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg transition-colors">
-                    Explore Now
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Tour Card 2 */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="bg-gray-800 rounded-xl overflow-hidden group hover:bg-gray-700 transition-colors flex flex-col max-w-[400px] w-full">
-              <div className="aspect-video relative">
-                <img
-                  src="/spiti-explore.webp?height=400&width=600"
-                  alt="Spiti Valley Explorer"
-                  className="object-cover"
-                  style={{
-                    position: "absolute",
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                  }}
-                />
-                <div className="absolute top-4 left-4 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-                  Starting from - 18,000
-                </div>
-              </div>
-              <div className="p-6 flex flex-col justify-between h-full">
-                <div className="flex items-center text-gray-300 mb-3">
-                  <Calendar className="w-4 h-4 mr-2" />
-                  <span>July 5 - July 12, 2023</span>
-                </div>
-                <h3 className="text-xl font-bold mb-2">
-                  Spiti Valley Adventure
-                </h3>
-                <p className="text-gray-400 mb-4">
-                  7-day journey through the magical Spiti Valley with
-                  comfortable stays and guided exploration.
-                </p>
-                <div className="flex justify-between items-center">
-                  <button
-                    onClick={openModal}
-                    className="inline-flex items-center bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg transition-colors">
-                    Explore Now
-                  </button>
-                </div>
-              </div>
-            </motion.div>
+    <div className="flex gap-5 justify-center items-stretch">
+      {/* Tour Card 1 */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.5 }}
+        className="bg-gray-800 rounded-xl overflow-hidden group hover:bg-gray-700 transition-colors flex flex-col max-w-[400px] w-full">
+        <div className="aspect-video relative">
+          <img
+            src="/bike-expedition.webp?height=400&width=600"
+            alt="Ladakh Expedition"
+            className="object-cover"
+            style={{
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }}
+          />
+          <div className="absolute top-4 left-4 bg-orange-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+            Starting form - 25,000
           </div>
         </div>
+        <div className="p-6 flex flex-col justify-between h-full">
+          <div className="flex items-center text-gray-300 mb-3">
+            <Calendar className="w-4 h-4 mr-2" />
+            <span>June 15 - June 25, 2023</span>
+          </div>
+          <h3 className="text-xl font-bold mb-2">Ladakh Expedition</h3>
+          <p className="text-gray-400 mb-4">
+            10-day adventure through the breathtaking landscapes of Ladakh on Royal Enfield bikes.
+          </p>
+          <div className="flex justify-between items-center">
+            <a
+              href="/itinerarypage"
+              className="inline-flex items-center bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg transition-colors">
+              Explore Now
+            </a>
+          </div>
+        </div>
+      </motion.div>
 
-        {/* Modal */}
-        <GoogleFormModal isOpen={isModalOpen} onClose={closeModal} />
-      </section>
+      {/* Tour Card 2 */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.5, delay: 0.1 }}
+        className="bg-gray-800 rounded-xl overflow-hidden group hover:bg-gray-700 transition-colors flex flex-col max-w-[400px] w-full">
+        <div className="aspect-video relative">
+          <img
+            src="/spiti-explore.webp?height=400&width=600"
+            alt="Spiti Valley Explorer"
+            className="object-cover"
+            style={{
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }}
+          />
+          <div className="absolute top-4 left-4 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+            Starting from - 18,000
+          </div>
+        </div>
+        <div className="p-6 flex flex-col justify-between h-full">
+          <div className="flex items-center text-gray-300 mb-3">
+            <Calendar className="w-4 h-4 mr-2" />
+            <span>July 5 - July 12, 2023</span>
+          </div>
+          <h3 className="text-xl font-bold mb-2">
+            Spiti Valley Adventure
+          </h3>
+          <p className="text-gray-400 mb-4">
+            7-day journey through the magical Spiti Valley with comfortable stays and guided exploration.
+          </p>
+          <div className="flex justify-between items-center">
+            <a
+              href="/itinerarypage"
+              className="inline-flex items-center bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg transition-colors">
+              Explore Now
+            </a>
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  </div>
+</section>
+
 
       {/* Adventure Types Section */}
       <section className="py-20 px-4 md:px-8 lg:px-16">

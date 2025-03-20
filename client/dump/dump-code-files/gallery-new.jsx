@@ -393,7 +393,7 @@ export  function Gallery() {
                         transition={{ duration: 0.5 }}
                         className="bg-gray-800 rounded-2xl p-8 md:p-12"
                       >
-                        <Quote className="w-12 h-12 text-orange-600 mb-6 opacity-50" />
+                        <Quote className="w-12 h-12 text-orange-700 mb-6 opacity-50" />
                         <p className="text-xl md:text-2xl italic mb-8 text-gray-300">"{testimonial.text}"</p>
                         <div className="flex items-center">
                           <div className="w-16 h-16 rounded-full overflow-hidden mr-4">

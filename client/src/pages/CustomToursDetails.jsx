@@ -289,7 +289,7 @@ export default function CustomToursDetails() {
                     </h3>
                     <ul className="space-y-3">
                       <li className="flex items-start">
-                        <Check className="mr-2 h-5 w-5 text-orange-600 shrink-0 mt-0.5" />
+                        <Check className="mr-2 h-5 w-5 text-orange-700 shrink-0 mt-0.5" />
                         <div>
                           <span className="font-semibold">
                             A Lifetime of Memories:
@@ -298,7 +298,7 @@ export default function CustomToursDetails() {
                         </div>
                       </li>
                       <li className="flex items-start">
-                        <Check className="mr-2 h-5 w-5 text-orange-600 shrink-0 mt-0.5" />
+                        <Check className="mr-2 h-5 w-5 text-orange-700 shrink-0 mt-0.5" />
                         <div>
                           <span className="font-semibold">Stress-Free:</span> No
                           need to worry about capturing the perfect shot—we've
@@ -306,7 +306,7 @@ export default function CustomToursDetails() {
                         </div>
                       </li>
                       <li className="flex items-start">
-                        <Check className="mr-2 h-5 w-5 text-orange-600 shrink-0 mt-0.5" />
+                        <Check className="mr-2 h-5 w-5 text-orange-700 shrink-0 mt-0.5" />
                         <div>
                           <span className="font-semibold">
                             Unbeatable Value:
@@ -340,7 +340,7 @@ export default function CustomToursDetails() {
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-2xl font-bold text-orange-600">
+                      <p className="text-2xl font-bold text-orange-700">
                         ₹7,500
                       </p>
                       <p className="text-sm text-muted-foreground">
@@ -356,7 +356,7 @@ export default function CustomToursDetails() {
                     <CardContent className="space-y-2">
                       <div>
                         <p className="font-medium">Himalayan 411</p>
-                        <p className="text-xl font-bold text-orange-600">
+                        <p className="text-xl font-bold text-orange-700">
                           ₹4,500
                         </p>
                       </div>
@@ -365,7 +365,7 @@ export default function CustomToursDetails() {
                         <p className="font-medium">
                           Himalayan 452 / KTM 390ADV
                         </p>
-                        <p className="text-xl font-bold text-orange-600">
+                        <p className="text-xl font-bold text-orange-700">
                           ₹7,500
                         </p>
                       </div>
@@ -379,7 +379,7 @@ export default function CustomToursDetails() {
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-2xl font-bold text-orange-600">
+                      <p className="text-2xl font-bold text-orange-700">
                         ₹4,000
                       </p>
                       <p className="text-sm text-muted-foreground">
@@ -395,7 +395,7 @@ export default function CustomToursDetails() {
                     Visit us:{" "}
                     <a
                       href="http://www.revnroar.com"
-                      className="text-orange-600 hover:text-orange-800"
+                      className="text-orange-700 hover:text-orange-800"
                       target="_blank"
                       rel="noopener noreferrer">
                       www.revnroar.com
@@ -405,7 +405,7 @@ export default function CustomToursDetails() {
                     Reach us:{" "}
                     <a
                       href="tel:+917017775164"
-                      className="text-orange-600 hover:text-orange-800">
+                      className="text-orange-700 hover:text-orange-800">
                       +91-7017775164
                     </a>
                   </p>

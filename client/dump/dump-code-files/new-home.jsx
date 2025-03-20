@@ -233,7 +233,7 @@ export  function Home() {
             </div>
             <a 
               href="/destinations" 
-              className="mt-4 md:mt-0 inline-flex items-center text-orange-600 font-medium hover:text-orange-800 transition-colors"
+              className="mt-4 md:mt-0 inline-flex items-center text-orange-700 font-medium hover:text-orange-800 transition-colors"
             >
               View all destinations
               <ArrowRight className="ml-2 w-4 h-4" />
@@ -324,7 +324,7 @@ export  function Home() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-4 left-4">
                   <div className="bg-white/90 backdrop-blur-sm p-2 rounded-full">
-                    <Bike className="w-8 h-8 text-orange-600" />
+                    <Bike className="w-8 h-8 text-orange-700" />
                   </div>
                 </div>
               </div>
@@ -335,7 +335,7 @@ export  function Home() {
                 </p>
                 <a
                   href="/adventures/bike-tours"
-                  className="inline-flex items-center text-orange-600 font-medium hover:text-orange-800 transition-colors"
+                  className="inline-flex items-center text-orange-700 font-medium hover:text-orange-800 transition-colors"
                 >
                   View bike tours
                   <ArrowRight className="ml-2 w-4 h-4" />
@@ -366,7 +366,7 @@ export  function Home() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-4 left-4">
                   <div className="bg-white/90 backdrop-blur-sm p-2 rounded-full">
-                    <Users className="w-8 h-8 text-orange-600" />
+                    <Users className="w-8 h-8 text-orange-700" />
                   </div>
                 </div>
               </div>
@@ -377,7 +377,7 @@ export  function Home() {
                 </p>
                 <a
                   href="/adventures/group-tours"
-                  className="inline-flex items-center text-orange-600 font-medium hover:text-orange-800 transition-colors"
+                  className="inline-flex items-center text-orange-700 font-medium hover:text-orange-800 transition-colors"
                 >
                   View group tours
                   <ArrowRight className="ml-2 w-4 h-4" />
@@ -408,7 +408,7 @@ export  function Home() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-4 left-4">
                   <div className="bg-white/90 backdrop-blur-sm p-2 rounded-full">
-                    <Mountain className="w-8 h-8 text-orange-600" />
+                    <Mountain className="w-8 h-8 text-orange-700" />
                   </div>
                 </div>
               </div>
@@ -419,7 +419,7 @@ export  function Home() {
                 </p>
                 <a
                   href="/adventures/custom-tours"
-                  className="inline-flex items-center text-orange-600 font-medium hover:text-orange-800 transition-colors"
+                  className="inline-flex items-center text-orange-700 font-medium hover:text-orange-800 transition-colors"
                 >
                   Build your tour
                   <ArrowRight className="ml-2 w-4 h-4" />
@@ -729,7 +729,7 @@ export  function Home() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="/contact"
-                className="px-8 py-4 bg-white text-orange-600 font-bold rounded-lg hover:bg-orange-50 transition-colors"
+                className="px-8 py-4 bg-white text-orange-700 font-bold rounded-lg hover:bg-orange-50 transition-colors"
               >
                 Contact Us
               </a>

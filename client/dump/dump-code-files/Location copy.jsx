@@ -319,7 +319,7 @@ export default function LocationsPage() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                       <div className="flex items-start gap-3">
-                        <MapPin className="w-5 h-5 text-orange-600 mt-1 flex-shrink-0" />
+                        <MapPin className="w-5 h-5 text-orange-700 mt-1 flex-shrink-0" />
                         <div>
                           <h4 className="font-semibold text-gray-900">Location</h4>
                           <p className="text-gray-600">{destination.mapLocation}</p>
@@ -327,7 +327,7 @@ export default function LocationsPage() {
                       </div>
 
                       <div className="flex items-start gap-3">
-                        <Calendar className="w-5 h-5 text-orange-600 mt-1 flex-shrink-0" />
+                        <Calendar className="w-5 h-5 text-orange-700 mt-1 flex-shrink-0" />
                         <div>
                           <h4 className="font-semibold text-gray-900">Best Time to Visit</h4>
                           <p className="text-gray-600">{destination.bestTimeToVisit}</p>
@@ -335,7 +335,7 @@ export default function LocationsPage() {
                       </div>
 
                       <div className="flex items-start gap-3">
-                        <Mountain className="w-5 h-5 text-orange-600 mt-1 flex-shrink-0" />
+                        <Mountain className="w-5 h-5 text-orange-700 mt-1 flex-shrink-0" />
                         <div>
                           <h4 className="font-semibold text-gray-900">Altitude</h4>
                           <p className="text-gray-600">{destination.altitude}</p>
@@ -343,7 +343,7 @@ export default function LocationsPage() {
                       </div>
 
                       <div className="flex items-start gap-3">
-                        <Cloud className="w-5 h-5 text-orange-600 mt-1 flex-shrink-0" />
+                        <Cloud className="w-5 h-5 text-orange-700 mt-1 flex-shrink-0" />
                         <div>
                           <h4 className="font-semibold text-gray-900">Climate</h4>
                           <p className="text-gray-600">{destination.climate}</p>
@@ -366,7 +366,7 @@ export default function LocationsPage() {
 
                       <a
                         href={`/tours/${destination.id}`}
-                        className="px-6 py-3 bg-white border border-blue-600 text-orange-600 font-medium rounded-lg hover:bg-orange-50 transition-colors flex items-center"
+                        className="px-6 py-3 bg-white border border-blue-600 text-orange-700 font-medium rounded-lg hover:bg-orange-50 transition-colors flex items-center"
                       >
                         Explore Tours
                         <ArrowRight className="ml-2 w-5 h-5" />
@@ -442,7 +442,7 @@ export default function LocationsPage() {
           >
             <motion.div variants={fadeInUp} className="bg-white p-8 rounded-2xl shadow-lg">
               <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-6">
-                <Mountain className="w-8 h-8 text-orange-600" />
+                <Mountain className="w-8 h-8 text-orange-700" />
               </div>
               <h3 className="text-xl font-bold mb-4">Altitude Acclimatization</h3>
               <p className="text-gray-600">
@@ -452,7 +452,7 @@ export default function LocationsPage() {
 
             <motion.div variants={fadeInUp} className="bg-white p-8 rounded-2xl shadow-lg">
               <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-6">
-                <Sun className="w-8 h-8 text-orange-600" />
+                <Sun className="w-8 h-8 text-orange-700" />
               </div>
               <h3 className="text-xl font-bold mb-4">Weather Preparation</h3>
               <p className="text-gray-600">
@@ -462,7 +462,7 @@ export default function LocationsPage() {
 
             <motion.div variants={fadeInUp} className="bg-white p-8 rounded-2xl shadow-lg">
               <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-6">
-                <Camera className="w-8 h-8 text-orange-600" />
+                <Camera className="w-8 h-8 text-orange-700" />
               </div>
               <h3 className="text-xl font-bold mb-4">Photography Tips</h3>
               <p className="text-gray-600">
@@ -489,7 +489,7 @@ export default function LocationsPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="/contact"
-                className="px-8 py-4 bg-white text-orange-600 font-bold rounded-lg hover:bg-orange-50 transition-colors flex items-center"
+                className="px-8 py-4 bg-white text-orange-700 font-bold rounded-lg hover:bg-orange-50 transition-colors flex items-center"
               >
                 Contact Us
               </a>

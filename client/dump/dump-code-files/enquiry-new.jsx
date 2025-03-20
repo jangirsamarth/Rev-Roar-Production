@@ -418,14 +418,14 @@ export default function EnquiryPage() {
                 <div className="space-y-3">
                   <a
                     href="tel:+917017775164"
-                    className="flex items-center gap-3 text-orange-600 hover:text-orange-800 transition-colors"
+                    className="flex items-center gap-3 text-orange-700 hover:text-orange-800 transition-colors"
                   >
                     <Phone className="w-5 h-5" />
                     <span>+91 7017775164</span>
                   </a>
                   <a
                     href="mailto:info@revnroar.com"
-                    className="flex items-center gap-3 text-orange-600 hover:text-orange-800 transition-colors"
+                    className="flex items-center gap-3 text-orange-700 hover:text-orange-800 transition-colors"
                   >
                     <Mail className="w-5 h-5" />
                     <span>info@revnroar.com</span>
@@ -434,7 +434,7 @@ export default function EnquiryPage() {
                     href="https://wa.me/917017775164"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 text-orange-600 hover:text-orange-800 transition-colors"
+                    className="flex items-center gap-3 text-orange-700 hover:text-orange-800 transition-colors"
                   >
                     <MessageSquare className="w-5 h-5" />
                     <span>WhatsApp Us</span>
@@ -466,11 +466,11 @@ export default function EnquiryPage() {
                       className="w-full flex items-start justify-between p-5 text-left"
                     >
                       <div className="flex items-start gap-3 pr-4">
-                        <div className="mt-1 text-orange-600 flex-shrink-0">{faq.icon}</div>
+                        <div className="mt-1 text-orange-700 flex-shrink-0">{faq.icon}</div>
                         <h3 className="text-lg font-medium text-gray-800">{faq.question}</h3>
                       </div>
                       <div
-                        className={`text-orange-600 transition-transform duration-300 ${
+                        className={`text-orange-700 transition-transform duration-300 ${
                           activeIndex === faq.id ? "rotate-180" : ""
                         }`}
                       >
@@ -530,7 +530,7 @@ export default function EnquiryPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="/contact"
-                className="px-8 py-4 bg-white text-orange-600 font-bold rounded-lg hover:bg-orange-50 transition-colors flex items-center justify-center gap-2"
+                className="px-8 py-4 bg-white text-orange-700 font-bold rounded-lg hover:bg-orange-50 transition-colors flex items-center justify-center gap-2"
               >
                 Contact Us
                 <ArrowRight className="w-5 h-5" />

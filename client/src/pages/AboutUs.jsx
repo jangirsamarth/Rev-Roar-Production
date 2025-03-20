@@ -8,7 +8,7 @@ import { ChevronRight, CheckCircle, MapPin, Shield, Users, Bike } from "lucide-r
 export default function AboutUs() {
   const cardInfo = [
     {
-      img: "/bike-tour.webp?height=400&width=600",
+      img: "/bike-tour.JPG?height=400&width=600",
       desc: "The hum of your bike engine as you conquer Khardung LA.",
     },
     {
@@ -23,7 +23,7 @@ export default function AboutUs() {
 
   const adventures = [
     {
-      img: "/bike-gallery.webp?height=400&width=600",
+      img: "/bike-tour.JPG?height=400&width=600",
       img_tag: "Bike Trips",
       desc: "Feel the roar of the engine. Feel alive.",
       icon: <Bike className="w-10 h-10" />,
@@ -147,7 +147,7 @@ export default function AboutUs() {
           className="mb-16"
         >
           <h2 className="text-3xl md:text-5xl font-bold mb-8 text-gray-800">
-            At Rev & Roar, we don't just plan trips—<span className="text-orange-600 italic"> we craft life-changing experiences.</span>
+            At Rev & Roar, we don&apos;t just plan trips—<span className="text-orange-700 italic"> we craft life-changing experiences.</span>
           </h2>
           <p className="text-xl md:text-2xl text-gray-700">Picture this:</p>
         </motion.div>
@@ -185,7 +185,7 @@ export default function AboutUs() {
           variants={fadeInUp}
           className="text-xl md:text-2xl leading-relaxed text-gray-700 max-w-5xl mx-auto"
         >
-          We specialize in curating personalized adventures to Ladakh and Spiti that are exciting, safe, and full of stories you'll cherish forever. Whether you're a solo traveler, a group of friends, a college gang, or a corporate team, we ensure every journey is as unique as you are.
+          We specialize in curating personalized adventures to Ladakh and Spiti that are exciting, safe, and full of stories you&apos;ll cherish forever. Whether you&apos;re a solo traveler, a group of friends, a college gang, or a corporate team, we ensure every journey is as unique as you are.
         </motion.p>
       </section>
 
@@ -240,7 +240,7 @@ export default function AboutUs() {
                   <ul className="space-y-4">
                     {adventure.info.map((info, idx) => (
                       <li key={idx} className="flex items-start gap-3">
-                        <CheckCircle className="w-6 h-6 text-orange-600 flex-shrink-0 mt-1" />
+                        <CheckCircle className="w-6 h-6 text-orange-700 flex-shrink-0 mt-1" />
                         <p className="text-lg text-gray-700">{info}</p>
                       </li>
                     ))}
@@ -267,7 +267,7 @@ export default function AboutUs() {
               <span className="absolute -bottom-3 left-0 w-1/3 h-1 bg-orange-600"></span>
             </h2>
             <p className="text-xl md:text-2xl text-gray-700 max-w-4xl">
-              We're not just another travel company. We're your partners in adventure. Here's why our customers swear by us:
+                We&apos;re not just another travel company. We&apos;re your partners in adventure. Here&apos;s why our customers swear by us:
             </p>
           </motion.div>
 
@@ -282,7 +282,7 @@ export default function AboutUs() {
               variants={fadeInUp}
               className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-shadow"
             >
-              <Shield className="w-16 h-16 text-orange-600 mb-6" />
+              <Shield className="w-16 h-16 text-orange-700 mb-6" />
               <h3 className="text-2xl font-bold mb-4 text-gray-800">Safety First</h3>
               <p className="text-lg text-gray-700">
                 Backup vehicles, AMS prevention stops, and experienced guides to handle every challenge.
@@ -293,10 +293,10 @@ export default function AboutUs() {
               variants={fadeInUp}
               className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-shadow"
             >
-              <Users className="w-16 h-16 text-orange-600 mb-6" />
+              <Users className="w-16 h-16 text-orange-700 mb-6" />
               <h3 className="text-2xl font-bold mb-4 text-gray-800">Customized Fun</h3>
               <p className="text-lg text-gray-700">
-                Whether you're a thrill-seeker or prefer relaxed exploration, we tailor trips to your vibe.
+                Whether you&apos;re a thrill-seeker or prefer relaxed exploration, we tailor trips to your vibe.
               </p>
             </motion.div>
 
@@ -304,7 +304,7 @@ export default function AboutUs() {
               variants={fadeInUp}
               className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-shadow"
             >
-              <MapPin className="w-16 h-16 text-orange-600 mb-6" />
+              <MapPin className="w-16 h-16 text-orange-700 mb-6" />
               <h3 className="text-2xl font-bold mb-4 text-gray-800">Local Expertise</h3>
               <p className="text-lg text-gray-700">
                 We know these mountains like the back of our hand. Expect secret spots, authentic experiences, and insider stories.
@@ -342,9 +342,9 @@ export default function AboutUs() {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 p-8 md:p-16 flex flex-col md:flex-row items-end md:items-center justify-between">
-            <h3 className="text-5xl md:text-8xl font-bold text-white mb-4 md:mb-0">Ladakh</h3>
-            <p className="text-lg md:text-xl text-white max-w-md">
-              Think Pangong Tso's magical hue, the thrill of Khardung La, and the warm smiles of Nubra Valley...
+            <h3 className="text-5xl md:text-[160px] font-bold text-white mb-4 md:mb-0">Ladakh</h3>
+            <p className="text-lg md:text-2xl text-white max-w-md">
+              Think Pangong Tso&apos;s magical hue, the thrill of Khardung La, and the warm smiles of Nubra Valley...
             </p>
           </div>
         </motion.div>
@@ -358,17 +358,17 @@ export default function AboutUs() {
           className="relative h-[80vh] w-full overflow-hidden"
         >
           <img
-            src="/spiti-.webp?height=1080&width=1920"
+            src="/Spiti tour home page.webp?height=1080&width=1920"
             alt="Spiti"
             className="object-cover"
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/70 to-transparent" />
           <div className="absolute top-0 left-0 right-0 p-8 md:p-16 flex flex-col md:flex-row items-start md:items-center justify-between">
-            <p className="text-lg md:text-xl text-white max-w-md order-2 md:order-1">
+            <p className="text-lg md:text-2xl text-white max-w-md order-2 md:order-1">
               A remote wonderland with crystal-clear skies, ancient monasteries, and landscapes that belong in a dream...
             </p>
-            <h3 className="text-5xl md:text-8xl font-bold text-white mb-4 md:mb-0 order-1 md:order-2">Spiti</h3>
+            <h3 className="text-5xl md:text-[160px] font-bold text-white mb-4 md:mb-0 order-1 md:order-2">Spiti</h3>
           </div>
         </motion.div>
       </section>
@@ -386,7 +386,7 @@ export default function AboutUs() {
             <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
           </svg>
           <p className="italic text-2xl md:text-4xl font-light">
-            "It's not just the destination—it's how you get there. With Rev & Roar, every mile is a memory."
+            &quot;It&apos;s not just the destination—it&apos;s how you get there. With Rev & Roar, every mile is a memory.&quot;
           </p>
         </motion.div>
       </section>
@@ -406,7 +406,7 @@ export default function AboutUs() {
               <span className="absolute -bottom-3 left-0 w-1/3 h-1 bg-orange-600"></span>
             </h2>
             <p className="text-xl md:text-2xl text-gray-700">
-              Adventure doesn't have to mean taking unnecessary risks.
+              Adventure doesn&apos;t have to mean taking unnecessary risks.
             </p>
           </motion.div>
 
@@ -424,7 +424,7 @@ export default function AboutUs() {
               <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-6">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 text-orange-600"
+                  className="h-8 w-8 text-orange-700"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -443,7 +443,7 @@ export default function AboutUs() {
               <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-6">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 text-orange-600"
+                  className="h-8 w-8 text-orange-700"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -464,7 +464,7 @@ export default function AboutUs() {
               <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-6">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 text-orange-600"
+                  className="h-8 w-8 text-orange-700"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"

@@ -47,7 +47,7 @@ const featuredDestinations = [
   },
   {
     name: "Spiti Valley",
-    image: "/spiti-featured.webp?height=600&width=800",
+    image: "/Spiti tour home page.webp?height=600&width=800",
     description:
       "Discover the hidden gem of the Himalayas with stunning vistas",
     tag: "Trending",
@@ -240,7 +240,7 @@ export function Home() {
       </div>
 
       {/* Upcoming Tours Section */}
-      <section className="py-20 px-4 md:px-8 lg:px-16 bg-gray-100 text-orange-600">
+      <section className="py-20 px-4 md:px-8 lg:px-16 bg-gray-100 text-orange-700">
   <div className="max-w-7xl mx-auto">
     <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12">
       <div>
@@ -269,7 +269,7 @@ export function Home() {
         className="bg-gray-800 rounded-xl overflow-hidden group hover:bg-gray-700 transition-colors flex flex-col max-w-[400px] w-full">
         <div className="aspect-video relative">
           <img
-            src="/bike-expedition.webp?height=400&width=600"
+            src="/bike-tour.webp?height=400&width=600"
             alt="Ladakh Expedition"
             className="object-cover"
             style={{
@@ -280,13 +280,13 @@ export function Home() {
             }}
           />
           <div className="absolute top-4 left-4 bg-orange-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-            Starting form - 25,000
+            Starting form - 22,900
           </div>
         </div>
         <div className="p-6 flex flex-col justify-between h-full">
           <div className="flex items-center text-gray-300 mb-3">
             <Calendar className="w-4 h-4 mr-2" />
-            <span>June 15 - June 25, 2023</span>
+            <span>May 24 - May 30, 2025</span>
           </div>
           <h3 className="text-xl font-bold mb-2">Ladakh Expedition</h3>
           <p className="text-gray-400 mb-4">
@@ -322,13 +322,13 @@ export function Home() {
             }}
           />
           <div className="absolute top-4 left-4 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-            Starting from - 18,000
+            Starting from - 19,900
           </div>
         </div>
         <div className="p-6 flex flex-col justify-between h-full">
           <div className="flex items-center text-gray-300 mb-3">
             <Calendar className="w-4 h-4 mr-2" />
-            <span>July 5 - July 12, 2023</span>
+            <span>June 7 - June 14, 2024</span>
           </div>
           <h3 className="text-xl font-bold mb-2">
             Spiti Valley Adventure
@@ -386,7 +386,7 @@ export function Home() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-4 left-4">
                   <div className="bg-white/90 backdrop-blur-sm p-2 rounded-full">
-                    <Bike className="w-8 h-8 text-orange-600" />
+                    <Bike className="w-8 h-8 text-orange-700" />
                   </div>
                 </div>
               </div>
@@ -400,10 +400,53 @@ export function Home() {
                 </p>
                 <a
                   href="/gallery"
-                  className="inline-flex items-center text-orange-600 font-medium hover:text-orange-800 transition-colors">
+                  className="inline-flex items-center text-orange-700 font-medium hover:text-orange-800 transition-colors">
                   View bike tours
                   <ArrowRight className="ml-2 w-4 h-4" />
                 </a>
+              </div>
+            </motion.div>
+            {/* Custom Tours */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="bg-white rounded-2xl shadow-lg overflow-hidden group hover:shadow-xl transition-shadow">
+              <div className="aspect-video relative overflow-hidden">
+                <img
+                  src="/custom-tour.webp?height=400&width=600"
+                  alt="Custom Tours"
+                  className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  style={{
+                    position: "absolute",
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                <div className="absolute bottom-4 left-4">
+                  <div className="bg-white/90 backdrop-blur-sm p-2 rounded-full">
+                    <Mountain className="w-8 h-8 text-orange-700" />
+                  </div>
+                </div>
+              </div>
+              <div className="p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                <h3 className="text-2xl md:text-3xl font-bold mb-3 text-gray-900">
+                  Photography &amp; Travel Reel Add-On
+                </h3>
+                <p className="text-gray-600 text-base md:text-lg mb-4">
+                  Elevate your adventure with our professional photography
+                  package. Capture every breathtaking moment and create lasting
+                  memories with high-quality photos and dynamic travel reels.
+                </p>
+                <Link
+                  to="/custom-tours-details"
+                  className="inline-flex items-center text-orange-700 font-medium hover:text-orange-800 transition-colors text-lg">
+                  Discover More
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </Link>
               </div>
             </motion.div>
 
@@ -429,7 +472,7 @@ export function Home() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-4 left-4">
                   <div className="bg-white/90 backdrop-blur-sm p-2 rounded-full">
-                    <Users className="w-8 h-8 text-orange-600" />
+                    <Users className="w-8 h-8 text-orange-700" />
                   </div>
                 </div>
               </div>
@@ -443,56 +486,14 @@ export function Home() {
                 </p>
                 <a
                   href="/gallery"
-                  className="inline-flex items-center text-orange-600 font-medium hover:text-orange-800 transition-colors">
+                  className="inline-flex items-center text-orange-700 font-medium hover:text-orange-800 transition-colors">
                   View group tours
                   <ArrowRight className="ml-2 w-4 h-4" />
                 </a>
               </div>
             </motion.div>
 
-            {/* Custom Tours */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="bg-white rounded-2xl shadow-lg overflow-hidden group hover:shadow-xl transition-shadow">
-              <div className="aspect-video relative overflow-hidden">
-                <img
-                  src="/custom-tour.webp?height=400&width=600"
-                  alt="Custom Tours"
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
-                  style={{
-                    position: "absolute",
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                  }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                <div className="absolute bottom-4 left-4">
-                  <div className="bg-white/90 backdrop-blur-sm p-2 rounded-full">
-                    <Mountain className="w-8 h-8 text-orange-600" />
-                  </div>
-                </div>
-              </div>
-              <div className="p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                <h3 className="text-2xl md:text-3xl font-bold mb-3 text-gray-900">
-                  Photography &amp; Travel Reel Add-On
-                </h3>
-                <p className="text-gray-600 text-base md:text-lg mb-4">
-                  Elevate your adventure with our professional photography
-                  package. Capture every breathtaking moment and create lasting
-                  memories with high-quality photos and dynamic travel reels.
-                </p>
-                <Link
-                  to="/custom-tours-details"
-                  className="inline-flex items-center text-orange-600 font-medium hover:text-orange-800 transition-colors text-lg">
-                  Discover More
-                  <ArrowRight className="ml-2 w-5 h-5" />
-                </Link>
-              </div>
-            </motion.div>
+            
           </div>
         </div>
       </section>
@@ -512,7 +513,7 @@ export function Home() {
             </div>
             <a
               href="/location"
-              className="mt-4 md:mt-0 inline-flex items-center text-orange-600 font-medium hover:text-orange-800 transition-colors">
+              className="mt-4 md:mt-0 inline-flex items-center text-orange-700 font-medium hover:text-orange-800 transition-colors">
               View all destinations
               <ArrowRight className="ml-2 w-4 h-4" />
             </a>
@@ -729,7 +730,7 @@ export function Home() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="/contact"
-                className="px-8 py-4 bg-white text-orange-600 font-bold rounded-lg hover:bg-orange-50 transition-colors">
+                className="px-8 py-4 bg-white text-orange-700 font-bold rounded-lg hover:bg-orange-50 transition-colors">
                 Contact Us
               </a>
               <a

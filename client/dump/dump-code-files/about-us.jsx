@@ -146,7 +146,7 @@ export default function AboutUs() {
           className="mb-16"
         >
           <h2 className="text-3xl md:text-5xl font-bold mb-8 text-gray-800">
-            At Rev & Roar, we don't just plan trips—<span className="text-orange-600 italic"> we craft life-changing experiences.</span>
+            At Rev & Roar, we don't just plan trips—<span className="text-orange-700 italic"> we craft life-changing experiences.</span>
           </h2>
           <p className="text-xl md:text-2xl text-gray-700">Picture this:</p>
         </motion.div>
@@ -239,7 +239,7 @@ export default function AboutUs() {
                   <ul className="space-y-4">
                     {adventure.info.map((info, idx) => (
                       <li key={idx} className="flex items-start gap-3">
-                        <CheckCircle className="w-6 h-6 text-orange-600 flex-shrink-0 mt-1" />
+                        <CheckCircle className="w-6 h-6 text-orange-700 flex-shrink-0 mt-1" />
                         <p className="text-lg text-gray-700">{info}</p>
                       </li>
                     ))}
@@ -281,7 +281,7 @@ export default function AboutUs() {
               variants={fadeInUp}
               className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-shadow"
             >
-              <Shield className="w-16 h-16 text-orange-600 mb-6" />
+              <Shield className="w-16 h-16 text-orange-700 mb-6" />
               <h3 className="text-2xl font-bold mb-4 text-gray-800">Safety First</h3>
               <p className="text-lg text-gray-700">
                 Backup vehicles, AMS prevention stops, and experienced guides to handle every challenge.
@@ -292,7 +292,7 @@ export default function AboutUs() {
               variants={fadeInUp}
               className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-shadow"
             >
-              <Users className="w-16 h-16 text-orange-600 mb-6" />
+              <Users className="w-16 h-16 text-orange-700 mb-6" />
               <h3 className="text-2xl font-bold mb-4 text-gray-800">Customized Fun</h3>
               <p className="text-lg text-gray-700">
                 Whether you're a thrill-seeker or prefer relaxed exploration, we tailor trips to your vibe.
@@ -303,7 +303,7 @@ export default function AboutUs() {
               variants={fadeInUp}
               className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-shadow"
             >
-              <MapPin className="w-16 h-16 text-orange-600 mb-6" />
+              <MapPin className="w-16 h-16 text-orange-700 mb-6" />
               <h3 className="text-2xl font-bold mb-4 text-gray-800">Local Expertise</h3>
               <p className="text-lg text-gray-700">
                 We know these mountains like the back of our hand. Expect secret spots, authentic experiences, and insider stories.
@@ -423,7 +423,7 @@ export default function AboutUs() {
               <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-6">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 text-orange-600"
+                  className="h-8 w-8 text-orange-700"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -442,7 +442,7 @@ export default function AboutUs() {
               <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-6">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 text-orange-600"
+                  className="h-8 w-8 text-orange-700"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -463,7 +463,7 @@ export default function AboutUs() {
               <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-6">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 text-orange-600"
+                  className="h-8 w-8 text-orange-700"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"

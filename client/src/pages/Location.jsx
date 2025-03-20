@@ -37,16 +37,23 @@ const destinations = [
         image: "/Ladakh-featured.webp?height=400&width=600",
       },
       {
-        name: "Khardung La Pass",
+        name: "Umiling La Pass",
         description: "One of the world's highest motorable passes at 18,380 ft",
-        image: "/ladakh-hero-location-2.webp?height=400&width=600",
+        image: "/umling la pass.JPG?height=400&width=600",
       },
       {
         name: "Nubra Valley",
         description:
           "Known for its sand dunes, double-humped camels, and monasteries",
         image:
-          "/pexels-dhruv-jangid-2945224-30255573.webp?height=400&width=600",
+          "/nubra.jpg?height=400&width=600",
+      },
+      {
+        name: "Hanle Observatory",
+        description:
+          "Hanle Observatory in Ladakh is one of the world's highest observatories (4,500m).",
+        image:
+          "/hanle.jpg?height=400&width=600",
       },
     ],
   },
@@ -58,7 +65,7 @@ const destinations = [
       "A remote wonderland with crystal-clear skies, ancient monasteries, and landscapes that belong in a dream...",
     fullDescription:
       "Spiti Valley, often referred to as 'Little Tibet', is a cold desert mountain valley located high in the Himalayas. With its breathtaking landscapes, thousand-year-old monasteries, and clear night skies perfect for stargazing, Spiti offers a journey into both natural beauty and spiritual tranquility.",
-    image: "/spiti-location.webp?height=1080&width=1920",
+    image: "/Spiti tour home page.JPG?height=1080&width=1920",
     mapLocation: "32.2464° N, 78.0349° E",
     bestTimeToVisit: "May to October",
     altitude: "3,800 meters (average)",
@@ -68,25 +75,25 @@ const destinations = [
         name: "Key Monastery",
         description:
           "A thousand-year-old Buddhist monastery perched on a hilltop",
-        image: "/monastery.jpg?height=400&width=600",
+        image: "/kee-moin.png?height=400&width=600",
       },
       {
         name: "Chandratal Lake",
         description:
           "The 'Moon Lake' known for its crescent shape and crystal clear waters",
-        image: "/placeholder.svg?height=400&width=600",
+        image: "/chandra-tal-2.png?height=400&width=600",
       },
       {
-        name: "Dhankar Monastery",
+        name: "Chicham Bridge",
         description:
-          "An ancient monastery built on a cliff offering spectacular views",
-        image: "/placeholder.svg?height=400&width=600",
+          "India's highest suspension bridge at 4,037 meters, offering stunning views and connecting remote villages over a deep gorge.",
+        image: "/chicham.png?height=400&width=600",
       },
       {
-        name: "Pin Valley",
+        name: "Langza Village",
         description:
-          "Home to the endangered snow leopard and ibex in a stunning landscape",
-        image: "/placeholder.svg?height=400&width=600",
+          "High-altitude hamlet at 4,400 meters, famous for its giant Buddha statue, fossil-rich terrain, and breathtaking Himalayan views.",
+        image: "/lamza.png?height=400&width=600",
       },
     ],
   },
@@ -121,7 +128,7 @@ export default function LocationsPage() {
       <div className="relative h-[60vh] md:h-[80vh] overflow-hidden">
         <div className="absolute inset-0">
           <img
-            src="/ladakh-hero-location-2.webp?height=1080&width=1920"
+            src="/pexels-dhruv-jangid-2945224-30255573.webp?height=1080&width=1920"
             alt="Mountains background"
             style={{
               position: "absolute",
@@ -266,7 +273,7 @@ export default function LocationsPage() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                       <div className="flex items-start gap-3">
-                        <MapPin className="w-5 h-5 text-orange-600 mt-1 flex-shrink-0" />
+                        <MapPin className="w-5 h-5 text-orange-700 mt-1 flex-shrink-0" />
                         <div>
                           <h4 className="font-semibold text-gray-900">Location</h4>
                           <p className="text-gray-600">{destination.mapLocation}</p>
@@ -274,7 +281,7 @@ export default function LocationsPage() {
                       </div>
 
                       <div className="flex items-start gap-3">
-                        <Calendar className="w-5 h-5 text-orange-600 mt-1 flex-shrink-0" />
+                        <Calendar className="w-5 h-5 text-orange-700 mt-1 flex-shrink-0" />
                         <div>
                           <h4 className="font-semibold text-gray-900">Best Time to Visit</h4>
                           <p className="text-gray-600">{destination.bestTimeToVisit}</p>
@@ -282,7 +289,7 @@ export default function LocationsPage() {
                       </div>
 
                       <div className="flex items-start gap-3">
-                        <Mountain className="w-5 h-5 text-orange-600 mt-1 flex-shrink-0" />
+                        <Mountain className="w-5 h-5 text-orange-700 mt-1 flex-shrink-0" />
                         <div>
                           <h4 className="font-semibold text-gray-900">Altitude</h4>
                           <p className="text-gray-600">{destination.altitude}</p>
@@ -290,7 +297,7 @@ export default function LocationsPage() {
                       </div>
 
                       <div className="flex items-start gap-3">
-                        <Cloud className="w-5 h-5 text-orange-600 mt-1 flex-shrink-0" />
+                        <Cloud className="w-5 h-5 text-orange-700 mt-1 flex-shrink-0" />
                         <div>
                           <h4 className="font-semibold text-gray-900">Climate</h4>
                           <p className="text-gray-600">{destination.climate}</p>
@@ -325,7 +332,7 @@ export default function LocationsPage() {
                       {/* Explore Tours Button */}
                       <button
                         onClick={navigateToItinerary} // Directly navigate when clicked
-                        className="px-6 py-3 bg-white border border-blue-600 text-orange-600 font-medium rounded-lg hover:bg-orange-50 transition-colors flex items-center"
+                        className="px-6 py-3 bg-white border border-blue-600 text-orange-700 font-medium rounded-lg hover:bg-orange-50 transition-colors flex items-center"
                       >
                         Explore Tours
                         <ArrowRight className="ml-2 w-5 h-5" />
@@ -414,7 +421,7 @@ export default function LocationsPage() {
           >
             <motion.div variants={fadeInUp} className="bg-white p-8 rounded-2xl shadow-lg">
               <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-6">
-                <Mountain className="w-8 h-8 text-orange-600" />
+                <Mountain className="w-8 h-8 text-orange-700" />
               </div>
               <h3 className="text-xl font-bold mb-4">Altitude Acclimatization</h3>
               <p className="text-gray-600">
@@ -424,7 +431,7 @@ export default function LocationsPage() {
 
             <motion.div variants={fadeInUp} className="bg-white p-8 rounded-2xl shadow-lg">
               <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-6">
-                <Sun className="w-8 h-8 text-orange-600" />
+                <Sun className="w-8 h-8 text-orange-700" />
               </div>
               <h3 className="text-xl font-bold mb-4">Weather Preparation</h3>
               <p className="text-gray-600">
@@ -434,7 +441,7 @@ export default function LocationsPage() {
 
             <motion.div variants={fadeInUp} className="bg-white p-8 rounded-2xl shadow-lg">
               <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-6">
-                <Camera className="w-8 h-8 text-orange-600" />
+                <Camera className="w-8 h-8 text-orange-700" />
               </div>
               <h3 className="text-xl font-bold mb-4">Photography Tips</h3>
               <p className="text-gray-600">
@@ -446,7 +453,7 @@ export default function LocationsPage() {
       </section>
 
       {/* Call to Action */}
-      <section className="py-20 px-4 md:px-8 lg:px-16 bg-orange-600 text-white">
+      <section className="py-20 px-4 md:px-8 lg:px-16 bg-orange-700 text-white">
   <div className="max-w-7xl mx-auto text-center">
     <motion.div
       initial="hidden"
@@ -463,7 +470,7 @@ export default function LocationsPage() {
       <div className="flex flex-col sm:flex-row gap-4 justify-center">
         <a
           href="/contact"
-          className="px-8 py-4 bg-white text-orange-600 font-bold rounded-lg hover:bg-orange-50 transition-colors flex items-center"
+          className="px-8 py-4 bg-white text-orange-700 font-bold rounded-lg hover:bg-orange-50 transition-colors flex items-center"
         >
           Contact Us
         </a>

@@ -48,7 +48,7 @@ const ContactUs = () => {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
-                <p className="text-xl mb-2">
+              <p className="text-xl mb-2">
                   <strong>Phone:</strong> +91 7017775164
                 </p>
                 <p className="text-xl mb-2">
@@ -67,10 +67,11 @@ const ContactUs = () => {
               </div>
               <div>
                 <p className="text-xl mb-2">
-                  <strong>Address:</strong> Himalayan Road, Ladakh, India
+                  <strong>Address:</strong> Shiv ganga enclave, lane -1, block- B, Sahastradhara road, Dehradun, Uttrakhand
+
                 </p>
                 <p className="text-xl mb-2">
-                  <strong>Office Hours:</strong> Mon - Fri, 9 AM - 6 PM
+                  <strong>Office Hours:</strong> Mon - Sun, 24/7
                 </p>
               </div>
             </div>
@@ -98,14 +99,14 @@ const ContactUs = () => {
               className="text-white hover:text-pink-500 transition-colors">
               <FaInstagram />
             </motion.a>
-            <motion.a
+            {/* <motion.a
               href="https://facebook.com/yourprofile"
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.1 }}
               className="text-white hover:text-blue-500 transition-colors">
               <FaFacebook />
-            </motion.a>
+            </motion.a> */}
             <motion.a
               href="https://wa.me/7017775164"
               target="_blank"

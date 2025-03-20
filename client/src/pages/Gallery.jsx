@@ -16,7 +16,7 @@ const galleryImages = [
   },
   {
     id: 2,
-    src: "/bike-gallery.webp?height=800&width=600",
+    src: "/bike-tour.webp?height=800&width=600",
     alt: "Biking through mountain passes",
     category: "adventures",
     location: "Khardung La",
@@ -35,16 +35,16 @@ const galleryImages = [
     category: "adventures",
     location: "Nubra Valley",
   },
-  // {
-  //   id: 5,
-  //   src: "/placeholder.svg?height=600&width=800",
-  //   alt: "Ancient monastery",
-  //   category: "culture",
-  //   location: "Spiti Valley",
-  // },
+  {
+    id: 5,
+    src: "/Spiti tour home page.webp?height=600&width=800",
+    alt: "Ancient monastery",
+    category: "culture",
+    location: "Spiti Valley",
+  },
   {
     id: 6,
-    src: "/enfield.webp?height=800&width=600",
+    src: "/bike-tour-3.webp?height=800&width=600",
     alt: "Royal Enfield on mountain road",
     category: "adventures",
     location: "Ladakh",
@@ -56,13 +56,13 @@ const galleryImages = [
     category: "landscapes",
     location: "Spiti Valley",
   },
-  // {
-  //   id: 8,
-  //   src: "/placeholder.svg?height=800&width=600",
-  //   alt: "Local villagers",
-  //   category: "people",
-  //   location: "Spiti Valley",
-  // },
+  {
+    id: 8,
+    src: "/local.webp?height=800&width=600",
+    alt: "Local villagers",
+    category: "people",
+    location: "Spiti Valley",
+  },
   {
     id: 9,
     src: "/flag.webp?height=600&width=800",
@@ -77,20 +77,20 @@ const galleryImages = [
     category: "adventures",
     location: "Spiti Valley",
   },
-  // {
-  //   id: 11,
-  //   src: "/placeholder.svg?height=600&width=800",
-  //   alt: "Chandratal Lake",
-  //   category: "landscapes",
-  //   location: "Spiti Valley",
-  // },
-  // {
-  //   id: 12,
-  //   src: "/placeholder.svg?height=800&width=600",
-  //   alt: "Corporate team building",
-  //   category: "people",
-  //   location: "Ladakh",
-  // },
+  {
+    id: 11,
+    src: "/chandra.webp?height=600&width=800",
+    alt: "Chandratal Lake",
+    category: "landscapes",
+    location: "Spiti Valley",
+  },
+  {
+    id: 12,
+    src: "/sangla.webp?height=800&width=600",
+    alt: "Sangla valley",
+    category: "people",
+    location: "Ladakh",
+  },
 ];
 
 const testimonials = [
@@ -247,7 +247,7 @@ export  function Gallery() {
   }, [selectedImage, filteredImages]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-700 to-white text-white">
+    <div className="min-h-screen bg-gradient-to-b from-black to-black text-white">
       {/* Hero Section */}
       <div className="relative h-[60vh] overflow-hidden">
         <div className="absolute inset-0">
@@ -394,7 +394,7 @@ export  function Gallery() {
                         transition={{ duration: 0.5 }}
                         className="bg-gray-800 rounded-2xl p-8 md:p-12"
                       >
-                        <Quote className="w-12 h-12 text-orange-600 mb-6 opacity-50" />
+                        <Quote className="w-12 h-12 text-orange-700 mb-6 opacity-50" />
                         <p className="text-xl md:text-2xl italic mb-8 text-gray-300">"{testimonial.text}"</p>
                         <div className="flex items-center">
                           <div className="w-16 h-16 rounded-full overflow-hidden mr-4">

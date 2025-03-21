@@ -316,7 +316,7 @@ export function Home() {
             >
               <div className="aspect-video relative">
                 <img
-                  src="/bike-tour.webp?height=400&width=600"
+                  src="/bike-tour.JPG?height=400&width=600"
                   alt="Ladakh Expedition"
                   className="object-cover"
                   style={{

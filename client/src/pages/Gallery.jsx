@@ -16,7 +16,7 @@ const galleryImages = [
   },
   {
     id: 2,
-    src: "/bike-tour.webp?height=800&width=600",
+    src: "/bike-tour.JPG?height=800&width=600",
     alt: "Biking through mountain passes",
     category: "adventures",
     location: "Khardung La",

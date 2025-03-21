@@ -1,49 +1,38 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
 
-const GoogleFormModal = ({ isOpen, onClose }) => {
+const GoogleFormModal = ({ isOpen, onClose, onSubmit }) => {
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [number, setNumber] = useState("");
 
-  const handleFormSubmit = useCallback(async (e) => {
-    e.preventDefault();
-    setIsFormSubmitted(true);
+  const handleFormSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
+      setIsFormSubmitted(true);
 
-    const formData = { name, email, number };
+      const formData = { name, email, number };
 
-    try {
-      const response = await fetch(
-        "https://rev-roar-server.onrender.com/api/submitForm",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        }
-      );
+      // Await the parent's onSubmit function.
+      await onSubmit(formData);
+    },
+    [name, email, number, onSubmit]
+  );
 
-      if (response.ok) {
-        // Give user time to see success message before proceeding
-        setTimeout(() => {
-          // Instead of redirecting to itinerary page,
-          // call onClose to let the parent handle PDF redirection
-          onClose();
-        }, 1000);
-      } else {
-        alert("Error submitting the form.");
-        setIsFormSubmitted(false);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      setIsFormSubmitted(false);
-    }
-  }, [name, email, number, onClose]);
-
-  // Memoized input change handlers
   const handleNameChange = useCallback((e) => setName(e.target.value), []);
   const handleEmailChange = useCallback((e) => setEmail(e.target.value), []);
   const handleNumberChange = useCallback((e) => setNumber(e.target.value), []);
+
+  // Reset the form when the modal is closed.
+  useEffect(() => {
+    if (!isOpen) {
+      setIsFormSubmitted(false);
+      setName("");
+      setEmail("");
+      setNumber("");
+    }
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -54,7 +43,7 @@ const GoogleFormModal = ({ isOpen, onClose }) => {
     >
       <div
         className="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg relative"
-        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
+        onClick={(e) => e.stopPropagation()}
       >
         <button className="absolute top-4 right-4 text-black" onClick={onClose}>
           &times;
@@ -119,6 +108,7 @@ const GoogleFormModal = ({ isOpen, onClose }) => {
 GoogleFormModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default React.memo(GoogleFormModal);

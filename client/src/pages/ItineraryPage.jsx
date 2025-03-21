@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, Calendar, Download, ChevronRight, Mountain, Globe, Users } from "lucide-react";
 import { constant } from "../constants";
 import { FaInstagram, FaWhatsapp } from "react-icons/fa";
-// Import your modal component – adjust the path if needed
 import GoogleFormModal from "../components/GoogleFormModal";
 
 const ItineraryPage = () => {
@@ -15,7 +14,6 @@ const ItineraryPage = () => {
   const [fomoVisible, setFomoVisible] = useState(false);
   const [fomoMessage, setFomoMessage] = useState("");
 
-  // FOMO notification messages
   const fomoMessages = [
     "5 people booked this trip in the last hour!",
     "Only 3 seats left for the May expedition!",
@@ -24,25 +22,19 @@ const ItineraryPage = () => {
     "90% of trips for June are already booked",
   ];
 
-  // Setup FOMO notifications
   useEffect(() => {
-    // Show notification after 5 seconds
     const timer = setTimeout(() => {
       setFomoMessage(fomoMessages[Math.floor(Math.random() * fomoMessages.length)]);
       setFomoVisible(true);
     }, 5000);
 
-    // Hide after 8 seconds
     const hideTimer = setTimeout(() => {
       setFomoVisible(false);
     }, 13000);
 
-    // Set interval to show notifications periodically
     const interval = setInterval(() => {
       setFomoMessage(fomoMessages[Math.floor(Math.random() * fomoMessages.length)]);
       setFomoVisible(true);
-
-      // Hide after 8 seconds
       setTimeout(() => {
         setFomoVisible(false);
       }, 8000);
@@ -59,30 +51,45 @@ const ItineraryPage = () => {
     setExpandedItinerary(expandedItinerary === title ? null : title);
   };
 
-  // Function to open modal and set the PDF URL
   const openDownloadModal = (pdf) => {
     setSelectedPdf(pdf);
     setIsDownloadModalOpen(true);
   };
 
-  // Simply close the modal without opening the PDF
   const handleModalClose = () => {
     setIsDownloadModalOpen(false);
   };
 
-  // Updated handleFormSubmit to prevent default form submission and handle PDF download
-  const handleFormSubmit = (e) => {
-    e.preventDefault(); // Prevent form submission from refreshing the page
-    console.log("Selected PDF:", selectedPdf); // Check selected PDF URL
+  const handleFormSubmit = async (formData) => {
+    console.log("Form Data Submitted:", formData);
+    console.log("Selected PDF:", selectedPdf);
 
-    setIsDownloadModalOpen(false);
-    if (selectedPdf) {
-      // Open the selected PDF in a new tab
-      window.open(selectedPdf, "_blank");
+    // Open a blank window immediately to satisfy the user gesture requirement.
+    const newWindow = window.open("", "_blank");
+
+    try {
+      const response = await fetch("http://localhost:3000/api/submitForm", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        if (newWindow) {
+          newWindow.location.href = selectedPdf;
+        }
+      } else {
+        alert("Error submitting the form.");
+        if (newWindow) newWindow.close();
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      if (newWindow) newWindow.close();
     }
+    // Close the modal after the process
+    setIsDownloadModalOpen(false);
   };
 
-  // Updated renderTimeSlots function to show available seats and create FOMO
   const renderTimeSlots = (timeSlots) => {
     if (!timeSlots || timeSlots.length === 0) return null;
 
@@ -97,14 +104,12 @@ const ItineraryPage = () => {
             );
           }
 
-          // Generate random number of seats between 5-20 if not specified
           const seatsLeft = Math.floor(Math.random() * 16) + 5;
-          // Determine color based on seats available
           let bgColor = "bg-green-600";
           if (seatsLeft < 8) {
-            bgColor = "bg-red-600"; // Almost sold out
+            bgColor = "bg-red-600";
           } else if (seatsLeft < 12) {
-            bgColor = "bg-orange-500"; // Selling fast
+            bgColor = "bg-orange-500";
           }
 
           return (
@@ -358,8 +363,11 @@ const ItineraryPage = () => {
         )}
       </AnimatePresence>
 
-      {/* Render the GoogleFormModal and pass both onClose and onSubmit callbacks */}
-      <GoogleFormModal isOpen={isDownloadModalOpen} onClose={handleModalClose} onSubmit={handleFormSubmit} />
+      <GoogleFormModal
+        isOpen={isDownloadModalOpen}
+        onClose={handleModalClose}
+        onSubmit={handleFormSubmit}
+      />
     </div>
   );
 };

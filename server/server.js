@@ -6,10 +6,15 @@ require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Use CORS middleware to allow all domains (for testing purposes)
-app.use(cors());
+// Verify required environment variables
+if (!process.env.GOOGLE_PRIVATE_KEY || !process.env.GOOGLE_CLIENT_EMAIL || !process.env.GOOGLE_SPREADSHEET_ID) {
+  console.error('Missing one or more required environment variables: GOOGLE_PRIVATE_KEY, GOOGLE_CLIENT_EMAIL, GOOGLE_SPREADSHEET_ID');
+  process.exit(1);
+}
 
-// Use Express's built-in JSON parser
+// Use CORS middleware for development/testing
+app.use(cors());
+// Parse incoming JSON bodies
 app.use(express.json());
 
 // Set up Google Sheets API
@@ -27,14 +32,12 @@ const auth = new google.auth.GoogleAuth({
 // Cache the auth client promise on server start
 const authClientPromise = auth.getClient();
 
-// Set the Google Sheets spreadsheet ID and updated range (including timestamp column)
+// Set your spreadsheet ID and range (including header row)
 const spreadsheetId = process.env.GOOGLE_SPREADSHEET_ID;
-const range = 'Sheet1!A:D'; // Updated range to include timestamp
+const range = 'Sheet1!A:D'; // Adjust range if necessary
+const sheetId = 0; // Adjust if your sheetId differs
 
-// Assume sheetId is known. Typically, the first sheet has sheetId 0. Change if necessary.
-const sheetId = 0;
-
-// GET endpoint for the root URL to avoid "Cannot get /"
+// Basic GET endpoint for health check
 app.get('/', (req, res) => {
   res.send('Hello, the server is up and running!');
 });
@@ -48,13 +51,13 @@ app.post('/api/submitForm', async (req, res) => {
     return res.status(400).json({ error: 'All fields are required' });
   }
 
-  // Automatically generate the timestamp on the server
+  // Generate a timestamp on the server
   const timestamp = new Date().toISOString();
 
   try {
     // Use the cached auth client
     const authClient = await authClientPromise;
-    
+
     console.log('Received data:', { name, email, number, timestamp });
 
     // Insert a new row at the top (after header row)
@@ -66,7 +69,7 @@ app.post('/api/submitForm', async (req, res) => {
           {
             insertDimension: {
               range: {
-                sheetId: sheetId,
+                sheetId,
                 dimension: "ROWS",
                 startIndex: 1, // Insert after the header row (header assumed at index 0)
                 endIndex: 2,
@@ -92,6 +95,7 @@ app.post('/api/submitForm', async (req, res) => {
     console.log('Sheet updated with new data.');
     return res.status(200).json({ message: 'Form submitted successfully' });
   } catch (error) {
+    // Log detailed error information
     console.error('Error submitting form:', error.response ? error.response.data : error.message);
     return res.status(500).json({ error: 'Failed to submit form' });
   }

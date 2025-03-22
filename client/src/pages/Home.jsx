@@ -337,7 +337,7 @@ export function Home() {
                 </div>
                 <h3 className="text-lg sm:text-xl font-bold mb-2">Ladakh Expedition</h3>
                 <p className="text-gray-400 mb-4 text-sm sm:text-base">
-                  10-day adventure through the breathtaking landscapes of Ladakh on Royal Enfield bikes.
+                  7-day adventure through the breathtaking landscapes of Ladakh on Royal Enfield bikes.
                 </p>
                 <div className="flex justify-between items-center">
                   <a
@@ -381,7 +381,7 @@ export function Home() {
                 </div>
                 <h3 className="text-lg sm:text-xl font-bold mb-2">Spiti Valley Adventure</h3>
                 <p className="text-gray-400 mb-4 text-sm sm:text-base">
-                  7-day journey through the magical Spiti Valley with comfortable stays and guided exploration.
+                  10-day journey through the magical Spiti Valley with comfortable stays and guided exploration.
                 </p>
                 <div className="flex justify-between items-center">
                   <a

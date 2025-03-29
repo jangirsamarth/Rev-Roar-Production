@@ -68,7 +68,7 @@ const ItineraryPage = () => {
     const newWindow = window.open("", "_blank");
 
     try {
-      const response = await fetch("https://rev-roar-server.onrender.com/api/submitForm", {
+      const response = await fetch("https://rev-roar-production.onrender.com/api/submitForm", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

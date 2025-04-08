@@ -66,7 +66,7 @@ const ContactUs = () => {
       {/* Hero Section */}
       <div className="relative h-[60vh] md:h-[70vh] overflow-hidden">
         <div className="absolute inset-0 bg-black/40 z-10" />
-        <img src="/contact-bg.webp" alt="Contact Background" className="absolute inset-0 w-full h-full object-cover" />
+        <img src="/hero-4.webp" alt="Contact Background" className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-transparent z-10" />
 
         <motion.div

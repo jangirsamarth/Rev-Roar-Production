@@ -4,8 +4,17 @@ import React, { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Link } from "react-router-dom"
 import { FaInstagram, FaWhatsapp } from "react-icons/fa"
-import { ChevronLeft, ChevronRight, ArrowRight, MapPin, Calendar, Mountain, Bike, Menu, X } from "lucide-react"
+import {
+  ChevronLeft,
+  ChevronRight,
+  ArrowRight,
+  MapPin,
+  Calendar,
+  Mountain,
+  Bike
+} from "lucide-react"
 
+// Slider images and featured destinations arrays remain the same
 const sliderImages = [
   {
     src: "/bg-image-1.webp?height=1080&width=1920",
@@ -16,7 +25,7 @@ const sliderImages = [
   {
     src: "/bike-featured.webp?height=1080&width=1920",
     quote: "The hum of your bike engine as you conquer Khardung LA.",
-    location: "Khardung La, Ladakh",
+    location: "Umling La, Ladakh",
     tag: "Bike Tours",
   },
   {
@@ -45,17 +54,7 @@ const featuredDestinations = [
 export function Home() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isAutoplay, setIsAutoplay] = useState(true)
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const autoplayRef = useRef(null)
-  const [isModalOpen, setIsModalOpen] = useState(false)
-
-  const openModal = () => {
-    setIsModalOpen(true)
-  }
-
-  const closeModal = () => {
-    setIsModalOpen(false)
-  }
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % sliderImages.length)
@@ -66,9 +65,7 @@ export function Home() {
   }
 
   const resetAutoplay = () => {
-    if (autoplayRef.current) {
-      clearInterval(autoplayRef.current)
-    }
+    if (autoplayRef.current) clearInterval(autoplayRef.current)
     if (isAutoplay) {
       autoplayRef.current = setInterval(() => {
         nextSlide()
@@ -79,9 +76,7 @@ export function Home() {
   useEffect(() => {
     resetAutoplay()
     return () => {
-      if (autoplayRef.current) {
-        clearInterval(autoplayRef.current)
-      }
+      if (autoplayRef.current) clearInterval(autoplayRef.current)
     }
   }, [currentSlide, isAutoplay])
 
@@ -91,90 +86,16 @@ export function Home() {
   }
 
   const handleManualNavigation = () => {
-    // Temporarily pause autoplay when user manually navigates
+    // Pause autoplay temporarily when the user manually navigates
     setIsAutoplay(false)
     setTimeout(() => setIsAutoplay(true), 10000)
     resetAutoplay()
   }
 
-  // Close mobile menu when clicking a link
-  const handleMobileNavClick = () => {
-    setIsMobileMenuOpen(false)
-  }
-
   return (
     <div className="relative min-h-screen bg-white">
-      {/* Mobile Navigation Menu (unstyled) */}
-      <div>
-        <button
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label="Toggle menu"
-        >
-          {isMobileMenuOpen ? <X /> : <Menu />}
-        </button>
-      </div>
-
-      {/* Mobile Menu Overlay (unstyled) */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, x: "100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "100%" }}
-            transition={{ duration: 0.3 }}
-          >
-            <div>
-              <div>
-                <a href="/" onClick={handleMobileNavClick}>
-                  Home
-                </a>
-                <a href="/about" onClick={handleMobileNavClick}>
-                  About Us
-                </a>
-                <a href="/location" onClick={handleMobileNavClick}>
-                  Destinations
-                </a>
-                <a href="/itinerarypage" onClick={handleMobileNavClick}>
-                  Tours
-                </a>
-                <a href="/gallery" onClick={handleMobileNavClick}>
-                  Gallery
-                </a>
-                <a href="/enquiry" onClick={handleMobileNavClick}>
-                  FAQ
-                </a>
-                <a
-                  href="/contact"
-                  onClick={handleMobileNavClick}
-                >
-                  Contact Us
-                </a>
-              </div>
-
-              <div>
-                <a
-                  href="https://www.instagram.com/revnroar.ig/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FaInstagram />
-                </a>
-                <a
-                  href="https://wa.me/7017775164"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FaWhatsapp />
-                </a>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Hero Section with Improved Slider */}
+      {/* Hero Section with Slider */}
       <div className="relative h-screen overflow-hidden">
-        {/* Main Slider */}
         <div className="relative w-full h-full">
           <AnimatePresence mode="wait">
             <motion.div
@@ -215,7 +136,6 @@ export function Home() {
                         }}
                       />
                       <div className="absolute inset-0 bg-black/40" />
-
                       <div className="absolute inset-0 flex flex-col justify-center items-center px-4 md:px-20">
                         <motion.div
                           initial={{ opacity: 0, y: 30 }}
@@ -237,7 +157,7 @@ export function Home() {
                       </div>
                     </div>
                   </motion.div>
-                ),
+                )
             )}
           </AnimatePresence>
 
@@ -252,7 +172,6 @@ export function Home() {
           >
             <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
-
           <button
             onClick={() => {
               nextSlide()
@@ -286,7 +205,10 @@ export function Home() {
             transition={{ delay: 1.5, duration: 1 }}
           >
             <span className="text-xs sm:text-sm mb-1 sm:mb-2">Scroll Down</span>
-            <motion.div animate={{ y: [0, 10, 0] }} transition={{ repeat: Number.POSITIVE_INFINITY, duration: 1.5 }}>
+            <motion.div
+              animate={{ y: [0, 10, 0] }}
+              transition={{ repeat: Number.POSITIVE_INFINITY, duration: 1.5 }}
+            >
               <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 rotate-90" />
             </motion.div>
           </motion.div>
@@ -298,11 +220,20 @@ export function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 sm:mb-12">
             <div>
-              <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-2 sm:mb-4">Upcoming Tours</h2>
+              <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-2 sm:mb-4">
+                Upcoming Tours
+              </h2>
               <p className="text-base sm:text-lg text-black max-w-2xl">
                 Secure your spot on our next adventure. Limited seats available!
               </p>
             </div>
+            <a
+              href="/itinerarypage"
+              className="mt-4 md:mt-0 inline-flex items-center text-orange-700 font-medium hover:text-orange-800 transition-colors"
+            >
+              View all tours
+              <ArrowRight className="ml-2 w-4 h-4" />
+            </a>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-5 justify-center items-stretch">
@@ -312,7 +243,7 @@ export function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.5 }}
-              className="bg-gray-800 rounded-xl overflow-hidden group hover:bg-gray-700 transition-colors flex flex-col max-w-[400px] w-full mb-6 sm:mb-0"
+              className="bg-gray-800 rounded-xl overflow-hidden group hover:bg-gray-700 transition-colors flex flex-col max-w-[400px] w-full mb-6 sm:mb-0 shadow-lg hover:shadow-xl"
             >
               <div className="aspect-video relative">
                 <img
@@ -327,7 +258,7 @@ export function Home() {
                   }}
                 />
                 <div className="absolute top-4 left-4 bg-orange-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-                  Starting from - 22,900
+                  Starting from - ₹22,900
                 </div>
               </div>
               <div className="p-4 sm:p-6 flex flex-col justify-between h-full">
@@ -346,6 +277,7 @@ export function Home() {
                   >
                     Explore Now
                   </a>
+                  <span className="text-orange-500 text-sm">4 seats left</span>
                 </div>
               </div>
             </motion.div>
@@ -356,7 +288,7 @@ export function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="bg-gray-800 rounded-xl overflow-hidden group hover:bg-gray-700 transition-colors flex flex-col max-w-[400px] w-full"
+              className="bg-gray-800 rounded-xl overflow-hidden group hover:bg-gray-700 transition-colors flex flex-col max-w-[400px] w-full shadow-lg hover:shadow-xl"
             >
               <div className="aspect-video relative">
                 <img
@@ -371,7 +303,7 @@ export function Home() {
                   }}
                 />
                 <div className="absolute top-4 left-4 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-                  Starting from - 19,900
+                  Starting from - ₹19,900
                 </div>
               </div>
               <div className="p-4 sm:p-6 flex flex-col justify-between h-full">
@@ -390,6 +322,7 @@ export function Home() {
                   >
                     Explore Now
                   </a>
+                  <span className="text-orange-500 text-sm">7 seats left</span>
                 </div>
               </div>
             </motion.div>
@@ -405,8 +338,7 @@ export function Home() {
               Choose Your Adventure
             </h2>
             <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">
-              Whether you're seeking thrilling rides or serene landscapes, we have the perfect adventure waiting for
-              you.
+              Whether you're seeking thrilling rides or serene landscapes, we have the perfect adventure waiting for you.
             </p>
           </div>
 
@@ -444,7 +376,7 @@ export function Home() {
                   Feel the roar of the engine as you conquer high mountain passes on a Royal Enfield or Himalayan.
                 </p>
                 <a
-                  href="/gallery"
+                  href="/itinerarypage"
                   className="inline-flex items-center text-orange-700 font-medium hover:text-orange-800 transition-colors text-sm sm:text-base"
                 >
                   View bike tours
@@ -480,13 +412,12 @@ export function Home() {
                   </div>
                 </div>
               </div>
-              <div className="p-4 sm:p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+              <div className="p-4 sm:p-6">
                 <h3 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-3 text-gray-900">
                   Photography &amp; Travel Reel Add-On
                 </h3>
                 <p className="text-gray-600 mb-4 text-sm sm:text-base">
-                  Elevate your adventure with our professional photography package. Capture every breathtaking moment
-                  and create lasting memories with high-quality photos and dynamic travel reels.
+                  Elevate your adventure with our professional photography package. Capture every breathtaking moment and create lasting memories with high-quality photos and dynamic travel reels.
                 </p>
                 <Link
                   to="/custom-tours-details"
@@ -521,7 +452,9 @@ export function Home() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-4 left-4">
                   <div className="bg-white/90 backdrop-blur-sm p-2 rounded-full">
-                    <Users className="w-6 h-6 sm:w-8 sm:h-8 text-orange-700" />
+                    <span className="flex items-center">
+                      <img src="/group-icon.svg" alt="Group Icon" className="w-6 h-6 mr-1" />
+                    </span>
                   </div>
                 </div>
               </div>
@@ -531,7 +464,7 @@ export function Home() {
                   Perfect for families and friends who want to explore the mountains with comfort and convenience.
                 </p>
                 <a
-                  href="/gallery"
+                  href="/itinerarypage"
                   className="inline-flex items-center text-orange-700 font-medium hover:text-orange-800 transition-colors text-sm sm:text-base"
                 >
                   View group tours
@@ -549,7 +482,7 @@ export function Home() {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 sm:mb-12">
             <div>
               <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-2 sm:mb-4 text-gray-900">
-                Featured Destination
+                Featured Destinations
               </h2>
               <p className="text-base sm:text-lg text-gray-600 max-w-2xl">
                 Discover our handpicked destinations that offer unforgettable experiences and breathtaking landscapes.
@@ -587,16 +520,18 @@ export function Home() {
                     }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-
                   <div className="absolute top-4 left-4">
                     <span className="inline-block px-3 py-1 bg-white/90 backdrop-blur-sm text-gray-900 rounded-full text-xs sm:text-sm font-medium">
                       {destination.tag}
                     </span>
                   </div>
-
                   <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
-                    <h3 className="text-xl sm:text-2xl font-bold text-white mb-1 sm:mb-2">{destination.name}</h3>
-                    <p className="text-white/90 mb-3 sm:mb-4 text-sm sm:text-base">{destination.description}</p>
+                    <h3 className="text-xl sm:text-2xl font-bold text-white mb-1 sm:mb-2">
+                      {destination.name}
+                    </h3>
+                    <p className="text-white/90 mb-3 sm:mb-4 text-sm sm:text-base">
+                      {destination.description}
+                    </p>
                     <a
                       href={`/location`}
                       className="inline-flex items-center text-white font-medium hover:text-orange-200 transition-colors text-sm sm:text-base"
@@ -623,7 +558,6 @@ export function Home() {
               Don't just take our word for it. Hear from those who've experienced the thrill firsthand.
             </p>
           </div>
-
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {/* Testimonial 1 */}
             <motion.div
@@ -631,7 +565,7 @@ export function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.5 }}
-              className="bg-white rounded-xl p-4 sm:p-6 shadow-lg"
+              className="bg-white rounded-xl p-4 sm:p-6 shadow-lg hover:shadow-xl transition-all"
             >
               <div className="flex items-center mb-4">
                 <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full overflow-hidden mr-3 sm:mr-4">
@@ -673,7 +607,7 @@ export function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="bg-white rounded-xl p-4 sm:p-6 shadow-lg"
+              className="bg-white rounded-xl p-4 sm:p-6 shadow-lg hover:shadow-xl transition-all"
             >
               <div className="flex items-center mb-4">
                 <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full overflow-hidden mr-3 sm:mr-4">
@@ -691,8 +625,7 @@ export function Home() {
                 </div>
               </div>
               <p className="text-gray-700 mb-4 text-sm sm:text-base">
-                "As a solo female traveler, I was a bit apprehensive, but the Rev & Roar team made me feel completely
-                safe and comfortable. The Spiti Valley tour was perfectly organized with amazing local experiences."
+                "As a solo female traveler, I was a bit apprehensive, but the Rev & Roar team made me feel completely safe and comfortable. The Spiti Valley tour was perfectly organized with amazing local experiences."
               </p>
               <div className="flex text-yellow-400">
                 {[...Array(5)].map((_, i) => (
@@ -715,7 +648,7 @@ export function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="bg-white rounded-xl p-4 sm:p-6 shadow-lg"
+              className="bg-white rounded-xl p-4 sm:p-6 shadow-lg hover:shadow-xl transition-all"
             >
               <div className="flex items-center mb-4">
                 <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full overflow-hidden mr-3 sm:mr-4">
@@ -733,8 +666,7 @@ export function Home() {
                 </div>
               </div>
               <p className="text-gray-700 mb-4 text-sm sm:text-base">
-                "We took our entire team of 20 for a corporate retreat, and it was the best team-building experience
-                we've had. The activities were thoughtfully planned, and the logistics were flawless."
+                "We took our entire team of 20 for a corporate retreat, and it was the best team-building experience we've had. The activities were thoughtfully planned, and the logistics were flawless."
               </p>
               <div className="flex text-yellow-400">
                 {[...Array(5)].map((_, i) => (
@@ -763,7 +695,9 @@ export function Home() {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.5 }}
           >
-            <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-3 sm:mb-6">Ready for Your Next Adventure?</h2>
+            <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-3 sm:mb-6">
+              Ready for Your Next Adventure?
+            </h2>
             <p className="text-base sm:text-xl text-orange-100 max-w-3xl mx-auto mb-6 sm:mb-8">
               Let's create memories that will last a lifetime. Contact us today to plan your perfect Himalayan journey.
             </p>
@@ -775,8 +709,8 @@ export function Home() {
                 Contact Us
               </a>
               <a
-                href="/Location"
-                className="px-6 sm:px-8 py-3 sm:py-4 bg-orange-700 text-white font-bold rounded-lg hover:bg-orange-800 transition-colors text-sm sm:text-base"
+                href="/location"
+                className="px-6 sm:px-8 py-3 sm:py-4 bg-orange-700 text-white font-bold rounded-lg hover:bg-orange-800 transition-colors text-sm sm:text-base border border-white/30"
               >
                 Browse Tours
               </a>
@@ -800,7 +734,6 @@ export function Home() {
         >
           <FaInstagram className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
         </motion.a>
-
         <motion.a
           href="https://wa.me/7017775164"
           target="_blank"
@@ -819,7 +752,7 @@ export function Home() {
   )
 }
 
-// Converted Users component (plain JSX)
+// Converted Users component remains unchanged
 function Users({ className }) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">

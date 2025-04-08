@@ -319,9 +319,8 @@ const ContactUs = () => {
                     <div>
                       <h3 className="text-lg font-medium text-orange-400">Address</h3>
                       <p className="text-white/90">
-                        Shiv ganga enclave, lane -1, block- B, Sahastradhara road, Dehradun, Uttrakhand
+                        Shiv Ganga Enclave, Lane -1, Block- B, Sahastradhara Road, Dehradun, Uttrakhand
                       </p>
-                      <p className="text-sm text-white/70 mt-1">Our headquarters in the foothills of the Himalayas</p>
                     </div>
                   </div>
 

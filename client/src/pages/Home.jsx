@@ -11,7 +11,8 @@ import {
   MapPin,
   Calendar,
   Mountain,
-  Bike
+  Bike,
+  Backpack
 } from "lucide-react"
 
 // Slider images and featured destinations arrays remain the same
@@ -23,8 +24,8 @@ const sliderImages = [
     tag: "Adventure",
   },
   {
-    src: "/bike-featured.webp?height=1080&width=1920",
-    quote: "The hum of your bike engine as you conquer Khardung LA.",
+    src: "/enfield.webp?height=1080&width=1920",
+    quote: "The hum of your bike engine as you conquer Umling LA.",
     location: "Umling La, Ladakh",
     tag: "Bike Tours",
   },
@@ -440,7 +441,7 @@ export function Home() {
               <div className="aspect-video relative overflow-hidden">
                 <img
                   src="/group-tour.webp?height=400&width=600"
-                  alt="Group Tours"
+                  alt="Backpack Tours"
                   className="object-cover transition-transform duration-700 group-hover:scale-110"
                   style={{
                     position: "absolute",
@@ -453,7 +454,9 @@ export function Home() {
                 <div className="absolute bottom-4 left-4">
                   <div className="bg-white/90 backdrop-blur-sm p-2 rounded-full">
                     <span className="flex items-center">
-                      <img src="/group-icon.svg" alt="Group Icon" className="w-6 h-6 mr-1" />
+                      {/* <img src="/group-icon.svg" alt="Group Icon" className="w-6 h-6 mr-1" /> */}
+                      <Backpack className="w-6 h-6 sm:w-8 sm:h-8 text-orange-700" />
+
                     </span>
                   </div>
                 </div>

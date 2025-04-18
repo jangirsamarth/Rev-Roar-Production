@@ -1,4 +1,4 @@
-import React, { useState, useContext, createContext } from "react";
+import React, { useState, useContext, createContext, memo } from "react";
 import { FaInstagram, FaWhatsapp } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import {
@@ -12,67 +12,78 @@ import {
 } from "lucide-react";
 
 // ------------------------
-// Inline UI Component Definitions
+// Inline UI Component Definitions - Memoized for better performance
 // ------------------------
 
 // Accordion
-function Accordion({ children, className }) {
+const Accordion = memo(({ children, className }) => {
   return <div className={className}>{children}</div>;
-}
+});
+Accordion.displayName = "Accordion";
 
-function AccordionItem({ children }) {
+const AccordionItem = memo(({ children }) => {
   const [open, setOpen] = useState(false);
+  
   return (
     <div className="border-b">
       {React.Children.map(children, (child) => {
-        if (child.type.displayName === "AccordionTrigger") {
+        if (child && child.type && child.type.displayName === "AccordionTrigger") {
           return React.cloneElement(child, { open, setOpen });
         }
-        if (child.type.displayName === "AccordionContent") {
+        if (child && child.type && child.type.displayName === "AccordionContent") {
           return open ? child : null;
         }
         return child;
       })}
     </div>
   );
-}
+});
+AccordionItem.displayName = "AccordionItem";
 
-function AccordionTrigger({ children, open, setOpen, className }) {
+const AccordionTrigger = memo(({ children, open, setOpen, className }) => {
   return (
     <button
-      className={`w-full text-left p-2 ${className || ""}`}
-      onClick={() => setOpen(!open)}>
-      {children}
+      className={`w-full text-left p-2 flex justify-between items-center ${className || ""}`}
+      onClick={() => setOpen(!open)}
+      aria-expanded={open}
+    >
+      <span>{children}</span>
+      <span className={`transform transition-transform ${open ? 'rotate-180' : ''}`}>
+        <ChevronRight className="h-5 w-5" />
+      </span>
     </button>
   );
-}
+});
 AccordionTrigger.displayName = "AccordionTrigger";
 
-function AccordionContent({ children, className }) {
+const AccordionContent = memo(({ children, className }) => {
   return <div className={`p-2 ${className || ""}`}>{children}</div>;
-}
+});
 AccordionContent.displayName = "AccordionContent";
 
 // Alert
-function Alert({ children, className }) {
+const Alert = memo(({ children, className }) => {
   return (
     <div className={`p-4 border rounded ${className || ""}`}>{children}</div>
   );
-}
+});
+Alert.displayName = "Alert";
 
-function AlertDescription({ children, className }) {
+const AlertDescription = memo(({ children, className }) => {
   return <div className={`text-sm ${className || ""}`}>{children}</div>;
-}
+});
+AlertDescription.displayName = "AlertDescription";
 
 // Badge
-function Badge({ children, className, variant }) {
+const Badge = memo(({ children, className, variant }) => {
   let baseClass = "inline-block px-2 py-1 text-xs rounded";
   if (variant === "outline") baseClass += " border";
   return <span className={`${baseClass} ${className || ""}`}>{children}</span>;
-}
+});
+Badge.displayName = "Badge";
 
 // Button
-function Button({ children, className, variant, size, ...props }) {
+const Button = memo(({ children, className, variant, size, ...props }) => {
   let baseClass = "px-4 py-2 rounded transition-colors";
   if (variant === "outline") {
     baseClass += " border";
@@ -87,81 +98,266 @@ function Button({ children, className, variant, size, ...props }) {
       {children}
     </button>
   );
-}
+});
+Button.displayName = "Button";
 
-// Card
-function Card({ children, className }) {
+// Card Components
+const Card = memo(({ children, className }) => {
   return (
     <div className={`border rounded shadow ${className || ""}`}>{children}</div>
   );
-}
+});
+Card.displayName = "Card";
 
-function CardHeader({ children, className }) {
+const CardHeader = memo(({ children, className }) => {
   return <div className={`p-4 border-b ${className || ""}`}>{children}</div>;
-}
+});
+CardHeader.displayName = "CardHeader";
 
-function CardTitle({ children, className }) {
+const CardTitle = memo(({ children, className }) => {
   return <h3 className={`text-xl font-bold ${className || ""}`}>{children}</h3>;
-}
+});
+CardTitle.displayName = "CardTitle";
 
-function CardDescription({ children, className }) {
+const CardDescription = memo(({ children, className }) => {
   return <p className={`text-sm text-muted ${className || ""}`}>{children}</p>;
-}
+});
+CardDescription.displayName = "CardDescription";
 
-function CardContent({ children, className }) {
+const CardContent = memo(({ children, className }) => {
   return <div className={`p-4 ${className || ""}`}>{children}</div>;
-}
+});
+CardContent.displayName = "CardContent";
 
-function CardFooter({ children, className }) {
+const CardFooter = memo(({ children, className }) => {
   return <div className={`p-4 border-t ${className || ""}`}>{children}</div>;
-}
+});
+CardFooter.displayName = "CardFooter";
 
 // Separator
-function Separator({ className }) {
-  return <hr className={`my-2 ${className || ""}`} />;
-}
+const Separator = memo(({ className }) => {
+  return <hr className={`my-2 ${className || ""}`} aria-hidden="true" />;
+});
+Separator.displayName = "Separator";
 
 // Tabs
-const TabsContext = createContext();
+const TabsContext = createContext({
+  activeTab: "",
+  setActiveTab: () => {}
+});
 
-function Tabs({ children, defaultValue, className }) {
+const Tabs = memo(({ children, defaultValue, className }) => {
   const [activeTab, setActiveTab] = useState(defaultValue);
+  const contextValue = { activeTab, setActiveTab };
+  
   return (
-    <TabsContext.Provider value={{ activeTab, setActiveTab }}>
-      <div className={className}>{children}</div>
+    <TabsContext.Provider value={contextValue}>
+      <div className={className} role="tablist">{children}</div>
     </TabsContext.Provider>
   );
-}
+});
+Tabs.displayName = "Tabs";
 
-function TabsList({ children, className }) {
-  return <div className={`flex ${className || ""}`}>{children}</div>;
-}
+const TabsList = memo(({ children, className }) => {
+  return <div className={`flex ${className || ""}`} role="tablist">{children}</div>;
+});
+TabsList.displayName = "TabsList";
 
-function TabsTrigger({ children, value, className }) {
+const TabsTrigger = memo(({ children, value, className }) => {
   const { activeTab, setActiveTab } = useContext(TabsContext);
+  const isActive = activeTab === value;
+  
   return (
     <button
+      role="tab"
+      aria-selected={isActive}
+      aria-controls={`panel-${value}`}
       className={`px-4 py-2 cursor-pointer ${
-        activeTab === value ? "font-bold border-b-2 border-blue-500" : ""
+        isActive ? "font-bold border-b-2 border-blue-500" : ""
       } ${className || ""}`}
-      onClick={() => setActiveTab(value)}>
+      onClick={() => setActiveTab(value)}
+    >
       {children}
     </button>
   );
-}
+});
+TabsTrigger.displayName = "TabsTrigger";
 
-function TabsContent({ children, value, className }) {
+const TabsContent = memo(({ children, value, className }) => {
   const { activeTab } = useContext(TabsContext);
-  return activeTab === value ? (
-    <div className={className}>{children}</div>
-  ) : null;
-}
+  if (activeTab !== value) return null;
+  
+  return (
+    <div 
+      className={className} 
+      role="tabpanel" 
+      id={`panel-${value}`}
+      aria-labelledby={`tab-${value}`}
+    >
+      {children}
+    </div>
+  );
+});
+TabsContent.displayName = "TabsContent";
+
+// Feature list item - reused in multiple places
+const FeatureItem = memo(({ icon, text, color = "green" }) => (
+  <div className="flex items-start gap-3">
+    <div className="mt-0.5 shrink-0">{icon}</div>
+    <p>{text}</p>
+  </div>
+));
+FeatureItem.displayName = "FeatureItem";
+
+// Numbered list item - reused in multiple places
+const NumberedItem = memo(({ number, text, colorClass = "border-slate-200 text-slate-600" }) => (
+  <div className="flex items-start gap-3">
+    <div className={`shrink-0 mt-0.5 h-5 w-5 rounded-full border flex items-center justify-center text-xs font-medium ${colorClass}`}>
+      {number}
+    </div>
+    <p>{text}</p>
+  </div>
+));
+NumberedItem.displayName = "NumberedItem";
+
+// Social Media Buttons - reused component
+const SocialMediaButtons = memo(() => (
+  <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end space-y-4">
+    <motion.a
+      href="https://www.instagram.com/revnroar.ig/"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex items-center justify-center w-16 h-16 bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600 rounded-full shadow-lg hover:opacity-90 transition-colors"
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.95 }}
+      initial={{ opacity: 0, scale: 0.5 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ delay: 0.5, duration: 0.3 }}
+      aria-label="Visit our Instagram"
+    >
+      <FaInstagram className="h-8 w-8 text-white" aria-hidden="true" />
+    </motion.a>
+
+    <motion.a
+      href="https://wa.me/7017775164"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex items-center justify-center w-16 h-16 bg-green-500 rounded-full shadow-lg hover:bg-green-600 transition-colors"
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.95 }}
+      initial={{ opacity: 0, scale: 0.5 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ delay: 1, duration: 0.3 }}
+      aria-label="Contact us on WhatsApp"
+    >
+      <FaWhatsapp className="h-8 w-8 text-white" aria-hidden="true" />
+    </motion.a>
+  </div>
+));
+SocialMediaButtons.displayName = "SocialMediaButtons";
+
+// Data constants
+const INCLUSIONS = [
+  {
+    icon: <Shield className="h-5 w-5 text-green-600" />,
+    text: "Accommodation on a triple-sharing basis with twin beds and an extra mattress.",
+  },
+  {
+    icon: <Check className="h-5 w-5 text-green-600" />,
+    text: "Meals as mentioned in the itinerary.",
+  },
+  {
+    icon: <Motorcycle className="h-5 w-5 text-green-600" />,
+    text: "RE Classic, Bullet, Himalayan, KTM, or Xpulse with fuel as per your chosen package.",
+  },
+  {
+    icon: <Shield className="h-5 w-5 text-green-600" />,
+    text: "Protective gear for both rider and pillion (jackets, knee guards, helmets provided; you may use your own for a better fit).",
+  },
+  {
+    icon: <Compass className="h-5 w-5 text-green-600" />,
+    text: "Experienced Road Captain to lead the ride.",
+  },
+  {
+    icon: <Check className="h-5 w-5 text-green-600" />,
+    text: "24/7 Breakdown Support with mechanic and staff assistance.",
+  },
+  {
+    icon: <Check className="h-5 w-5 text-green-600" />,
+    text: "Backup vehicle for your luggage.",
+  },
+  {
+    icon: <Check className="h-5 w-5 text-green-600" />,
+    text: "Inner Line Permits and Environmental Fees are included.",
+  },
+  {
+    icon: <Check className="h-5 w-5 text-green-600" />,
+    text: "Oxygen cylinders available in case of emergency.",
+  },
+  {
+    icon: <Check className="h-5 w-5 text-green-600" />,
+    text: "Basic medical kit for emergencies.",
+  },
+];
+
+const EXCLUSIONS = [
+  "Cost of spare parts used during the ride.",
+  "Lunch, bonfire, tolls, travel insurance, and any additional costs such as pants, gloves, boots, and photography.",
+  "Expenses for food, accommodation, and travel due to health issues or natural events (landslides, roadblocks, weather).",
+  "Any extra charges if the itinerary is altered due to force majeure.",
+  "Personal expenses like drinks, water, alcohol, snacks, phone calls, room service, laundry, and tips for drivers, guides, or hotel staff.",
+  "GST @ 5% applicable.",
+  "Refundable motorcycle security deposit of Rs 5000 per bike.",
+  "Entry fees for monasteries, monuments, or charges related to photo/video cameras.",
+  "Towing charges if a vehicle is left stranded during the ride.",
+  "Room check-ins before 12 noon.",
+  "Anything not mentioned in the inclusions.",
+];
+
+const IMPORTANT_INFO = [
+  "We are not responsible for itinerary changes due to weather, landslides, flight cancellations, or unforeseen circumstances.",
+  "A refundable bike security deposit is required before the trip starts.",
+  "Only rucksacks, backpacks, or saddle bags weighing up to 20 kgs per person are allowed. Suitcases are not permitted.",
+  "Unexpected hikes in transport or accommodation costs (e.g., fuel surcharges) will affect the final price.",
+  "Photography and drone shoots are subject to time, weather, and government restrictions.",
+  "The tour schedule may change based on traffic, restrictions, or unforeseen events.",
+  "This itinerary and pricing apply only to Indian nationals.",
+  "No refunds will be provided for unused services.",
+  "Rescheduling your dates will incur an additional fee of Rs 5000 per person.",
+  "All inclusions are valid for a group of 6+ participants.",
+  "We reserve the right to remove any client for misbehavior, quarrels, or any form of assault affecting others.",
+];
+
+const BOOKING_POLICY = [
+  "A non-refundable deposit of INR 7500 per person is required for slot confirmation.",
+  "The remaining balance must be paid 45 days prior to departure.",
+  "Failure to comply with the payment policy may result in cancellation without notice.",
+];
+
+const CANCELLATION_POLICY = [
+  "If cancelled 30 days or more before departure, 25% of the total cost will be deducted.",
+  "If cancelled 20-30 days before departure, 50% of the total cost will be deducted.",
+  "If cancelled less than 20 days before departure, 100% of the cost will be deducted.",
+  "The booking deposit is non-refundable.",
+];
 
 // ------------------------
 // Main CustomToursDetails Component
 // ------------------------
 
 export default function CustomToursDetails() {
+  // Handler functions
+  const handleBookNow = () => {
+    window.open(
+      "https://wa.me/7017775164?text=I%20would%20like%20to%20book%20a%20tour",
+      "_blank"
+    );
+  };
+
+  const handleContactUs = () => {
+    window.location.href = "/contact";
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100">
       {/* Hero Section */}
@@ -171,6 +367,7 @@ export default function CustomToursDetails() {
           style={{
             backgroundImage: "url('/placeholder.svg?height=600&width=1200')",
           }}
+          aria-hidden="true"
         />
         <div className="relative max-w-7xl mx-auto px-4 py-24 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
@@ -185,19 +382,17 @@ export default function CustomToursDetails() {
               <Button
                 size="lg"
                 className="bg-orange-600 hover:bg-orange-700"
-                onClick={() =>
-                  (window.location.href =
-                    "https://wa.me/7017775164?text=I%20would%20like%20to%20book%20a%20tour")
-                }>
-                {" "}
-                Book Now <ChevronRight className="ml-2 h-4 w-4" />
+                onClick={handleBookNow}
+              >
+                Book Now <ChevronRight className="ml-2 h-4 w-4" aria-hidden="true" />
               </Button>
               <Button
                 size="lg"
                 variant="outline"
                 className="text-white border-white hover:bg-white/10"
-                onClick={() => (window.location.href = "/contact")}>
-                <Phone className="mr-2 h-4 w-4" /> Contact Us
+                onClick={handleContactUs}
+              >
+                <Phone className="mr-2 h-4 w-4" aria-hidden="true" /> Contact Us
               </Button>
             </div>
           </div>
@@ -219,7 +414,7 @@ export default function CustomToursDetails() {
             <Card className="border-none shadow-lg">
               <CardHeader className="bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-t-lg">
                 <CardTitle className="flex items-center text-2xl">
-                  <Camera className="mr-2 h-6 w-6" /> Photography &amp; Travel
+                  <Camera className="mr-2 h-6 w-6" aria-hidden="true" /> Photography &amp; Travel
                   Reel Add-On
                 </CardTitle>
                 <CardDescription className="text-white/90 text-lg">
@@ -243,7 +438,7 @@ export default function CustomToursDetails() {
                     </p>
                     <ul className="space-y-3 mb-6">
                       <li className="flex items-start">
-                        <Check className="mr-2 h-5 w-5 text-green-500 shrink-0 mt-0.5" />
+                        <Check className="mr-2 h-5 w-5 text-green-500 shrink-0 mt-0.5" aria-hidden="true" />
                         <div>
                           <span className="font-semibold">
                             High-Quality Photos:
@@ -253,7 +448,7 @@ export default function CustomToursDetails() {
                         </div>
                       </li>
                       <li className="flex items-start">
-                        <Check className="mr-2 h-5 w-5 text-green-500 shrink-0 mt-0.5" />
+                        <Check className="mr-2 h-5 w-5 text-green-500 shrink-0 mt-0.5" aria-hidden="true" />
                         <div>
                           <span className="font-semibold">
                             Dynamic Travel Reels:
@@ -264,7 +459,7 @@ export default function CustomToursDetails() {
                         </div>
                       </li>
                       <li className="flex items-start">
-                        <Check className="mr-2 h-5 w-5 text-green-500 shrink-0 mt-0.5" />
+                        <Check className="mr-2 h-5 w-5 text-green-500 shrink-0 mt-0.5" aria-hidden="true" />
                         <div>
                           <span className="font-semibold">Drone Shots:</span>{" "}
                           Stunning aerial views of Ladakh and Spiti (where
@@ -272,7 +467,7 @@ export default function CustomToursDetails() {
                         </div>
                       </li>
                       <li className="flex items-start">
-                        <Check className="mr-2 h-5 w-5 text-green-500 shrink-0 mt-0.5" />
+                        <Check className="mr-2 h-5 w-5 text-green-500 shrink-0 mt-0.5" aria-hidden="true" />
                         <div>
                           <span className="font-semibold">
                             Social Media-Ready Content:
@@ -289,7 +484,7 @@ export default function CustomToursDetails() {
                     </h3>
                     <ul className="space-y-3">
                       <li className="flex items-start">
-                        <Check className="mr-2 h-5 w-5 text-orange-700 shrink-0 mt-0.5" />
+                        <Check className="mr-2 h-5 w-5 text-orange-700 shrink-0 mt-0.5" aria-hidden="true" />
                         <div>
                           <span className="font-semibold">
                             A Lifetime of Memories:
@@ -298,7 +493,7 @@ export default function CustomToursDetails() {
                         </div>
                       </li>
                       <li className="flex items-start">
-                        <Check className="mr-2 h-5 w-5 text-orange-700 shrink-0 mt-0.5" />
+                        <Check className="mr-2 h-5 w-5 text-orange-700 shrink-0 mt-0.5" aria-hidden="true" />
                         <div>
                           <span className="font-semibold">Stress-Free:</span> No
                           need to worry about capturing the perfect shot—we've
@@ -306,7 +501,7 @@ export default function CustomToursDetails() {
                         </div>
                       </li>
                       <li className="flex items-start">
-                        <Check className="mr-2 h-5 w-5 text-orange-700 shrink-0 mt-0.5" />
+                        <Check className="mr-2 h-5 w-5 text-orange-700 shrink-0 mt-0.5" aria-hidden="true" />
                         <div>
                           <span className="font-semibold">
                             Unbeatable Value:
@@ -328,7 +523,7 @@ export default function CustomToursDetails() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center">
-                  <Motorcycle className="mr-2 h-5 w-5" /> Additional Add-Ons
+                  <Motorcycle className="mr-2 h-5 w-5" aria-hidden="true" /> Additional Add-Ons
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -410,7 +605,10 @@ export default function CustomToursDetails() {
                     </a>
                   </p>
                 </div>
-                <Button className="sm:ml-auto bg-orange-600 hover:bg-orange-700">
+                <Button 
+                  className="sm:ml-auto bg-orange-600 hover:bg-orange-700"
+                  onClick={handleBookNow}
+                >
                   Book Add-Ons
                 </Button>
               </CardFooter>
@@ -422,7 +620,7 @@ export default function CustomToursDetails() {
             <Card>
               <CardHeader className="bg-green-50">
                 <CardTitle className="flex items-center">
-                  <Check className="mr-2 h-5 w-5 text-green-600" /> What's
+                  <Check className="mr-2 h-5 w-5 text-green-600" aria-hidden="true" /> What's
                   Included
                 </CardTitle>
                 <CardDescription>
@@ -431,52 +629,12 @@ export default function CustomToursDetails() {
               </CardHeader>
               <CardContent className="pt-6">
                 <div className="grid md:grid-cols-2 gap-x-12 gap-y-4">
-                  {[
-                    {
-                      icon: <Shield className="h-5 w-5 text-green-600" />,
-                      text: "Accommodation on a triple-sharing basis with twin beds and an extra mattress.",
-                    },
-                    {
-                      icon: <Check className="h-5 w-5 text-green-600" />,
-                      text: "Meals as mentioned in the itinerary.",
-                    },
-                    {
-                      icon: <Motorcycle className="h-5 w-5 text-green-600" />,
-                      text: "RE Classic, Bullet, Himalayan, KTM, or Xpulse with fuel as per your chosen package.",
-                    },
-                    {
-                      icon: <Shield className="h-5 w-5 text-green-600" />,
-                      text: "Protective gear for both rider and pillion (jackets, knee guards, helmets provided; you may use your own for a better fit).",
-                    },
-                    {
-                      icon: <Compass className="h-5 w-5 text-green-600" />,
-                      text: "Experienced Road Captain to lead the ride.",
-                    },
-                    {
-                      icon: <Check className="h-5 w-5 text-green-600" />,
-                      text: "24/7 Breakdown Support with mechanic and staff assistance.",
-                    },
-                    {
-                      icon: <Check className="h-5 w-5 text-green-600" />,
-                      text: "Backup vehicle for your luggage.",
-                    },
-                    {
-                      icon: <Check className="h-5 w-5 text-green-600" />,
-                      text: "Inner Line Permits and Environmental Fees are included.",
-                    },
-                    {
-                      icon: <Check className="h-5 w-5 text-green-600" />,
-                      text: "Oxygen cylinders available in case of emergency.",
-                    },
-                    {
-                      icon: <Check className="h-5 w-5 text-green-600" />,
-                      text: "Basic medical kit for emergencies.",
-                    },
-                  ].map((item, index) => (
-                    <div key={index} className="flex items-start gap-3">
-                      <div className="mt-0.5 shrink-0">{item.icon}</div>
-                      <p>{item.text}</p>
-                    </div>
+                  {INCLUSIONS.map((item, index) => (
+                    <FeatureItem 
+                      key={index} 
+                      icon={item.icon} 
+                      text={item.text} 
+                    />
                   ))}
                 </div>
               </CardContent>
@@ -488,7 +646,7 @@ export default function CustomToursDetails() {
             <Card>
               <CardHeader className="bg-red-50">
                 <CardTitle className="flex items-center">
-                  <Shield className="mr-2 h-5 w-5 text-red-600" /> What's Not
+                  <Shield className="mr-2 h-5 w-5 text-red-600" aria-hidden="true" /> What's Not
                   Included
                 </CardTitle>
                 <CardDescription>
@@ -497,25 +655,13 @@ export default function CustomToursDetails() {
               </CardHeader>
               <CardContent className="pt-6">
                 <div className="space-y-3">
-                  {[
-                    "Cost of spare parts used during the ride.",
-                    "Lunch, bonfire, tolls, travel insurance, and any additional costs such as pants, gloves, boots, and photography.",
-                    "Expenses for food, accommodation, and travel due to health issues or natural events (landslides, roadblocks, weather).",
-                    "Any extra charges if the itinerary is altered due to force majeure.",
-                    "Personal expenses like drinks, water, alcohol, snacks, phone calls, room service, laundry, and tips for drivers, guides, or hotel staff.",
-                    "GST @ 5% applicable.",
-                    "Refundable motorcycle security deposit of Rs 5000 per bike.",
-                    "Entry fees for monasteries, monuments, or charges related to photo/video cameras.",
-                    "Towing charges if a vehicle is left stranded during the ride.",
-                    "Room check-ins before 12 noon.",
-                    "Anything not mentioned in the inclusions.",
-                  ].map((item, index) => (
-                    <div key={index} className="flex items-start gap-3">
-                      <div className="shrink-0 mt-0.5 h-5 w-5 rounded-full border border-red-200 flex items-center justify-center text-xs font-medium text-red-600">
-                        {index + 1}
-                      </div>
-                      <p>{item}</p>
-                    </div>
+                  {EXCLUSIONS.map((item, index) => (
+                    <NumberedItem 
+                      key={index} 
+                      number={index + 1} 
+                      text={item} 
+                      colorClass="border-red-200 text-red-600" 
+                    />
                   ))}
                 </div>
               </CardContent>
@@ -539,25 +685,8 @@ export default function CustomToursDetails() {
                     Important Information
                   </AccordionTrigger>
                   <AccordionContent className="space-y-3 pt-2">
-                    {[
-                      "We are not responsible for itinerary changes due to weather, landslides, flight cancellations, or unforeseen circumstances.",
-                      "A refundable bike security deposit is required before the trip starts.",
-                      "Only rucksacks, backpacks, or saddle bags weighing up to 20 kgs per person are allowed. Suitcases are not permitted.",
-                      "Unexpected hikes in transport or accommodation costs (e.g., fuel surcharges) will affect the final price.",
-                      "Photography and drone shoots are subject to time, weather, and government restrictions.",
-                      "The tour schedule may change based on traffic, restrictions, or unforeseen events.",
-                      "This itinerary and pricing apply only to Indian nationals.",
-                      "No refunds will be provided for unused services.",
-                      "Rescheduling your dates will incur an additional fee of Rs 5000 per person.",
-                      "All inclusions are valid for a group of 6+ participants.",
-                      "We reserve the right to remove any client for misbehavior, quarrels, or any form of assault affecting others.",
-                    ].map((item, index) => (
-                      <div key={index} className="flex items-start gap-3">
-                        <div className="shrink-0 mt-0.5 h-5 w-5 rounded-full border border-slate-200 flex items-center justify-center text-xs font-medium">
-                          {index + 1}
-                        </div>
-                        <p>{item}</p>
-                      </div>
+                    {IMPORTANT_INFO.map((item, index) => (
+                      <NumberedItem key={index} number={index + 1} text={item} />
                     ))}
                   </AccordionContent>
                 </AccordionItem>
@@ -567,33 +696,9 @@ export default function CustomToursDetails() {
                     Booking Policy
                   </AccordionTrigger>
                   <AccordionContent className="space-y-3 pt-2">
-                    <div className="flex items-start gap-3">
-                      <div className="shrink-0 mt-0.5 h-5 w-5 rounded-full border border-slate-200 flex items-center justify-center text-xs font-medium">
-                        1
-                      </div>
-                      <p>
-                        A non-refundable deposit of INR 7500 per person is
-                        required for slot confirmation.
-                      </p>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <div className="shrink-0 mt-0.5 h-5 w-5 rounded-full border border-slate-200 flex items-center justify-center text-xs font-medium">
-                        2
-                      </div>
-                      <p>
-                        The remaining balance must be paid 45 days prior to
-                        departure.
-                      </p>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <div className="shrink-0 mt-0.5 h-5 w-5 rounded-full border border-slate-200 flex items-center justify-center text-xs font-medium">
-                        3
-                      </div>
-                      <p>
-                        Failure to comply with the payment policy may result in
-                        cancellation without notice.
-                      </p>
-                    </div>
+                    {BOOKING_POLICY.map((item, index) => (
+                      <NumberedItem key={index} number={index + 1} text={item} />
+                    ))}
                   </AccordionContent>
                 </AccordionItem>
 
@@ -602,39 +707,9 @@ export default function CustomToursDetails() {
                     Cancellation Policy
                   </AccordionTrigger>
                   <AccordionContent className="space-y-3 pt-2">
-                    <div className="flex items-start gap-3">
-                      <div className="shrink-0 mt-0.5 h-5 w-5 rounded-full border border-slate-200 flex items-center justify-center text-xs font-medium">
-                        1
-                      </div>
-                      <p>
-                        If cancelled 30 days or more before departure, 25% of
-                        the total cost will be deducted.
-                      </p>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <div className="shrink-0 mt-0.5 h-5 w-5 rounded-full border border-slate-200 flex items-center justify-center text-xs font-medium">
-                        2
-                      </div>
-                      <p>
-                        If cancelled 20-30 days before departure, 50% of the
-                        total cost will be deducted.
-                      </p>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <div className="shrink-0 mt-0.5 h-5 w-5 rounded-full border border-slate-200 flex items-center justify-center text-xs font-medium">
-                        3
-                      </div>
-                      <p>
-                        If cancelled less than 20 days before departure, 100% of
-                        the cost will be deducted.
-                      </p>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <div className="shrink-0 mt-0.5 h-5 w-5 rounded-full border border-slate-200 flex items-center justify-center text-xs font-medium">
-                        4
-                      </div>
-                      <p>The booking deposit is non-refundable.</p>
-                    </div>
+                    {CANCELLATION_POLICY.map((item, index) => (
+                      <NumberedItem key={index} number={index + 1} text={item} />
+                    ))}
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
@@ -657,12 +732,8 @@ export default function CustomToursDetails() {
             <Button
               size="lg"
               className="bg-orange-600 hover:bg-orange-700"
-              onClick={() =>
-                window.open(
-                  "https://wa.me/7017775164?text=I%20would%20like%20to%20book%20a%20tour",
-                  "_blank"
-                )
-              }>
+              onClick={handleBookNow}
+            >
               Book Now
             </Button>
 
@@ -670,41 +741,16 @@ export default function CustomToursDetails() {
               size="lg"
               variant="outline"
               className="text-white border-white hover:bg-white/10"
-              onClick={() => (window.location.href = "/contact")}>
+              onClick={handleContactUs}
+            >
               Contact Us
             </Button>
           </div>
         </div>
       </div>
-      <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end space-y-4">
-        {/* Instagram Button */}
-        <motion.a
-          href="https://www.instagram.com/revnroar.ig/" // Replace with your Instagram URL
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center justify-center w-16 h-16 bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600 rounded-full shadow-lg hover:opacity-90 transition-colors"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.5, duration: 0.3 }}>
-          <FaInstagram className="h-8 w-8 text-white" />
-        </motion.a>
-
-        {/* WhatsApp Button */}
-        <motion.a
-          href="https://wa.me/7017775164"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center justify-center w-16 h-16 bg-green-500 rounded-full shadow-lg hover:bg-green-600 transition-colors"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 1, duration: 0.3 }}>
-          <FaWhatsapp className="h-8 w-8 text-white" />
-        </motion.a>
-      </div>
+      
+      {/* Social Media Buttons */}
+      <SocialMediaButtons />
     </div>
   );
 }

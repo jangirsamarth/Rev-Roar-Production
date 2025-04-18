@@ -1,75 +1,322 @@
-import React, { useState } from "react";
 "use client";
-import { FaInstagram, FaWhatsapp } from 'react-icons/fa';
+
+import React, { memo } from "react";
+import { FaInstagram, FaWhatsapp, FaEnvelope, FaPhone, FaGlobe } from 'react-icons/fa';
 import { motion } from "framer-motion";
-// import Image from "next/image"
-import { ChevronRight, CheckCircle, MapPin, Shield, Users, Bike } from "lucide-react";
+import { 
+  ChevronRight, 
+  CheckCircle, 
+  MapPin, 
+  Shield, 
+  Users, 
+  Bike,
+  Zap,
+  Heart,
+  Navigation
+} from "lucide-react";
 
+// Animation variants
+const fadeInUp = {
+  hidden: { opacity: 0, y: 60 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+};
+
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.6 } },
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+// Memoized components for better performance
+const ExperienceCard = memo(({ img, desc, index }) => (
+  <motion.div variants={fadeInUp} className="group">
+    <div className="relative overflow-hidden rounded-2xl shadow-xl h-[400px] transform transition-all duration-500 group-hover:scale-[1.02]">
+      <img
+        src={img || "/placeholder.svg"}
+        alt={`Experience ${index + 1}`}
+        className="object-cover transition-transform duration-700 group-hover:scale-110"
+        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+        loading={index === 0 ? "eager" : "lazy"}
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 p-6">
+        <p className="text-xl md:text-2xl font-medium text-white">{desc}</p>
+      </div>
+      <div className="absolute inset-0 border-[8px] border-dashed border-white/30 rounded-2xl pointer-events-none" />
+    </div>
+  </motion.div>
+));
+ExperienceCard.displayName = "ExperienceCard";
+
+const AdventureCard = memo(({ adventure, index, reversed }) => (
+  <motion.div
+    variants={fadeInUp}
+    className={`flex flex-col ${reversed ? "md:flex-row-reverse" : "md:flex-row"} gap-8 items-center`}
+  >
+    <div className="w-full md:w-2/5">
+      <div className="relative overflow-hidden rounded-2xl shadow-xl aspect-[4/3]">
+        <img
+          src={adventure.img || "/spiti-.webp"}
+          alt={adventure.img_tag}
+          className="object-cover"
+          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          loading="lazy"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+        <div className="absolute top-6 left-6 bg-white/90 backdrop-blur-sm rounded-full px-4 py-2 flex items-center gap-2">
+          {adventure.icon}
+          <span className="font-bold text-gray-800">{adventure.img_tag}</span>
+        </div>
+        <div className="absolute bottom-0 left-0 right-0 p-6">
+          <p className="text-xl font-medium text-white">{adventure.desc}</p>
+        </div>
+      </div>
+    </div>
+
+    <div className="w-full md:w-3/5 bg-white rounded-2xl shadow-lg p-8">
+      <h3 className="text-2xl md:text-3xl font-bold mb-6 text-gray-800">{adventure.img_tag}</h3>
+      <ul className="space-y-4">
+        {adventure.info.map((info, idx) => (
+          <li key={idx} className="flex items-start gap-3">
+            <CheckCircle className="w-6 h-6 text-orange-700 flex-shrink-0 mt-1" aria-hidden="true" />
+            <p className="text-lg text-gray-700">{info}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </motion.div>
+));
+AdventureCard.displayName = "AdventureCard";
+
+const FeatureCard = memo(({ icon, title, description }) => (
+  <motion.div
+    variants={fadeInUp}
+    className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-shadow"
+  >
+    {icon}
+    <h3 className="text-2xl font-bold mb-4 text-gray-800">{title}</h3>
+    <p className="text-lg text-gray-700">{description}</p>
+  </motion.div>
+));
+FeatureCard.displayName = "FeatureCard";
+
+const SafetyCard = memo(({ icon, title, description }) => (
+  <motion.div
+    variants={fadeInUp}
+    className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-shadow"
+  >
+    <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-6">
+      {icon}
+    </div>
+    <h3 className="text-2xl font-bold mb-4 text-gray-800">{title}</h3>
+    <p className="text-lg text-gray-700">{description}</p>
+  </motion.div>
+));
+SafetyCard.displayName = "SafetyCard";
+
+const ContactMethod = memo(({ icon, title, contact, href }) => (
+  <motion.div variants={fadeInUp} className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 text-center">
+    {icon}
+    <h3 className="text-2xl font-bold mb-2">{title}</h3>
+    <a
+      href={href}
+      className="text-xl text-orange-300 hover:text-orange-200 transition-colors"
+    >
+      {contact}
+    </a>
+  </motion.div>
+));
+ContactMethod.displayName = "ContactMethod";
+
+const DestinationSection = memo(({ name, image, description, top }) => (
+  <motion.div
+    initial="hidden"
+    whileInView="visible"
+    viewport={{ once: true, margin: "-100px" }}
+    variants={fadeInUp}
+    className="relative h-[80vh] w-full overflow-hidden"
+  >
+    <img
+      src={image}
+      alt={name}
+      className="object-cover"
+      style={{ width: "100%", height: "100%", objectFit: "cover" }}
+      loading="lazy"
+    />
+    <div className={`absolute inset-0 bg-gradient-to-${top ? 'b' : 't'} from-black/70 to-transparent`} />
+    <div className={`absolute ${top ? 'top-0' : 'bottom-0'} left-0 right-0 p-8 md:p-16 flex flex-col md:flex-row items-${top ? 'start' : 'end'} md:items-center justify-between`}>
+      {top ? (
+        <>
+          <p className="text-lg md:text-2xl text-white max-w-md order-2 md:order-1">
+            {description}
+          </p>
+          <h3 className="text-5xl md:text-[160px] font-bold text-white mb-4 md:mb-0 order-1 md:order-2">{name}</h3>
+        </>
+      ) : (
+        <>
+          <h3 className="text-5xl md:text-[160px] font-bold text-white mb-4 md:mb-0">{name}</h3>
+          <p className="text-lg md:text-2xl text-white max-w-md">
+            {description}
+          </p>
+        </>
+      )}
+    </div>
+  </motion.div>
+));
+DestinationSection.displayName = "DestinationSection";
+
+const SocialButtons = memo(() => (
+  <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end space-y-4">
+    <motion.a
+      href="https://www.instagram.com/revnroar.ig/"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex items-center justify-center w-16 h-16 bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600 rounded-full shadow-lg hover:opacity-90 transition-colors"
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.95 }}
+      initial={{ opacity: 0, scale: 0.5 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ delay: 0.5, duration: 0.3 }}
+      aria-label="Follow us on Instagram"
+    >
+      <FaInstagram className="h-8 w-8 text-white" aria-hidden="true" />
+    </motion.a>
+
+    <motion.a
+      href="https://wa.me/7017775164"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex items-center justify-center w-16 h-16 bg-green-500 rounded-full shadow-lg hover:bg-green-600 transition-colors"
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.95 }}
+      initial={{ opacity: 0, scale: 0.5 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ delay: 1, duration: 0.3 }}
+      aria-label="Contact us on WhatsApp"
+    >
+      <FaWhatsapp className="h-8 w-8 text-white" aria-hidden="true" />
+    </motion.a>
+  </div>
+));
+SocialButtons.displayName = "SocialButtons";
+
+// Data constants
+const EXPERIENCES = [
+  {
+    img: "/bike-tour.JPG?height=400&width=600",
+    desc: "The hum of your bike engine as you conquer Khardung LA.",
+  },
+  {
+    img: "/group-tour.webp?height=400&width=600",
+    desc: "A shared laugh with friends under the starry skies of Spiti.",
+  },
+  {
+    img: "/bike-gallery.webp?height=400&width=600",
+    desc: "Thrilling High-altitude Passes with Expert Guides.",
+  },
+];
+
+const ADVENTURES = [
+  {
+    img: "/bike-tour.JPG?height=400&width=600",
+    img_tag: "Bike Trips",
+    desc: "Feel the roar of the engine. Feel alive.",
+    icon: <Bike className="w-10 h-10" aria-hidden="true" />,
+    info: [
+      "Explore Ladakh or Spiti on a Royal Enfield or Himalayan.",
+      "Safety first! We've got expert guides and a backup vehicle at every step.",
+      "AMS prevention stops and detailed briefings because your health matters.",
+    ],
+  },
+  {
+    img: "/temppo.webp?height=400&width=600",
+    img_tag: "Tempo Traveler Trips",
+    desc: "Adventure is for everyone comfort included.",
+    icon: <Users className="w-10 h-10" aria-hidden="true" />,
+    info: [
+      "Perfect for families, friends, or groups who want to explore the mountains without the hassle.",
+      "Chill with your crew while we handle the rough terrains.",
+    ],
+  },
+];
+
+const FEATURES = [
+  {
+    icon: <Shield className="w-16 h-16 text-orange-700 mb-6" aria-hidden="true" />,
+    title: "Safety First",
+    description: "Backup vehicles, AMS prevention stops, and experienced guides to handle every challenge."
+  },
+  {
+    icon: <Users className="w-16 h-16 text-orange-700 mb-6" aria-hidden="true" />,
+    title: "Customized Fun",
+    description: "Whether you're a thrill-seeker or prefer relaxed exploration, we tailor trips to your vibe."
+  },
+  {
+    icon: <MapPin className="w-16 h-16 text-orange-700 mb-6" aria-hidden="true" />,
+    title: "Local Expertise",
+    description: "We know these mountains like the back of our hand. Expect secret spots, authentic experiences, and insider stories."
+  },
+];
+
+const SAFETY_FEATURES = [
+  {
+    icon: <Zap className="h-8 w-8 text-orange-700" aria-hidden="true" />,
+    title: "Backup Vehicles",
+    description: "Always there to carry your luggage or assist in emergencies."
+  },
+  {
+    icon: <Heart className="h-8 w-8 text-orange-700" aria-hidden="true" />,
+    title: "AMS Prevention",
+    description: "Dedicated acclimatization days and expert guidance to keep you healthy."
+  },
+  {
+    icon: <Users className="h-8 w-8 text-orange-700" aria-hidden="true" />,
+    title: "Trained Team",
+    description: "Guides equipped with first aid and local knowledge."
+  },
+];
+
+const DESTINATIONS = [
+  {
+    name: "Ladakh",
+    image: "/laddakh.webp?height=1080&width=1920",
+    description: "Think Pangong Tso's magical hue, the thrill of Khardung La, and the warm smiles of Nubra Valley...",
+    top: false
+  },
+  {
+    name: "Spiti",
+    image: "/Spiti tour home page.webp?height=1080&width=1920",
+    description: "A remote wonderland with crystal-clear skies, ancient monasteries, and landscapes that belong in a dream...",
+    top: true
+  }
+];
+
+const CONTACT_METHODS = [
+  {
+    icon: <FaEnvelope className="h-12 w-12 mx-auto mb-4 text-orange-400" aria-hidden="true" />,
+    title: "Email Us",
+    contact: "info@revnroar.com",
+    href: "mailto:info@revnroar.com"
+  },
+  {
+    icon: <FaPhone className="h-12 w-12 mx-auto mb-4 text-orange-400" aria-hidden="true" />,
+    title: "Call Us",
+    contact: "+91-7017775164",
+    href: "tel:+917017775164"
+  }
+];
+
+// Main component
 export default function AboutUs() {
-  const cardInfo = [
-    {
-      img: "/bike-tour.JPG?height=400&width=600",
-      desc: "The hum of your bike engine as you conquer Khardung LA.",
-    },
-    {
-      img: "/group-tour.webp?height=400&width=600",
-      desc: "A shared laugh with friends under the starry skies of Spiti.",
-    },
-    {
-      img: "/bike-gallery.webp?height=400&width=600",
-      desc: "Thrilling High-altitude Passes with Expert Guides.",
-    },
-  ];
-
-  const adventures = [
-    {
-      img: "/bike-tour.JPG?height=400&width=600",
-      img_tag: "Bike Trips",
-      desc: "Feel the roar of the engine. Feel alive.",
-      icon: <Bike className="w-10 h-10" />,
-      info: [
-        "Explore Ladakh or Spiti on a Royal Enfield or Himalayan.",
-        "Safety first! We've got expert guides and a backup vehicle at every step.",
-        "AMS prevention stops and detailed briefings because your health matters.",
-      ],
-    },
-    {
-      img: "/temppo.webp?height=400&width=600",
-      img_tag: "Tempo Traveler Trips",
-      desc: "Adventure is for everyone comfort included.",
-      icon: <Users className="w-10 h-10" />,
-      info: [
-        "Perfect for families, friends, or groups who want to explore the mountains without the hassle.",
-        "Chill with your crew while we handle the rough terrains.",
-      ],
-    },
-    // {
-    //   img: "/placeholder.svg?height=400&width=600",
-    //   img_tag: "Corporate & College Tours",
-    //   desc: "From icebreaker activities to adrenaline-pumping adventures.",
-    //   icon: <Users className="w-10 h-10" />,
-    //   info: [
-    //     "Boost team spirit with fun challenges and bonding experiences.",
-    //     "Safe, well-organized itineraries for large groups.",
-    //   ],
-    // },
-  ];
-
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 60 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-  };
-
-  const staggerContainer = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-      },
-    },
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white font-sans">
       {/* Hero Section with Parallax Effect */}
@@ -80,8 +327,9 @@ export default function AboutUs() {
             alt="Mountains background"
             className="object-cover"
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            loading="eager"
           />
-          <div className="absolute inset-0 bg-black/30" />
+          <div className="absolute inset-0 bg-black/30" aria-hidden="true" />
         </div>
 
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-white px-4">
@@ -131,8 +379,8 @@ export default function AboutUs() {
           transition={{ duration: 0.8, delay: 1 }}
           className="absolute bottom-10 left-0 right-0 flex justify-center"
         >
-          <a href="#intro" className="text-white animate-bounce">
-            <ChevronRight className="w-10 h-10 rotate-90" />
+          <a href="#intro" className="text-white animate-bounce" aria-label="Scroll down">
+            <ChevronRight className="w-10 h-10 rotate-90" aria-hidden="true" />
           </a>
         </motion.div>
       </div>
@@ -147,7 +395,7 @@ export default function AboutUs() {
           className="mb-16"
         >
           <h2 className="text-3xl md:text-5xl font-bold mb-8 text-gray-800">
-            At Rev & Roar, we don&apos;t just plan trips—<span className="text-orange-700 italic"> we craft life-changing experiences.</span>
+            At Rev & Roar, we don't just plan trips—<span className="text-orange-700 italic"> we craft life-changing experiences.</span>
           </h2>
           <p className="text-xl md:text-2xl text-gray-700">Picture this:</p>
         </motion.div>
@@ -159,22 +407,13 @@ export default function AboutUs() {
           viewport={{ once: true, margin: "-100px" }}
           className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16"
         >
-          {cardInfo.map((card, index) => (
-            <motion.div key={index} variants={fadeInUp} className="group">
-              <div className="relative overflow-hidden rounded-2xl shadow-xl h-[400px] transform transition-all duration-500 group-hover:scale-[1.02]">
-                <img
-                  src={card.img || "/placeholder.svg"}
-                  alt={`Experience ${index + 1}`}
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
-                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <p className="text-xl md:text-2xl font-medium text-white">{card.desc}</p>
-                </div>
-                <div className="absolute inset-0 border-[8px] border-dashed border-white/30 rounded-2xl pointer-events-none" />
-              </div>
-            </motion.div>
+          {EXPERIENCES.map((experience, index) => (
+            <ExperienceCard 
+              key={index} 
+              img={experience.img} 
+              desc={experience.desc} 
+              index={index} 
+            />
           ))}
         </motion.div>
 
@@ -185,7 +424,7 @@ export default function AboutUs() {
           variants={fadeInUp}
           className="text-xl md:text-2xl leading-relaxed text-gray-700 max-w-5xl mx-auto"
         >
-          We specialize in curating personalized adventures to Ladakh and Spiti that are exciting, safe, and full of stories you&apos;ll cherish forever. Whether you&apos;re a solo traveler, a group of friends, a college gang, or a corporate team, we ensure every journey is as unique as you are.
+          We specialize in curating personalized adventures to Ladakh and Spiti that are exciting, safe, and full of stories you'll cherish forever. Whether you're a solo traveler, a group of friends, a college gang, or a corporate team, we ensure every journey is as unique as you are.
         </motion.p>
       </section>
 
@@ -210,43 +449,13 @@ export default function AboutUs() {
             viewport={{ once: true, margin: "-100px" }}
             className="space-y-20"
           >
-            {adventures.map((adventure, index) => (
-              <motion.div
-                key={index}
-                variants={fadeInUp}
-                className={`flex flex-col ${index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"} gap-8 items-center`}
-              >
-                <div className="w-full md:w-2/5">
-                  <div className="relative overflow-hidden rounded-2xl shadow-xl aspect-[4/3]">
-                    <img
-                      src={adventure.img || "/spiti-.webp"}
-                      alt={adventure.img_tag}
-                      className="object-cover"
-                      style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                    <div className="absolute top-6 left-6 bg-white/90 backdrop-blur-sm rounded-full px-4 py-2 flex items-center gap-2">
-                      {adventure.icon}
-                      <span className="font-bold text-gray-800">{adventure.img_tag}</span>
-                    </div>
-                    <div className="absolute bottom-0 left-0 right-0 p-6">
-                      <p className="text-xl font-medium text-white">{adventure.desc}</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="w-full md:w-3/5 bg-white rounded-2xl shadow-lg p-8">
-                  <h3 className="text-2xl md:text-3xl font-bold mb-6 text-gray-800">{adventure.img_tag}</h3>
-                  <ul className="space-y-4">
-                    {adventure.info.map((info, idx) => (
-                      <li key={idx} className="flex items-start gap-3">
-                        <CheckCircle className="w-6 h-6 text-orange-700 flex-shrink-0 mt-1" />
-                        <p className="text-lg text-gray-700">{info}</p>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </motion.div>
+            {ADVENTURES.map((adventure, index) => (
+              <AdventureCard 
+                key={index} 
+                adventure={adventure} 
+                index={index} 
+                reversed={index % 2 !== 0} 
+              />
             ))}
           </motion.div>
         </div>
@@ -267,7 +476,7 @@ export default function AboutUs() {
               <span className="absolute -bottom-3 left-0 w-1/3 h-1 bg-orange-600"></span>
             </h2>
             <p className="text-xl md:text-2xl text-gray-700 max-w-4xl">
-                We&apos;re not just another travel company. We&apos;re your partners in adventure. Here&apos;s why our customers swear by us:
+              We're not just another travel company. We're your partners in adventure. Here's why our customers swear by us:
             </p>
           </motion.div>
 
@@ -278,38 +487,14 @@ export default function AboutUs() {
             viewport={{ once: true, margin: "-100px" }}
             className="grid grid-cols-1 md:grid-cols-3 gap-8"
           >
-            <motion.div
-              variants={fadeInUp}
-              className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-shadow"
-            >
-              <Shield className="w-16 h-16 text-orange-700 mb-6" />
-              <h3 className="text-2xl font-bold mb-4 text-gray-800">Safety First</h3>
-              <p className="text-lg text-gray-700">
-                Backup vehicles, AMS prevention stops, and experienced guides to handle every challenge.
-              </p>
-            </motion.div>
-
-            <motion.div
-              variants={fadeInUp}
-              className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-shadow"
-            >
-              <Users className="w-16 h-16 text-orange-700 mb-6" />
-              <h3 className="text-2xl font-bold mb-4 text-gray-800">Customized Fun</h3>
-              <p className="text-lg text-gray-700">
-                Whether you&apos;re a thrill-seeker or prefer relaxed exploration, we tailor trips to your vibe.
-              </p>
-            </motion.div>
-
-            <motion.div
-              variants={fadeInUp}
-              className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-shadow"
-            >
-              <MapPin className="w-16 h-16 text-orange-700 mb-6" />
-              <h3 className="text-2xl font-bold mb-4 text-gray-800">Local Expertise</h3>
-              <p className="text-lg text-gray-700">
-                We know these mountains like the back of our hand. Expect secret spots, authentic experiences, and insider stories.
-              </p>
-            </motion.div>
+            {FEATURES.map((feature, index) => (
+              <FeatureCard 
+                key={index}
+                icon={feature.icon}
+                title={feature.title}
+                description={feature.description}
+              />
+            ))}
           </motion.div>
         </div>
       </section>
@@ -326,51 +511,15 @@ export default function AboutUs() {
           DESTINATIONS WE CALL HOME
         </motion.h2>
 
-        {/* Ladakh */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={fadeInUp}
-          className="relative h-[80vh] w-full overflow-hidden"
-        >
-          <img
-            src="/laddakh.webp?height=1080&width=1920"
-            alt="Ladakh"
-            className="object-cover"
-            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+        {DESTINATIONS.map((destination, index) => (
+          <DestinationSection 
+            key={index}
+            name={destination.name}
+            image={destination.image}
+            description={destination.description}
+            top={destination.top}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-          <div className="absolute bottom-0 left-0 right-0 p-8 md:p-16 flex flex-col md:flex-row items-end md:items-center justify-between">
-            <h3 className="text-5xl md:text-[160px] font-bold text-white mb-4 md:mb-0">Ladakh</h3>
-            <p className="text-lg md:text-2xl text-white max-w-md">
-              Think Pangong Tso&apos;s magical hue, the thrill of Khardung La, and the warm smiles of Nubra Valley...
-            </p>
-          </div>
-        </motion.div>
-
-        {/* Spiti */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={fadeInUp}
-          className="relative h-[80vh] w-full overflow-hidden"
-        >
-          <img
-            src="/Spiti tour home page.webp?height=1080&width=1920"
-            alt="Spiti"
-            className="object-cover"
-            style={{ width: "100%", height: "100%", objectFit: "cover" }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 to-transparent" />
-          <div className="absolute top-0 left-0 right-0 p-8 md:p-16 flex flex-col md:flex-row items-start md:items-center justify-between">
-            <p className="text-lg md:text-2xl text-white max-w-md order-2 md:order-1">
-              A remote wonderland with crystal-clear skies, ancient monasteries, and landscapes that belong in a dream...
-            </p>
-            <h3 className="text-5xl md:text-[160px] font-bold text-white mb-4 md:mb-0 order-1 md:order-2">Spiti</h3>
-          </div>
-        </motion.div>
+        ))}
       </section>
 
       {/* Quote Section */}
@@ -382,11 +531,11 @@ export default function AboutUs() {
           variants={fadeInUp}
           className="max-w-5xl mx-auto text-center"
         >
-          <svg className="w-16 h-16 mx-auto mb-6 text-orange-300" fill="currentColor" viewBox="0 0 24 24">
+          <svg className="w-16 h-16 mx-auto mb-6 text-orange-300" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
           </svg>
           <p className="italic text-2xl md:text-4xl font-light">
-            &quot;It&apos;s not just the destination—it&apos;s how you get there. With Rev & Roar, every mile is a memory.&quot;
+            "It's not just the destination—it's how you get there. With Rev & Roar, every mile is a memory."
           </p>
         </motion.div>
       </section>
@@ -406,7 +555,7 @@ export default function AboutUs() {
               <span className="absolute -bottom-3 left-0 w-1/3 h-1 bg-orange-600"></span>
             </h2>
             <p className="text-xl md:text-2xl text-gray-700">
-              Adventure doesn&apos;t have to mean taking unnecessary risks.
+              Adventure doesn't have to mean taking unnecessary risks.
             </p>
           </motion.div>
 
@@ -417,69 +566,14 @@ export default function AboutUs() {
             viewport={{ once: true, margin: "-100px" }}
             className="grid grid-cols-1 md:grid-cols-3 gap-8"
           >
-            <motion.div
-              variants={fadeInUp}
-              className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-shadow"
-            >
-              <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-6">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 text-orange-700"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-bold mb-4 text-gray-800">Backup Vehicles</h3>
-              <p className="text-lg text-gray-700">Always there to carry your luggage or assist in emergencies.</p>
-            </motion.div>
-
-            <motion.div
-              variants={fadeInUp}
-              className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-shadow"
-            >
-              <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-6">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 text-orange-700"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-bold mb-4 text-gray-800">AMS Prevention</h3>
-              <p className="text-lg text-gray-700">
-                Dedicated acclimatization days and expert guidance to keep you healthy.
-              </p>
-            </motion.div>
-
-            <motion.div
-              variants={fadeInUp}
-              className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-shadow"
-            >
-              <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-6">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 text-orange-700"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
-                  />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-bold mb-4 text--800">Trained Team</h3>
-              <p className="text-lg text-gray-700">Guides equipped with first aid and local knowledge.</p>
-            </motion.div>
+            {SAFETY_FEATURES.map((feature, index) => (
+              <SafetyCard 
+                key={index}
+                icon={feature.icon}
+                title={feature.title}
+                description={feature.description}
+              />
+            ))}
           </motion.div>
         </div>
       </section>
@@ -507,50 +601,15 @@ export default function AboutUs() {
             viewport={{ once: true, margin: "-100px" }}
             className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto"
           >
-            <motion.div variants={fadeInUp} className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 text-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-12 w-12 mx-auto mb-4 text-orange-400"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                />
-              </svg>
-              <h3 className="text-2xl font-bold mb-2">Email Us</h3>
-              <a
-                href="mailto:info@revnroar.com"
-                className="text-xl text-orange-300 hover:text-orange-200 transition-colors"
-              >
-                info@revnroar.com
-              </a>
-            </motion.div>
-
-            <motion.div variants={fadeInUp} className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 text-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-12 w-12 mx-auto mb-4 text-orange-400"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                />
-              </svg>
-              <h3 className="text-2xl font-bold mb-2">Call Us</h3>
-              <a href="tel:+917017775164" className="text-xl text-orange-300 hover:text-orange-200 transition-colors">
-                +91-7017775164
-              </a>
-            </motion.div>
+            {CONTACT_METHODS.map((method, index) => (
+              <ContactMethod
+                key={index}
+                icon={method.icon}
+                title={method.title}
+                contact={method.contact}
+                href={method.href}
+              />
+            ))}
           </motion.div>
 
           <motion.div
@@ -564,42 +623,17 @@ export default function AboutUs() {
               href="http://www.revnroar.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block px-8 py-4 bg-orange-600 text-white font-bold rounded-full text-xl hover:bg-orange-700 transition-colors"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-white text-orange-600 font-bold rounded-full text-xl hover:bg-orange-100 transition-colors"
             >
+              <FaGlobe className="h-5 w-5" aria-hidden="true" />
               Visit Our Website
             </a>
           </motion.div>
         </div>
       </section>
-      <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end space-y-4">
-        {/* Instagram Button */}
-        <motion.a
-          href="https://www.instagram.com/revnroar.ig/" // Replace with your Instagram URL
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center justify-center w-16 h-16 bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600 rounded-full shadow-lg hover:opacity-90 transition-colors"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.5, duration: 0.3 }}>
-          <FaInstagram className="h-8 w-8 text-white" />
-        </motion.a>
 
-        {/* WhatsApp Button */}
-        <motion.a
-          href="https://wa.me/7017775164"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center justify-center w-16 h-16 bg-green-500 rounded-full shadow-lg hover:bg-green-600 transition-colors"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 1, duration: 0.3 }}>
-          <FaWhatsapp className="h-8 w-8 text-white" />
-        </motion.a>
-      </div>
+      {/* Fixed Social Media Buttons */}
+      <SocialButtons />
     </div>
   );
 }

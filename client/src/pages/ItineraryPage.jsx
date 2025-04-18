@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { MapPin, Calendar, Download, ChevronRight, Mountain, Users, Clock, Tag } from "lucide-react"
+import { MapPin, Calendar, Download, ChevronRight, Mountain, Users, Clock, Tag, Star } from "lucide-react"
 import { constant } from "../constants"
 import { FaInstagram, FaWhatsapp } from "react-icons/fa"
 import GoogleFormModal from "../components/GoogleFormModal"
@@ -90,11 +90,42 @@ const ItineraryPage = () => {
     setIsDownloadModalOpen(false)
   }
 
-  const renderTimeSlots = (timeSlots, tourType) => {
+  // Determine route text based on category/tour type
+  const getRouteText = (category) => {
+    if (category.toLowerCase().includes("ladakh")) {
+      return "Leh to Leh"
+    } else if (category.toLowerCase().includes("dehradun")) {
+      return "Dehradun to Dehradun"
+    } else {
+      return "Delhi to Delhi"
+    }
+  }
+
+  // Get appropriate image for category
+  const getCategoryImage = (category) => {
+    const lowerCategory = category.toLowerCase();
+    console.log("Getting image for category:", category);
+    
+    if (lowerCategory.includes("dehradun")) {
+      return "/Ladakh-featured.webp?height=600&width=800"
+    } else if (lowerCategory.includes("ladakh")) {
+      // Make sure the path is correct and the file exists
+      return "/mountain-view.webp?height=600&width=800"
+    } else {
+      return "/Spiti tour home page.webp?height=600&width=800"
+    }
+  }
+
+  // Determine if the category is an exclusive event
+  const isExclusiveEvent = (category) => {
+    return category.toLowerCase().includes("dehradun")
+  }
+
+  const renderTimeSlots = (timeSlots, category) => {
     if (!timeSlots || timeSlots.length === 0) return null
 
-    // Determine route text based on tour type
-    const routeText = tourType === "ladakh" ? "Leh to Leh" : "Delhi to Delhi"
+    // Get route text based on category
+    const routeText = getRouteText(category)
 
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
@@ -108,7 +139,9 @@ const ItineraryPage = () => {
             )
           }
 
-          const seatsLeft = Math.floor(Math.random() * 16) + 5
+          // Use the actual seatsLeft value if available, otherwise generate a random number
+          const seatsLeft = slot.seatsLeft || Math.floor(Math.random() * 16) + 5
+          
           let bgColor = "bg-green-600"
           if (seatsLeft < 8) {
             bgColor = "bg-red-600"
@@ -141,7 +174,204 @@ const ItineraryPage = () => {
     )
   }
 
-  console.log("ItineraryPage")
+  // Render an individual itinerary group
+  const renderItineraryGroup = (group, idx) => {
+    const isExclusive = isExclusiveEvent(group.category)
+    
+    return (
+      <motion.div
+        key={idx}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: idx * 0.2 }}
+        className="mb-20"
+      >
+        <div className="flex flex-col md:flex-row gap-6 mb-8 items-center">
+          <div className="md:w-1/3 rounded-xl overflow-hidden shadow-lg">
+            <img
+              src={getCategoryImage(group.category)}
+              alt={group.category}
+              className="w-full h-64 object-cover"
+            />
+          </div>
+          <div className="md:w-2/3">
+            <h2 className="text-3xl font-bold mb-4 flex items-center">
+              {isExclusive ? (
+                <Star className="mr-2 text-orange-600" />
+              ) : (
+                <Mountain className="mr-2 text-orange-600" />
+              )}
+              {group.category}
+              {isExclusive && (
+                <span className="ml-3 px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm font-medium">
+                  EXCLUSIVE EVENT
+                </span>
+              )}
+            </h2>
+            <p className="text-lg text-gray-700 mb-4">{group.description}</p>
+            <div className="flex items-center text-orange-600">
+              <MapPin className="mr-2" size={18} />
+              <span className="font-medium">Himalayas, India</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 gap-8">
+          {group.options.map((option, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: (idx + index) * 0.1 + 0.3, duration: 0.5 }}
+              className={`bg-white rounded-xl shadow-lg overflow-hidden border ${
+                isExclusive ? "border-orange-200" : "border-gray-100"
+              }`}
+            >
+              <div
+                className={`p-6 cursor-pointer ${
+                  isExclusive ? "hover:bg-orange-50" : "hover:bg-gray-50"
+                } transition-colors`}
+                onClick={() => toggleExpand(option.title)}
+              >
+                <div className="flex flex-col md:flex-row md:items-center justify-between">
+                  <div>
+                    <h3 className="text-2xl font-bold mb-2 text-gray-800">
+                      {option.title}
+                    </h3>
+                    <div className="flex items-center mb-3 text-gray-600">
+                      <Calendar className="mr-2" size={18} />
+                      <span>{option.duration}</span>
+                      
+                      {option.packagePrice && (
+                        <span className="ml-4 font-semibold text-orange-600">
+                          ₹{option.packagePrice}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap gap-2 my-3 md:my-0">
+                    {option.highlights.map((highlight, i) => (
+                      <span
+                        key={i}
+                        className={`px-3 py-1 ${
+                          isExclusive 
+                            ? "bg-orange-100 text-orange-800" 
+                            : "bg-orange-100 text-orange-800"
+                        } rounded-full text-sm font-medium`}
+                      >
+                        {highlight}
+                      </span>
+                    ))}
+                  </div>
+                  <ChevronRight
+                    className={`transition-transform duration-300 flex-shrink-0 text-orange-600 ${
+                      expandedItinerary === option.title ? "rotate-90" : ""
+                    }`}
+                    size={24}
+                  />
+                </div>
+              </div>
+
+              {expandedItinerary === option.title && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="border-t border-gray-200"
+                >
+                  <div className={`p-6 ${isExclusive ? "bg-orange-50" : "bg-gray-50"}`}>
+                    {/* Tour Overview */}
+                    <div className="mb-6">
+                      <div className="flex items-center mb-4">
+                        <Tag className="w-5 h-5 text-orange-600 mr-2" />
+                        <h4 className="font-semibold text-lg text-gray-700">Tour Overview</h4>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-white p-4 rounded-lg shadow-sm">
+                        <div className="flex flex-col">
+                          <span className="text-sm text-gray-500">Duration</span>
+                          <span className="font-medium text-gray-900">{option.duration}</span>
+                        </div>
+                        <div className="flex flex-col">
+                          <span className="text-sm text-gray-500">Route</span>
+                          <span className="font-medium text-gray-900">
+                            {getRouteText(group.category)}
+                          </span>
+                        </div>
+                        <div className="flex flex-col">
+                          <span className="text-sm text-gray-500">Difficulty</span>
+                          <span className="font-medium text-gray-900">
+                            {group.category.toLowerCase().includes("spiti") ? "Easy to Moderate" : "Moderate"}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Detailed Itinerary */}
+                    <div className="mb-6">
+                      <div className="flex items-center mb-3">
+                        <Clock className="w-5 h-5 text-orange-600 mr-2" />
+                        <h4 className="font-semibold text-lg text-gray-700">Detailed Itinerary</h4>
+                      </div>
+                      <pre className="text-gray-700 whitespace-pre-wrap mb-6 font-sans text-base bg-white p-4 rounded-lg shadow-sm">
+                        {option.snippet}
+                      </pre>
+                    </div>
+
+                    {/* Time Slots */}
+                    {option.timeSlots && (
+                      <div className="mb-6">
+                        <h4 className="font-semibold text-lg mb-3 text-gray-700 flex items-center">
+                          <Calendar className="mr-2 text-orange-600" size={18} />
+                          Available Time Slots
+                        </h4>
+                        {renderTimeSlots(option.timeSlots, group.category)}
+                      </div>
+                    )}
+
+                    {/* Price Section - Only for options with package price */}
+                    {option.packagePrice && (
+                      <div className="mb-6 bg-white p-4 rounded-lg shadow-sm">
+                        <h4 className="font-semibold text-lg mb-3 text-gray-700 flex items-center">
+                          <Tag className="mr-2 text-orange-600" size={18} />
+                          Package Price
+                        </h4>
+                        <div className="flex items-center">
+                          <span className="text-2xl font-bold text-orange-600">₹{option.packagePrice}</span>
+                          <span className="ml-2 text-sm text-gray-600">per person (Self Bike)</span>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Download Button */}
+                    <div className="flex flex-col sm:flex-row gap-4 mt-6">
+                      <button
+                        onClick={() => openDownloadModal(option.pdf)}
+                        className="inline-flex items-center justify-center px-6 py-3 bg-orange-600 text-white font-semibold rounded-lg hover:bg-orange-700 transition-colors duration-200"
+                      >
+                        <Download className="mr-2" size={18} />
+                        Download Full Itinerary
+                      </button>
+
+                      <a
+                        href="https://wa.me/7017775164"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors duration-200"
+                      >
+                        <FaWhatsapp className="mr-2" size={18} />
+                        Ask Questions on WhatsApp
+                      </a>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
@@ -180,167 +410,18 @@ const ItineraryPage = () => {
         </div>
 
         {constant.length > 0 ? (
-          constant.map((group, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: idx * 0.2 }}
-              className="mb-20"
-            >
-              <div className="flex flex-col md:flex-row gap-6 mb-8 items-center">
-                <div className="md:w-1/3 rounded-xl overflow-hidden shadow-lg">
-                  <img
-                    src={
-                      group.category.toLowerCase().includes("ladakh")
-                        ? "/Ladakh-featured.webp?height=600&width=800"
-                        : "/Spiti tour home page.webp?height=600&width=800"
-                    }
-                    alt={group.category}
-                    className="w-full h-64 object-cover"
-                  />
-                </div>
-                <div className="md:w-2/3">
-                  <h2 className="text-3xl font-bold mb-4 flex items-center">
-                    <Mountain className="mr-2 text-orange-600" />
-                    {group.category}
-                  </h2>
-                  <p className="text-lg text-gray-700 mb-4">{group.description}</p>
-                  <div className="flex items-center text-orange-600">
-                    <MapPin className="mr-2" size={18} />
-                    <span className="font-medium">Himalayas, India</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 gap-8">
-                {group.options.map((option, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: (idx + index) * 0.1 + 0.3, duration: 0.5 }}
-                    className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100"
-                  >
-                    <div
-                      className="p-6 cursor-pointer hover:bg-gray-50 transition-colors"
-                      onClick={() => toggleExpand(option.title)}
-                    >
-                      <div className="flex flex-col md:flex-row md:items-center justify-between">
-                        <div>
-                          <h3 className="text-2xl font-bold mb-2 text-gray-800">{option.title}</h3>
-                          <div className="flex items-center mb-3 text-gray-600">
-                            <Calendar className="mr-2" size={18} />
-                            <span>{option.duration}</span>
-                          </div>
-                        </div>
-                        <div className="flex flex-wrap gap-2 my-3 md:my-0">
-                          {option.highlights.map((highlight, i) => (
-                            <span
-                              key={i}
-                              className="px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm font-medium"
-                            >
-                              {highlight}
-                            </span>
-                          ))}
-                        </div>
-                        <ChevronRight
-                          className={`transition-transform duration-300 flex-shrink-0 text-orange-600 ${
-                            expandedItinerary === option.title ? "rotate-90" : ""
-                          }`}
-                          size={24}
-                        />
-                      </div>
-                    </div>
-
-                    {expandedItinerary === option.title && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="border-t border-gray-200"
-                      >
-                        <div className="p-6 bg-gray-50">
-                          {/* Tour Overview */}
-                          <div className="mb-6">
-                            <div className="flex items-center mb-4">
-                              <Tag className="w-5 h-5 text-orange-600 mr-2" />
-                              <h4 className="font-semibold text-lg text-gray-700">Tour Overview</h4>
-                            </div>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-white p-4 rounded-lg shadow-sm">
-                              <div className="flex flex-col">
-                                <span className="text-sm text-gray-500">Duration</span>
-                                <span className="font-medium text-gray-900">{option.duration}</span>
-                              </div>
-                              <div className="flex flex-col">
-                                <span className="text-sm text-gray-500">Route</span>
-                                <span className="font-medium text-gray-900">
-                                  {group.category.toLowerCase().includes("ladakh") ? "Leh to Leh" : "Delhi to Delhi"}
-                                </span>
-                              </div>
-                              <div className="flex flex-col">
-                                <span className="text-sm text-gray-500">Difficulty</span>
-                                <span className="font-medium text-gray-900">
-                                  {group.category.toLowerCase().includes("ladakh") ? "Moderate" : "Easy to Moderate"}
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Detailed Itinerary */}
-                          <div className="mb-6">
-                            <div className="flex items-center mb-3">
-                              <Clock className="w-5 h-5 text-orange-600 mr-2" />
-                              <h4 className="font-semibold text-lg text-gray-700">Detailed Itinerary</h4>
-                            </div>
-                            <pre className="text-gray-700 whitespace-pre-wrap mb-6 font-sans text-base bg-white p-4 rounded-lg shadow-sm">
-                              {option.snippet}
-                            </pre>
-                          </div>
-
-                          {/* Time Slots */}
-                          {option.timeSlots && (
-                            <div className="mb-6">
-                              <h4 className="font-semibold text-lg mb-3 text-gray-700 flex items-center">
-                                <Calendar className="mr-2 text-orange-600" size={18} />
-                                Available Time Slots
-                              </h4>
-                              {renderTimeSlots(
-                                option.timeSlots,
-                                group.category.toLowerCase().includes("ladakh") ? "ladakh" : "spiti",
-                              )}
-                            </div>
-                          )}
-
-                          {/* Download Button */}
-                          <div className="flex flex-col sm:flex-row gap-4 mt-6">
-                            <button
-                              onClick={() => openDownloadModal(option.pdf)}
-                              className="inline-flex items-center justify-center px-6 py-3 bg-orange-600 text-white font-semibold rounded-lg hover:bg-orange-700 transition-colors duration-200"
-                            >
-                              <Download className="mr-2" size={18} />
-                              Download Full Itinerary
-                            </button>
-
-                            <a
-                              href="https://wa.me/7017775164"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center justify-center px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors duration-200"
-                            >
-                              <FaWhatsapp className="mr-2" size={18} />
-                              Ask Questions on WhatsApp
-                            </a>
-                          </div>
-                        </div>
-                      </motion.div>
-                    )}
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          ))
+          // Render exclusive event first, then other itineraries
+          constant
+            .sort((a, b) => {
+              // Sort exclusive events first
+              const aIsExclusive = isExclusiveEvent(a.category);
+              const bIsExclusive = isExclusiveEvent(b.category);
+              
+              if (aIsExclusive && !bIsExclusive) return -1;
+              if (!aIsExclusive && bIsExclusive) return 1;
+              return 0;
+            })
+            .map((group, idx) => renderItineraryGroup(group, idx))
         ) : (
           <div className="text-center py-12">
             <p className="text-gray-600 text-lg">Loading itineraries...</p>

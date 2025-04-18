@@ -208,5 +208,41 @@ DAY 10: Departure from Delhi – Head back home with a heart full of memories.`,
         pdf: "/pdf/10 days Spiti Itinirary - BIKE.pdf"
       }
     ]
+  },
+  {
+    category: "Dehradun to Dehradun Ladakh Adventure",
+    image: "/ladakh-hero-location.webp?height=400&width=800",
+    description:
+      "Experience the ultimate Ladakh adventure starting and ending in Dehradun, covering iconic passes, remote villages, and stunning landscapes.",
+    options: [
+      {
+        title: "10 Days Dehradun to Dehradun Ladakh Adventure",
+        duration: "10 Days",
+        highlights: [
+          "Atal Tunnel",
+          "Khardung La Pass",
+          "Pangong Lake",
+          "Umling La Pass",
+          "Tso Moriri"
+        ],
+        snippet: `Start and end your Ladakh adventure from Dehradun.
+DAY 1: Dehradun - Manali – 420 KM, 10 Hours. Dinner and overnight stay in Manali.
+DAY 2: Manali - Jispa Via Atal Tunnel – 90 KM, 3 Hours. Breakfast & Dinner with overnight stay in Jispa.
+DAY 3: Jispa - Leh Via Baralach La Pass – 300 KM, 8 Hours. Breakfast & Dinner with overnight stay in Leh.
+DAY 4: Leh - Nubra Valley Via Khardung La – 160 KM, 5 Hours. Breakfast & Dinner with overnight stay in Nubra.
+DAY 5: Nubra - Pangong Via Agam - Shyok route – 198 KM, 5 Hours. Breakfast & Dinner with overnight stay in Pangong.
+DAY 6: Pangong - Hanle Via Razang La War Memorial – 232 KM, 6 Hours. Breakfast & Dinner with overnight stay in Hanle.
+DAY 7: Hanle - Umling La Via Norbula Pass – 140 KM, 6 Hours. Breakfast & Dinner with overnight stay in Hanle.
+DAY 8: Hanle - Tso Moriri – 160 KM, 5 Hours. Breakfast & Dinner with overnight stay in Tso Moriri.
+DAY 9: Tso Moriri - Manali Via Sarchu – 200 KM, 7 Hours. Breakfast & Dinner with overnight stay in Manali.
+DAY 10: Manali - Dehradun – 420 KM, 10 Hours. Breakfast and return to Dehradun.`,
+        timeSlots: [
+          { header: "DTD (Dehradun Circuit) Time Slots" },
+          { code: "DTD#1", dates: "13 JUNE- 24 JUNE", seatsLeft: 8 },
+        ],
+        pdf: "/pdf/Dehradun to Dehradun .pdf",
+        packagePrice: "29500" // Added the package price as mentioned
+      }
+    ]
   }
 ];

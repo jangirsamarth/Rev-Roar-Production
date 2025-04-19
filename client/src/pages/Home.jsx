@@ -74,7 +74,7 @@ const UPCOMING_TOURS = [
   {
     id: 3,
     title: "Dehradun to Dehradun Ladakh Adventure",
-    image: "/mountain-view.webp?height=400&width=600",
+    image: "/DSC00854.webp?height=400&width=600",
     priceTag: "Special Price - ₹29,500",
     dates: "13 JUNE - 23 JUNE",
     description: "Exclusive 10-day round-trip from Dehradun covering iconic Ladakh locations with special highlights.",

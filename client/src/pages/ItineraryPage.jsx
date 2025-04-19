@@ -107,7 +107,7 @@ const ItineraryPage = () => {
     console.log("Getting image for category:", category);
     
     if (lowerCategory.includes("dehradun")) {
-      return "/Ladakh-featured.webp?height=600&width=800"
+      return "/DSC00854.webp?height=600&width=800"
     } else if (lowerCategory.includes("ladakh")) {
       // Make sure the path is correct and the file exists
       return "/mountain-view.webp?height=600&width=800"

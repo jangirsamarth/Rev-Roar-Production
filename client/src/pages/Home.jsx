@@ -47,7 +47,7 @@ const FEATURED_DESTINATIONS = [
   },
   {
     name: "Dehradun to Ladakh",
-    image: "/dehradun-ladakh-featured.webp?height=600&width=800",
+    image: "/laddakh.webp?height=600&width=800",
     description: "Our exclusive round-trip adventure from Dehradun to Ladakh",
     tag: "Exclusive",
   },
@@ -76,7 +76,7 @@ const UPCOMING_TOURS = [
     title: "Dehradun to Dehradun Ladakh Adventure",
     image: "/mountain-view.webp?height=400&width=600",
     priceTag: "Special Price - ₹29,500",
-    dates: "July 12 - July 21, 2025",
+    dates: "13 JUNE - 23 JUNE",
     description: "Exclusive 10-day round-trip from Dehradun covering iconic Ladakh locations with special highlights.",
     seatsLeft: 5,
     priceTagColor: "bg-purple-600",

@@ -92,10 +92,10 @@ const ItineraryPage = () => {
 
   // Determine route text based on category/tour type
   const getRouteText = (category) => {
-    if (category.toLowerCase().includes("ladakh")) {
-      return "Leh to Leh"
-    } else if (category.toLowerCase().includes("dehradun")) {
+    if (category.toLowerCase().includes("dehradun")) {
       return "Dehradun to Dehradun"
+    } else if (category.toLowerCase().includes("ladakh")) {
+      return "Leh to Leh"
     } else {
       return "Delhi to Delhi"
     }

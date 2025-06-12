@@ -410,8 +410,9 @@ const ItineraryPage = () => {
         </div>
 
         {constant.length > 0 ? (
-          // Render exclusive event first, then other itineraries
+          // Filter out Dehradun events and render remaining itineraries
           constant
+            .filter(group => !group.category.toLowerCase().includes("dehradun"))
             .sort((a, b) => {
               // Sort exclusive events first
               const aIsExclusive = isExclusiveEvent(a.category);

@@ -4,7 +4,7 @@ import React, { useState, useEffect, useCallback, memo } from "react"
 import { Link, useLocation } from "react-router-dom"
 import { motion, AnimatePresence } from "framer-motion"
 import { FaInstagram, FaWhatsapp } from "react-icons/fa"
-import { X, Menu } from "lucide-react"
+import { X, Menu, ChevronDown } from "lucide-react"
 
 // Navigation items - defined outside component to prevent recreation
 const NAV_ITEMS = [
@@ -19,21 +19,46 @@ const NAV_ITEMS = [
 
 // Animation variants
 const mobileMenuVariants = {
-  closed: { height: 0, opacity: 0 },
-  open: { height: "auto", opacity: 1 }
+  closed: { 
+    height: 0, 
+    opacity: 0,
+    transition: {
+      height: { duration: 0.3 },
+      opacity: { duration: 0.2 }
+    }
+  },
+  open: { 
+    height: "auto", 
+    opacity: 1,
+    transition: {
+      height: { duration: 0.3 },
+      opacity: { duration: 0.2, delay: 0.1 }
+    }
+  }
 }
 
 const navItemsContainerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.1 }
+    transition: { 
+      staggerChildren: 0.07,
+      delayChildren: 0.1
+    }
   }
 }
 
 const navItemVariants = {
-  hidden: { opacity: 0, x: -20 },
-  visible: { opacity: 1, x: 0 }
+  hidden: { opacity: 0, y: -10 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      type: "spring",
+      stiffness: 300,
+      damping: 24
+    }
+  }
 }
 
 // Social media links component
@@ -43,7 +68,7 @@ const SocialLinks = memo(({ className = "" }) => (
       href="https://www.instagram.com/revnroar.ig/"
       target="_blank"
       rel="noopener noreferrer"
-      className="p-3 bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600 rounded-full transition-transform hover:scale-110"
+      className="p-3 bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-pink-500/20"
       aria-label="Follow us on Instagram"
     >
       <FaInstagram className="w-5 h-5 text-white" aria-hidden="true" />
@@ -52,7 +77,7 @@ const SocialLinks = memo(({ className = "" }) => (
       href="https://wa.me/7017775164"
       target="_blank"
       rel="noopener noreferrer"
-      className="p-3 bg-green-500 rounded-full transition-transform hover:scale-110"
+      className="p-3 bg-green-500 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-green-500/20"
       aria-label="Contact us on WhatsApp"
     >
       <FaWhatsapp className="w-5 h-5 text-white" aria-hidden="true" />
@@ -67,10 +92,11 @@ const NavLink = memo(({ to, isActive, children, isMobile = false }) => (
   <Link
     to={to}
     className={`
-      ${isMobile ? 'block text-lg p-3' : 'text-base lg:text-lg px-3 py-2'} 
+      relative group
+      ${isMobile ? 'block text-lg p-3' : 'text-base lg:text-lg px-4 py-2'} 
       font-medium text-white rounded-lg transition-all duration-300
       ${isActive
-        ? "bg-orange-600 shadow-md"
+        ? "bg-orange-600 shadow-lg shadow-orange-500/20"
         : isMobile 
           ? "hover:bg-orange-600/60" 
           : "hover:bg-orange-600/80"
@@ -78,6 +104,9 @@ const NavLink = memo(({ to, isActive, children, isMobile = false }) => (
     `}
   >
     {children}
+    {!isMobile && !isActive && (
+      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-orange-500 transition-all duration-300 group-hover:w-full" />
+    )}
   </Link>
 ))
 
@@ -129,16 +158,16 @@ const Navbar = () => {
   // Render desktop navigation
   const renderDesktopNav = () => (
     <div className="hidden md:flex container mx-auto justify-between items-center px-4 lg:px-8 py-4">
-      <Link to="/" className="flex-shrink-0">
+      <Link to="/" className="flex-shrink-0 group">
         <img
           src="/Logo-White.png"
           alt="Rev & Roar Logo"
-          className="h-10 w-auto object-contain"
+          className="h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
           width="160"
           height="40"
         />
       </Link>
-      <div className="flex space-x-2 lg:space-x-4">
+      <div className="flex space-x-1 lg:space-x-2">
         {NAV_ITEMS.map((item) => (
           <NavLink
             key={item.path}
@@ -149,6 +178,7 @@ const Navbar = () => {
           </NavLink>
         ))}
       </div>
+      <SocialLinks className="ml-4" />
     </div>
   )
 
@@ -160,18 +190,16 @@ const Navbar = () => {
           <img
             src="/Logo-White.png"
             alt="Rev & Roar Logo"
-            className="h-8 w-auto object-contain"
+            className="h-10 w-auto object-contain"
             width="128"
             height="32"
           />
         </Link>
-        <div className="flex items-center">
-          <span className="text-lg font-medium text-white mr-3">
-            {getCurrentPageName()}
-          </span>
+        <div className="flex items-center space-x-3">
+          <SocialLinks className="hidden sm:flex" />
           <button
             onClick={toggleMenu}
-            className="p-2 rounded-full text-white hover:bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-white/50"
+            className="p-2 rounded-full text-white hover:bg-white/10 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white/50 hover:shadow-lg hover:shadow-white/10"
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
             aria-expanded={isMenuOpen}
           >
@@ -192,8 +220,7 @@ const Navbar = () => {
             animate="open"
             exit="closed"
             variants={mobileMenuVariants}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="md:hidden overflow-hidden bg-black/90 backdrop-blur-md"
+            className="md:hidden overflow-hidden bg-black/95 backdrop-blur-lg border-t border-white/10"
           >
             <motion.div
               className="flex flex-col px-4 py-4 space-y-2"
@@ -218,7 +245,7 @@ const Navbar = () => {
 
               <motion.div
                 variants={navItemVariants}
-                className="pt-4"
+                className="pt-4 sm:hidden"
               >
                 <SocialLinks />
               </motion.div>
@@ -233,7 +260,7 @@ const Navbar = () => {
     <nav
       className={`fixed top-0 w-full z-40 transition-all duration-300 ${
         isScrolled
-          ? "bg-black/80 backdrop-blur-md shadow-lg"
+          ? "bg-black/90 backdrop-blur-lg shadow-lg shadow-black/20"
           : "bg-black/40 backdrop-blur-sm"
       }`}
     >

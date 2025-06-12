@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { motion } from "framer-motion";
+import React, { useState, useCallback, memo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   MapPin,
   Calendar,
@@ -86,41 +86,221 @@ const destinations = [
       {
         name: "Chicham Bridge",
         description:
-          "India's highest suspension bridge at 4,037 meters, offering stunning views and connecting remote villages over a deep gorge.",
+          "India's highest suspension bridge at 4,037 meters, offering stunning views and connecting remote villages over a deep gorge.",
         image: "/chicham.png?height=400&width=600",
       },
       {
         name: "Langza Village",
         description:
-          "High-altitude hamlet at 4,400 meters, famous for its giant Buddha statue, fossil-rich terrain, and breathtaking Himalayan views.",
+          "High-altitude hamlet at 4,400 meters, famous for its giant Buddha statue, fossil-rich terrain, and breathtaking Himalayan views.",
         image: "/lamza.png?height=400&width=600",
       },
     ],
   },
 ];
 
+// Animation variants
+const fadeInUp = {
+  hidden: { opacity: 0, y: 60 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { 
+      type: "spring",
+      stiffness: 100,
+      damping: 20,
+      duration: 0.6 
+    } 
+  },
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.1
+    },
+  },
+};
+
+// Memoized components
+const SocialButton = memo(({ href, icon: Icon, className, delay }) => (
+  <motion.a
+    href={href}
+    target="_blank"
+    rel="noopener noreferrer"
+    className={`flex items-center justify-center w-16 h-16 rounded-full shadow-lg transition-all duration-300 ${className}`}
+    whileHover={{ scale: 1.1, boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1)" }}
+    whileTap={{ scale: 0.95 }}
+    initial={{ opacity: 0, scale: 0.5 }}
+    animate={{ opacity: 1, scale: 1 }}
+    transition={{ delay, duration: 0.3 }}
+  >
+    <Icon className="h-8 w-8 text-white" />
+  </motion.a>
+));
+
+const DestinationCard = memo(({ destination, index, isActive, onToggle, onExplore }) => (
+  <div className="scroll-mt-20" id={destination.id}>
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+      variants={staggerContainer}
+      className={`flex flex-col ${
+        index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
+      } gap-8 items-center`}
+    >
+      {/* Destination Image */}
+      <motion.div
+        variants={fadeInUp}
+        className="w-full md:w-1/2 relative h-[50vh] md:h-[70vh] overflow-hidden rounded-2xl group"
+      >
+        <img
+          src={destination.image}
+          alt={destination.name}
+          className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
+          loading="lazy"
+        />
+        <div
+          className={`absolute inset-0 bg-gradient-to-${
+            index % 2 === 0 ? "r" : "l"
+          } from-black/70 via-black/30 to-transparent`}
+        />
+
+        <div
+          className={`absolute bottom-0 ${
+            index % 2 === 0 ? "left-0" : "right-0"
+          } p-8 md:p-12 max-w-md`}
+        >
+          <h2 className="text-5xl md:text-7xl font-bold text-white mb-2">
+            {destination.name}
+          </h2>
+          <p className="text-white/90 text-lg">
+            {destination.tagline}
+          </p>
+        </div>
+      </motion.div>
+
+      {/* Destination Info */}
+      <motion.div variants={fadeInUp} className="w-full md:w-1/2 p-4">
+        <h3 className="text-3xl font-bold mb-4 text-gray-900">
+          Discover {destination.name}
+        </h3>
+        <p className="text-lg text-gray-700 mb-6">
+          {destination.fullDescription}
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+          <InfoItem icon={MapPin} title="Location" content={destination.mapLocation} />
+          <InfoItem icon={Calendar} title="Best Time to Visit" content={destination.bestTimeToVisit} />
+          <InfoItem icon={Mountain} title="Altitude" content={destination.altitude} />
+          <InfoItem icon={Cloud} title="Climate" content={destination.climate} />
+        </div>
+
+        <div className="flex flex-wrap gap-4">
+          <button
+            onClick={() => onToggle(destination.id)}
+            className="px-6 py-3 bg-orange-600 text-white font-medium rounded-lg hover:bg-orange-700 transition-all duration-300 flex items-center shadow-lg hover:shadow-xl hover:shadow-orange-500/20"
+          >
+            {isActive ? "Hide Highlights" : "View Highlights"}
+            <ChevronRight
+              className={`ml-2 w-5 h-5 transition-transform duration-300 ${
+                isActive ? "rotate-90" : ""
+              }`}
+            />
+          </button>
+
+          <button
+            onClick={onExplore}
+            className="px-6 py-3 bg-white border-2 border-orange-600 text-orange-600 font-medium rounded-lg hover:bg-orange-50 transition-all duration-300 flex items-center shadow-lg hover:shadow-xl"
+          >
+            Explore Tours
+            <ArrowRight className="ml-2 w-5 h-5" />
+          </button>
+        </div>
+      </motion.div>
+    </motion.div>
+
+    {/* Highlights Section */}
+    <AnimatePresence>
+      {isActive && (
+        <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: "auto" }}
+          exit={{ opacity: 0, height: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mt-12 overflow-hidden"
+        >
+          <h3 className="text-2xl font-bold mb-6 text-gray-900">
+            Highlights of {destination.name}
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {destination.highlights.map((highlight, idx) => (
+              <HighlightCard key={idx} highlight={highlight} index={idx} />
+            ))}
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  </div>
+));
+
+const InfoItem = memo(({ icon: Icon, title, content }) => (
+  <div className="flex items-start gap-3">
+    <Icon className="w-5 h-5 text-orange-700 mt-1 flex-shrink-0" />
+    <div>
+      <h4 className="font-semibold text-gray-900">{title}</h4>
+      <p className="text-gray-600">{content}</p>
+    </div>
+  </div>
+));
+
+const HighlightCard = memo(({ highlight, index }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: index * 0.1 }}
+    className="bg-white rounded-xl overflow-hidden shadow-lg group hover:shadow-xl transition-all duration-300"
+  >
+    <div className="relative h-48 overflow-hidden">
+      <img
+        src={highlight.image}
+        alt={highlight.name}
+        className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
+        loading="lazy"
+      />
+    </div>
+    <div className="p-4">
+      <h4 className="font-bold text-lg mb-2">{highlight.name}</h4>
+      <p className="text-gray-600 text-sm">{highlight.description}</p>
+    </div>
+  </motion.div>
+));
+
+const TravelTipCard = memo(({ icon: Icon, title, content }) => (
+  <motion.div variants={fadeInUp} className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+    <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-6">
+      <Icon className="w-8 h-8 text-orange-700" />
+    </div>
+    <h3 className="text-xl font-bold mb-4">{title}</h3>
+    <p className="text-gray-600">{content}</p>
+  </motion.div>
+));
+
+// Main component
 export default function LocationsPage() {
   const [activeDestination, setActiveDestination] = useState(null);
 
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 60 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-  };
+  const handleToggleDestination = useCallback((id) => {
+    setActiveDestination(prev => prev === id ? null : id);
+  }, []);
 
-  const staggerContainer = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-      },
-    },
-  };
-
-  // This function now directly navigates to the itinerary page.
-  const navigateToItinerary = () => {
-    window.location.href = "/itinerarypage";  // Directly navigate to the itinerary page
-  };
+  const handleExploreTours = useCallback(() => {
+    window.location.href = "/itinerarypage";
+  }, []);
 
   return (
     <div className="min-h-screen bg-white">
@@ -128,15 +308,10 @@ export default function LocationsPage() {
       <div className="relative h-[60vh] md:h-[80vh] overflow-hidden">
         <div className="absolute inset-0">
           <img
-            src="/pexels-dhruv-jangid-2945224-30255573.webp?height=1080&width=1920"
+            src="/pexels-dhruv-jangid-2945224-30255573.webp"
             alt="Mountains background"
-            style={{
-              position: "absolute",
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-            }}
-            className="object-cover"
+            className="object-cover w-full h-full"
+            loading="eager"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70" />
         </div>
@@ -164,11 +339,12 @@ export default function LocationsPage() {
               className="h-20 md:h-32"
             >
               <img
-                src="/Logo-White.png?height=200&width=400"
+                src="/Logo-White.png"
                 alt="Rev & Roar Logo"
                 width="200"
                 height="100"
                 className="h-full w-auto object-contain"
+                loading="eager"
               />
             </motion.div>
           </motion.div>
@@ -189,19 +365,18 @@ export default function LocationsPage() {
             transition={{ duration: 0.8, delay: 0.8 }}
             className="mt-8"
           >
-            <a
-              href="#destinations"
+            <button
+              onClick={handleExploreTours}
               className="flex flex-col items-center text-white/80 hover:text-white transition-colors"
-              onClick={navigateToItinerary} // Directly navigate on click
             >
               <span className="mb-2">Explore Destinations</span>
               <ChevronRight className="w-6 h-6 rotate-90 animate-bounce" />
-            </a>
+            </button>
           </motion.div>
         </div>
       </div>
 
-      {/* Destinations Overview */}
+      {/* Destinations Section */}
       <section id="destinations" className="py-20 px-4 md:px-8 lg:px-16">
         <div className="max-w-7xl mx-auto">
           <motion.h2
@@ -216,179 +391,14 @@ export default function LocationsPage() {
 
           <div className="space-y-32">
             {destinations.map((destination, index) => (
-              <div key={destination.id} className="scroll-mt-20" id={destination.id}>
-                <motion.div
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, margin: "-100px" }}
-                  variants={staggerContainer}
-                  className={`flex flex-col ${
-                    index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-                  } gap-8 items-center`}
-                >
-                  {/* Destination Image */}
-                  <motion.div
-                    variants={fadeInUp}
-                    className="w-full md:w-1/2 relative h-[50vh] md:h-[70vh] overflow-hidden rounded-2xl"
-                  >
-                    <img
-                      src={destination.image || "/ladakh-hero-location.webp"}
-                      alt={destination.name}
-                      className="object-cover"
-                      style={{
-                        position: "absolute",
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                      }}
-                    />
-                    <div
-                      className={`absolute inset-0 bg-gradient-to-${
-                        index % 2 === 0 ? "r" : "l"
-                      } from-black/70 via-black/30 to-transparent`}
-                    />
-
-                    <div
-                      className={`absolute bottom-0 ${
-                        index % 2 === 0 ? "left-0" : "right-0"
-                      } p-8 md:p-12 max-w-md`}
-                    >
-                      <h2 className="text-5xl md:text-7xl font-bold text-white mb-2">
-                        {destination.name}
-                      </h2>
-                      <p className="text-white/90 text-lg">
-                        {destination.tagline}
-                      </p>
-                    </div>
-                  </motion.div>
-
-                  {/* Destination Info */}
-                  <motion.div variants={fadeInUp} className="w-full md:w-1/2 p-4">
-                    <h3 className="text-3xl font-bold mb-4 text-gray-900">
-                      Discover {destination.name}
-                    </h3>
-                    <p className="text-lg text-gray-700 mb-6">
-                      {destination.fullDescription}
-                    </p>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                      <div className="flex items-start gap-3">
-                        <MapPin className="w-5 h-5 text-orange-700 mt-1 flex-shrink-0" />
-                        <div>
-                          <h4 className="font-semibold text-gray-900">Location</h4>
-                          <p className="text-gray-600">{destination.mapLocation}</p>
-                        </div>
-                      </div>
-
-                      <div className="flex items-start gap-3">
-                        <Calendar className="w-5 h-5 text-orange-700 mt-1 flex-shrink-0" />
-                        <div>
-                          <h4 className="font-semibold text-gray-900">Best Time to Visit</h4>
-                          <p className="text-gray-600">{destination.bestTimeToVisit}</p>
-                        </div>
-                      </div>
-
-                      <div className="flex items-start gap-3">
-                        <Mountain className="w-5 h-5 text-orange-700 mt-1 flex-shrink-0" />
-                        <div>
-                          <h4 className="font-semibold text-gray-900">Altitude</h4>
-                          <p className="text-gray-600">{destination.altitude}</p>
-                        </div>
-                      </div>
-
-                      <div className="flex items-start gap-3">
-                        <Cloud className="w-5 h-5 text-orange-700 mt-1 flex-shrink-0" />
-                        <div>
-                          <h4 className="font-semibold text-gray-900">Climate</h4>
-                          <p className="text-gray-600">{destination.climate}</p>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex flex-wrap gap-4">
-                      {/* View Highlights Button */}
-                      <button
-                        onClick={() =>
-                          setActiveDestination(
-                            activeDestination === destination.id
-                              ? null
-                              : destination.id
-                          )
-                        }
-                        className="px-6 py-3 bg-orange-600 text-white font-medium rounded-lg hover:bg-orange-700 transition-colors flex items-center"
-                      >
-                        {activeDestination === destination.id
-                          ? "Hide Highlights"
-                          : "View Highlights"}
-                        <ChevronRight
-                          className={`ml-2 w-5 h-5 transition-transform ${
-                            activeDestination === destination.id
-                              ? "rotate-90"
-                              : ""
-                          }`}
-                        />
-                      </button>
-
-                      {/* Explore Tours Button */}
-                      <button
-                        onClick={navigateToItinerary} // Directly navigate when clicked
-                        className="px-6 py-3 bg-white border border-blue-600 text-orange-700 font-medium rounded-lg hover:bg-orange-50 transition-colors flex items-center"
-                      >
-                        Explore Tours
-                        <ArrowRight className="ml-2 w-5 h-5" />
-                      </button>
-                    </div>
-                  </motion.div>
-                </motion.div>
-
-                {/* Highlights Section */}
-                {activeDestination === destination.id && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="mt-12 overflow-hidden"
-                  >
-                    <h3 className="text-2xl font-bold mb-6 text-gray-900">
-                      Highlights of {destination.name}
-                    </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                      {destination.highlights.map((highlight, idx) => (
-                        <motion.div
-                          key={idx}
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: idx * 0.1 }}
-                          className="bg-white rounded-xl overflow-hidden shadow-lg group hover:shadow-xl transition-all"
-                        >
-                          <div className="relative h-48 overflow-hidden">
-                            <img
-                              src={highlight.image || "/placeholder.svg"}
-                              alt={highlight.name}
-                              className="object-cover transition-transform duration-500 group-hover:scale-110"
-                              style={{
-                                position: "absolute",
-                                width: "100%",
-                                height: "100%",
-                                objectFit: "cover",
-                              }}
-                            />
-                          </div>
-                          <div className="p-4">
-                            <h4 className="font-bold text-lg mb-2">
-                              {highlight.name}
-                            </h4>
-                            <p className="text-gray-600 text-sm">
-                              {highlight.description}
-                            </p>
-                          </div>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-              </div>
+              <DestinationCard
+                key={destination.id}
+                destination={destination}
+                index={index}
+                isActive={activeDestination === destination.id}
+                onToggle={handleToggleDestination}
+                onExplore={handleExploreTours}
+              />
             ))}
           </div>
         </div>
@@ -419,108 +429,73 @@ export default function LocationsPage() {
             viewport={{ once: true, margin: "-100px" }}
             className="grid grid-cols-1 md:grid-cols-3 gap-8"
           >
-            <motion.div variants={fadeInUp} className="bg-white p-8 rounded-2xl shadow-lg">
-              <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-6">
-                <Mountain className="w-8 h-8 text-orange-700" />
-              </div>
-              <h3 className="text-xl font-bold mb-4">Altitude Acclimatization</h3>
-              <p className="text-gray-600">
-                Take it slow for the first 24-48 hours. Stay hydrated, avoid alcohol, and consider medications like Diamox after consulting your doctor.
-              </p>
-            </motion.div>
-
-            <motion.div variants={fadeInUp} className="bg-white p-8 rounded-2xl shadow-lg">
-              <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-6">
-                <Sun className="w-8 h-8 text-orange-700" />
-              </div>
-              <h3 className="text-xl font-bold mb-4">Weather Preparation</h3>
-              <p className="text-gray-600">
-                Pack layers! Temperatures can vary drastically between day and night. Always carry a good quality sunscreen, sunglasses, and a hat.
-              </p>
-            </motion.div>
-
-            <motion.div variants={fadeInUp} className="bg-white p-8 rounded-2xl shadow-lg">
-              <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-6">
-                <Camera className="w-8 h-8 text-orange-700" />
-              </div>
-              <h3 className="text-xl font-bold mb-4">Photography Tips</h3>
-              <p className="text-gray-600">
-                Carry extra batteries as they drain faster in cold. The light is magical during golden hours, and night skies offer incredible stargazing opportunities.
-              </p>
-            </motion.div>
+            <TravelTipCard
+              icon={Mountain}
+              title="Altitude Acclimatization"
+              content="Take it slow for the first 24-48 hours. Stay hydrated, avoid alcohol, and consider medications like Diamox after consulting your doctor."
+            />
+            <TravelTipCard
+              icon={Sun}
+              title="Weather Preparation"
+              content="Pack layers! Temperatures can vary drastically between day and night. Always carry a good quality sunscreen, sunglasses, and a hat."
+            />
+            <TravelTipCard
+              icon={Camera}
+              title="Photography Tips"
+              content="Carry extra batteries as they drain faster in cold. The light is magical during golden hours, and night skies offer incredible stargazing opportunities."
+            />
           </motion.div>
         </div>
       </section>
 
       {/* Call to Action */}
       <section className="py-20 px-4 md:px-8 lg:px-16 bg-orange-700 text-white">
-  <div className="max-w-7xl mx-auto text-center">
-    <motion.div
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-100px" }}
-      variants={fadeInUp}
-    >
-      <h2 className="text-3xl md:text-5xl font-bold mb-6">
-        Ready to Explore These Breathtaking Destinations?
-      </h2>
-      <p className="text-xl text-orange-100 max-w-3xl mx-auto mb-8">
-        Let us guide you through the majestic landscapes of Ladakh and Spiti Valley. Book your adventure today!
-      </p>
-      <div className="flex flex-col sm:flex-row gap-4 justify-center">
-        <a
-          href="/contact"
-          className="px-8 py-4 bg-white text-orange-700 font-bold rounded-lg hover:bg-orange-50 transition-colors flex items-center"
-        >
-          Contact Us
-        </a>
-        <a
-          href="/itinerarypage"
-          className="px-8 py-4 bg-orange-700 text-white font-bold rounded-lg hover:bg-orange-800 transition-colors flex items-center"
-          onClick={(e) => {
-            e.preventDefault(); // Prevent default link behavior
-            window.location.href = "/itinerarypage"; // Directly navigate to the itinerary page
-          }}
-        >
-          Browse Tours
-          <ArrowRight className="ml-2 w-5 h-5" />
-        </a>
-      </div>
-    </motion.div>
-  </div>
-</section>
+        <div className="max-w-7xl mx-auto text-center">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={fadeInUp}
+          >
+            <h2 className="text-3xl md:text-5xl font-bold mb-6">
+              Ready to Explore These Breathtaking Destinations?
+            </h2>
+            <p className="text-xl text-orange-100 max-w-3xl mx-auto mb-8">
+              Let us guide you through the majestic landscapes of Ladakh and Spiti Valley. Book your adventure today!
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <a
+                href="/contact"
+                className="px-8 py-4 bg-white text-orange-700 font-bold rounded-lg hover:bg-orange-50 transition-all duration-300 flex items-center shadow-lg hover:shadow-xl"
+              >
+                Contact Us
+              </a>
+              <button
+                onClick={handleExploreTours}
+                className="px-8 py-4 bg-orange-700 text-white font-bold rounded-lg hover:bg-orange-800 transition-all duration-300 flex items-center shadow-lg hover:shadow-xl border-2 border-white"
+              >
+                Browse Tours
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      </section>
 
-
+      {/* Social Media Buttons */}
       <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end space-y-4">
-        {/* Instagram Button */}
-        <motion.a
+        <SocialButton
           href="https://www.instagram.com/revnroar.ig/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center justify-center w-16 h-16 bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600 rounded-full shadow-lg hover:opacity-90 transition-colors"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.5, duration: 0.3 }}
-        >
-          <FaInstagram className="h-8 w-8 text-white" />
-        </motion.a>
-
-        {/* WhatsApp Button */}
-        <motion.a
+          icon={FaInstagram}
+          className="bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600 hover:opacity-90"
+          delay={0.5}
+        />
+        <SocialButton
           href="https://wa.me/7017775164"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center justify-center w-16 h-16 bg-green-500 rounded-full shadow-lg hover:bg-green-600 transition-colors"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 1, duration: 0.3 }}
-        >
-          <FaWhatsapp className="h-8 w-8 text-white" />
-        </motion.a>
+          icon={FaWhatsapp}
+          className="bg-green-500 hover:bg-green-600"
+          delay={1}
+        />
       </div>
     </div>
   );
